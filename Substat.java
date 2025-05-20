@@ -7,6 +7,10 @@ public class Substat{
         value = v;
     }
 
+    public String toString(){
+        return stat + ": " + String.valueOf(value);
+    }
+
     public String getStat(){
         return stat;
     }
