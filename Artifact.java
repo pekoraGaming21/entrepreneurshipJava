@@ -5,13 +5,27 @@ public class Artifact{
 
     private Substat[] substats = new Substat[4];
 
-    public Artifact(String mn, double mstat, Substat one, Substat two, Substat three, Substat four){
+    public Artifact(String type, String mn, double mstat, Substat one, Substat two, Substat three, Substat four){
+        this.type = type; 
         main = mn;
         mainValue = mstat;
         substats[0] = one;
         substats[1] = two;
         substats[2] = three;
         substats[3] = four;
+    }
+
+    public Artifact(String type, String mn, double mstat, Substat one, Substat two, Substat three){
+        this.type = type; 
+        main = mn;
+        mainValue = mstat;
+        substats[0] = one;
+        substats[1] = two;
+        substats[2] = three;
+    }
+
+    public String toString(){
+        return "Main: " + main + " " + String.valueOf(mainValue) + "\n" + substats[0].toString() + "," + substats[1].toString() + "," + substats[2].toString() + "," + substats[3].toString();
     }
 
     public String getMain(){
@@ -22,12 +36,19 @@ public class Artifact{
         return mainValue;
     }
 
-    public double getATK(double base){
+    public double getATK(){
         double returner = 0.0;
         for (Substat s: substats){
             if (s.getStat().equals("ATK")){
                 returner += s.getValue();
             }
+        }
+        return returner;
+    }
+
+    public double getPATK(double base){
+        double returner = 0.0;
+        for (Substat s: substats){
             if (s.getStat().equals("PATK")){
                 returner += s.getValue()*base;
             }
@@ -35,12 +56,19 @@ public class Artifact{
         return returner;
     }
 
-    public double getDEF(double base){
+    public double getDEF(){
         double returner = 0.0;
         for (Substat s: substats){
             if (s.getStat().equals("DEF")){
                 returner += s.getValue();
             }
+        }
+        return returner;
+    }
+
+    public double getPDEF(double base){
+        double returner = 0.0;
+        for (Substat s: substats){
             if (s.getStat().equals("PDEF")){
                 returner += s.getValue()*base;
             }
@@ -48,12 +76,19 @@ public class Artifact{
         return returner;
     }
 
-    public double getHP(double base){
+    public double getHP(){
         double returner = 0.0;
         for (Substat s: substats){
             if (s.getStat().equals("HP")){
                 returner += s.getValue();
             }
+        }
+        return returner;
+    }
+
+    public double getPHP(double base){
+        double returner = 0.0;
+        for (Substat s: substats){
             if (s.getStat().equals("PHP")){
                 returner += s.getValue()*base;
             }
@@ -65,6 +100,36 @@ public class Artifact{
         double returner = 0.0;
         for (Substat s: substats){
             if (s.getStat().equals("EM")){
+                returner += s.getValue();
+            }
+        }
+        return returner;
+    }
+
+    public double getER(){
+        double returner = 0.0;
+        for (Substat s: substats){
+            if (s.getStat().equals("ER")){
+                returner += s.getValue();
+            }
+        }
+        return returner;
+    }
+
+    public double getCR(){
+        double returner = 0.0;
+        for (Substat s: substats){
+            if (s.getStat().equals("CR")){
+                returner += s.getValue();
+            }
+        }
+        return returner;
+    }
+
+    public double getCD(){
+        double returner = 0.0;
+        for (Substat s: substats){
+            if (s.getStat().equals("CD")){
                 returner += s.getValue();
             }
         }
@@ -84,9 +149,8 @@ public class Artifact{
         double returner = 0.0;
         for (Substat s: substats){
             if (s.getStat().equals(element)){
-                s.getValue();
+                returner += s.getValue();
             }
         }
         return returner;
     }
-}
