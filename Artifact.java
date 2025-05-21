@@ -15,6 +15,10 @@ public class Artifact{
         substats[3] = four;
     }
 
+    public Artifact(){
+        System.out.println("SOMETHING WENT WRONG");
+    }
+
     public Artifact(String type, String mn, double mstat, Substat one, Substat two, Substat three){
         this.type = type; 
         main = mn;
@@ -46,11 +50,11 @@ public class Artifact{
         return returner;
     }
 
-    public double getPATK(double base){
+    public double getPATK(){
         double returner = 0.0;
         for (Substat s: substats){
             if (s.getStat().equals("PATK")){
-                returner += s.getValue()*base;
+                returner += s.getValue();
             }
         }
         return returner;
@@ -66,11 +70,11 @@ public class Artifact{
         return returner;
     }
 
-    public double getPDEF(double base){
+    public double getPDEF(){
         double returner = 0.0;
         for (Substat s: substats){
             if (s.getStat().equals("PDEF")){
-                returner += s.getValue()*base;
+                returner += s.getValue();
             }
         }
         return returner;
@@ -86,11 +90,11 @@ public class Artifact{
         return returner;
     }
 
-    public double getPHP(double base){
+    public double getPHP(){
         double returner = 0.0;
         for (Substat s: substats){
             if (s.getStat().equals("PHP")){
-                returner += s.getValue()*base;
+                returner += s.getValue();
             }
         }
         return returner;
