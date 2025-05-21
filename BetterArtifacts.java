@@ -21,7 +21,7 @@ public class BetterArtifacts {
         damage.setCritDMG("Average", character.getCR(), character.getCD());
         double oldDamage = damage.calculate();
 
-        int sampledArtifacts = 100000;
+        int sampledArtifacts = 50000;
 
         for (int i = 0; i < sampledArtifacts; i++){
             if (i % 10000 == 0){

@@ -22,7 +22,17 @@ public class Runner{
         // System.out.println(ganyu.getTotalATK());
 
         BetterArtifacts test = new BetterArtifacts(ganyu);
-        System.out.println("Probability that a randomly generated Flower is worse: " + test.randomize("Feather"));
+
+        System.out.println("Probability that a randomly generated Circlet is worse: " + test.randomize("Circlet"));
+        // for (int i = 0; i < 1000000; i++)
+        // {
+        //     if (i % 10000 == 0)
+        //     {
+        //         System.out.println("i " + i);
+        //     }
+        //     Artifact newArtifact = RandomArtifact.create(null);
+            
+        // }
     }
     
 }

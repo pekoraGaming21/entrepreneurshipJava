@@ -16,7 +16,7 @@ public class RandomArtifact extends Artifact
         boolean threeliner = true;
         Random random = new Random();
 
-        if (type.equals(null))
+        if (type == null)
         {
             type = artifactTypeList[random.nextInt(artifactTypeList.length)];
         }
