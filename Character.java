@@ -33,7 +33,7 @@ public class Character {
 
     // In a future update, make it so you can set
     // your character and level and it'll autofill
-    public Character(String element, int level, double bhp, double bat, double bdf, String weaponName, double weaponATK, Artifact[] a, String ascensionStatName, double ascensionStatValue, String[] ExtraStatNames, double[] ExtraStatValues){
+    public Character(String element, int level, double bhp, double bat, double bdf, String weaponName, double weaponATK, Artifact[] a, String[] ExtraStatNames, double[] ExtraStatValues){
         this.element = element;
         this.level = level;
 
@@ -48,9 +48,6 @@ public class Character {
         totalHP = baseHP;
         totalATK = baseATK;
         totalDEF = baseDEF;
-
-        ascendName = ascensionStatName;
-        ascendValue = ascensionStatValue;
 
         this.ExtraStatNames = ExtraStatNames;
         this.ExtraStatValues = ExtraStatValues;
@@ -128,62 +125,8 @@ public class Character {
                     break;
             }
         }
-        switch (ascendName){
-            case "HP":
-                totalHP += ascendValue;
-                break;
-            case "DEF":
-                totalDEF += ascendValue;
-                break;
-            case "ATK":
-                totalATK += ascendValue;
-                break;
-            case "PHP":
-                totalHP += ascendValue * baseHP;
-                break;
-            case "PDEF":
-                totalDEF += ascendValue * baseDEF;
-                break;
-            case "PATK":
-                totalATK += ascendValue * baseATK;
-                break;
-            case "EM":
-                EM += ascendValue;
-                break;
-            case "ER":
-                ER += ascendValue;
-                break;
-            case "CR":
-                CR += ascendValue;
-                break;
-            case "CD":
-                CD += ascendValue;
-                break;
-            case "PHDMG":
-                elementalDMG[0] += ascendValue;
-                break;
-            case "PDMG":
-                elementalDMG[1] += ascendValue;
-                break;
-            case "HDMG":
-                elementalDMG[2] += ascendValue;
-                break;
-            case "ADMG":
-                elementalDMG[3] += ascendValue;
-                break;
-            case "EDMG":
-                elementalDMG[4] += ascendValue;
-                break;
-            case "DDMG":
-                elementalDMG[5] += ascendValue;
-                break;
-            case "CDMG":
-                elementalDMG[6] += ascendValue;
-                break;
-            case "GDMG":
-                elementalDMG[7] += ascendValue;
-                break;
-        }
+        
+        
         for (int i = 0; i < ExtraStatNames.length; i++)
         {
             switch (ExtraStatNames[i]){
@@ -245,7 +188,7 @@ public class Character {
         }
     }
 
-    public void updateStats(String element, int level, double bhp, double bat, double bdf, String weaponName, double weaponATK, Artifact[] a, String ascensionStatName, double ascensionStatValue){
+    public void updateStats(String element, int level, double bhp, double bat, double bdf, String weaponName, double weaponATK, Artifact[] a){
         this.element = element;
         this.level = level;
 
@@ -267,9 +210,6 @@ public class Character {
         CD = 50.0;
 
         ER = 100.0;  
-
-        ascendName = ascensionStatName;
-        ascendValue = ascensionStatValue;
 
         this.ExtraStatNames = ExtraStatNames;
         this.ExtraStatValues = ExtraStatValues;
@@ -347,62 +287,7 @@ public class Character {
                     break;
             }
         }
-        switch (ascendName){
-            case "HP":
-                totalHP += ascendValue;
-                break;
-            case "DEF":
-                totalDEF += ascendValue;
-                break;
-            case "ATK":
-                totalATK += ascendValue;
-                break;
-            case "PHP":
-                totalHP += ascendValue * baseHP;
-                break;
-            case "PDEF":
-                totalDEF += ascendValue * baseDEF;
-                break;
-            case "PATK":
-                totalATK += ascendValue * baseATK;
-                break;
-            case "EM":
-                EM += ascendValue;
-                break;
-            case "ER":
-                ER += ascendValue;
-                break;
-            case "CR":
-                CR += ascendValue;
-                break;
-            case "CD":
-                CD += ascendValue;
-                break;
-            case "PHDMG":
-                elementalDMG[0] += ascendValue;
-                break;
-            case "PDMG":
-                elementalDMG[1] += ascendValue;
-                break;
-            case "HDMG":
-                elementalDMG[2] += ascendValue;
-                break;
-            case "ADMG":
-                elementalDMG[3] += ascendValue;
-                break;
-            case "EDMG":
-                elementalDMG[4] += ascendValue;
-                break;
-            case "DDMG":
-                elementalDMG[5] += ascendValue;
-                break;
-            case "CDMG":
-                elementalDMG[6] += ascendValue;
-                break;
-            case "GDMG":
-                elementalDMG[7] += ascendValue;
-                break;
-        }
+        
         for (int i = 0; i < ExtraStatNames.length; i++)
         {
             switch (ExtraStatNames[i]){
@@ -545,7 +430,7 @@ public class Character {
         } else if (type.equals("Circlet")){
             arts[4] = artifact;
         }
-        updateStats(element, level, baseHP, baseATK - weaponATK, baseDEF, weaponName, weaponATK, arts, ascendName, ascendValue);
+        updateStats(element, level, baseHP, baseATK - weaponATK, baseDEF, weaponName, weaponATK, arts);
     }
 
     public double getTotalATK(){

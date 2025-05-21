@@ -51,6 +51,22 @@ public class Artifact{
         return mainValue;
     }
 
+    public Substat getSubstat1(){
+        return substats[0];
+    }
+
+    public Substat getSubstat2(){
+        return substats[1];
+    }
+
+    public Substat getSubstat3(){
+        return substats[2];
+    }
+
+    public Substat getSubstat4(){
+        return substats[3];
+    }
+
     public double getATK(){
         double returner = 0.0;
         for (Substat s: substats){
