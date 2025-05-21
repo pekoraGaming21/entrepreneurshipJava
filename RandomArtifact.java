@@ -22,11 +22,11 @@ public class RandomArtifact extends Artifact
         }
 
         String[] StatList = {
-        "FlatHP", "FlatHP", "FlatHP", "FlatHP", "FlatHP", "FlatHP", 
+        "HP", "HP", "HP", "HP", "HP", "HP", 
         "PHP", "PHP", "PHP", "PHP", 
-        "FlatDEF", "FlatDEF", "FlatDEF", "FlatDEF", "FlatDEF", "FlatDEF",
+        "DEF", "DEF", "DEF", "DEF", "DEF", "DEF",
         "PDEF", "PDEF", "PDEF", "PDEF", 
-        "FlatATK", "FlatATK", "FlatATK", "FlatATK", "FlatATK", "FlatATK", 
+        "ATK", "ATK", "ATK", "ATK", "ATK", "ATK", 
         "PATK", "PATK", "PATK", "PATK", 
         "EM", "EM", "EM", "EM", 
         "ER", "ER", "ER", "ER", 
@@ -45,10 +45,14 @@ public class RandomArtifact extends Artifact
         double mainValue = GetMainStatValue(main);
         StatChoose = RemoveStatFromArray(main, StatChoose);
 
-        String Stat1Name = RandomChooseStats(StatChoose);
-        String Stat2Name = RandomChooseStats(StatChoose);
-        String Stat3Name = RandomChooseStats(StatChoose);
-        String Stat4Name = RandomChooseStats(StatChoose);
+        String Stat1Name = StatChoose.get(random.nextInt(StatChoose.size()));
+        StatChoose = RemoveStatFromArray(Stat1Name, StatChoose);
+        String Stat2Name = StatChoose.get(random.nextInt(StatChoose.size()));
+        StatChoose = RemoveStatFromArray(Stat2Name, StatChoose);
+        String Stat3Name = StatChoose.get(random.nextInt(StatChoose.size()));
+        StatChoose = RemoveStatFromArray(Stat3Name, StatChoose);
+        String Stat4Name = StatChoose.get(random.nextInt(StatChoose.size()));
+        StatChoose = RemoveStatFromArray(Stat4Name, StatChoose);
 
         double Stat1Value = RandomChooseNumberStat(Stat1Name);
         double Stat2Value = RandomChooseNumberStat(Stat2Name);
@@ -67,23 +71,20 @@ public class RandomArtifact extends Artifact
                 
                 if (StatSelect == 1)
                 {
-                    double increment = RandomChooseNumberStat(Stat1Name);
-                    Stat1Value += increment;
+                    Stat1Value += RandomChooseNumberStat(Stat1Name);
                 }
                 else if (StatSelect == 2)
                 {
-                    double increment = RandomChooseNumberStat(Stat2Name);
-                    Stat2Value += increment;
+                    Stat2Value += RandomChooseNumberStat(Stat2Name);
                 }
                 else if (StatSelect == 3)
                 {
-                    double increment = RandomChooseNumberStat(Stat3Name);
-                    Stat3Value += increment;
+                    
+                    Stat3Value += RandomChooseNumberStat(Stat3Name);
                 }
                 else if (StatSelect == 4)
                 {
-                    double increment = RandomChooseNumberStat(Stat4Name);
-                    Stat4Value += increment;
+                    Stat4Value += RandomChooseNumberStat(Stat4Name);
                 }   
             }
         }
@@ -110,12 +111,12 @@ public class RandomArtifact extends Artifact
         "HBonus", "HBonus", "HBonus", "HBonus", "HBonus"};
         if (artifactType == "Flower")
         {
-            return "FlatHP";
+            return "HP";
         }
 
         else if (artifactType == "Feather")
         {
-            return "FlatATK";
+            return "ATK";
         }
         else if (artifactType == "Sands")
         {
@@ -132,25 +133,14 @@ public class RandomArtifact extends Artifact
         }
     }
 
-    public static String RandomChooseStats(ArrayList<String> StatChoose)
-    {
-        // Select the 4 substats
-        Random random = new Random();
-        
-        String artifactStatName = StatChoose.get(random.nextInt(StatChoose.size()));
-        StatChoose = RemoveStatFromArray(artifactStatName, StatChoose);
-
-        return artifactStatName;
-    }
-
     public static double RandomChooseNumberStat(String StatName)
     {
         // All numbers gotten from wiki.
-        double[] FlatHPList = {209.13, 239.00, 269.88, 298.75};
+        double[] HPList = {209.13, 239.00, 269.88, 298.75};
         double[] PHPList = {0.0408, 0.0466, 0.0525, 0.0583};
-        double[] FlatDEFList = {16.20, 18.52, 20.83, 23.15};
+        double[] DEFList = {16.20, 18.52, 20.83, 23.15};
         double[] PDEFList = {0.0510, 0.0583, 0.0656, 0.0729};
-        double[] FlatATKList = {13.62, 15.56, 17.51, 19.45};
+        double[] ATKList = {13.62, 15.56, 17.51, 19.45};
         double[] PATKList = {0.0408, 0.0466, 0.0525, 0.0583};
         double[] EMList = {16.32, 18.65, 20.98, 23.31};
         double[] ERList = {4.53, 5.18, 5.83, 6.48};
@@ -158,25 +148,25 @@ public class RandomArtifact extends Artifact
         double[] CDList = {5.44, 6.22, 6.99, 7.77};
         // given a the substat name, will randomly select one of four preset values
         Random random = new Random();
-        if (StatName == "FlatHP")
+        if (StatName == "HP")
         {
-            return FlatHPList[random.nextInt(FlatHPList.length)];
+            return HPList[random.nextInt(HPList.length)];
         }
         else if (StatName == "PHP")
         {
             return PHPList[random.nextInt(PHPList.length)];
         }
-        else if (StatName == "FlatDEF")
+        else if (StatName == "DEF")
         {
-            return FlatDEFList[random.nextInt(FlatDEFList.length)];
+            return DEFList[random.nextInt(DEFList.length)];
         }
         else if (StatName == "PDEF")
         {
             return PDEFList[random.nextInt(PDEFList.length)];
         }
-        else if (StatName == "FlatATK")
+        else if (StatName == "ATK")
         {
-            return FlatATKList[random.nextInt(FlatATKList.length)];
+            return ATKList[random.nextInt(ATKList.length)];
         }
         else if (StatName == "PATK")
         {

@@ -36,7 +36,7 @@ public class Artifact{
     }
 
     public String toString(){
-        return "Main: " + main + " " + String.valueOf(mainValue) + "\n" + substats[0].toString() + "," + substats[1].toString() + "," + substats[2].toString() + "," + substats[3].toString();
+        return "Main: " + main + " " + String.valueOf(mainValue) + "\n" + substats[0].toString() + " | " + substats[1].toString() + " | " + substats[2].toString() + " | " + substats[3].toString();
     }
 
     public String getType(){
