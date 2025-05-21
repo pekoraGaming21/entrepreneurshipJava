@@ -14,12 +14,15 @@ public class Runner{
             new Artifact("Goblet", "CDMG", 0.466, new Substat("HP", 209), new Substat("ATK", 29), new Substat("EM", 42), new Substat("CD", 27.2)),
             new Artifact("Circlet", "CD", 62.2, new Substat("PATK", 0.105), new Substat("CR", 7.8), new Substat("ATK", 31), new Substat("EM", 42))
         };
+        
+        String[] ExtraStatNames = {"ATK", "CR"};
+        double[] ExtraStatValues = {1377.686, 66.1};
 
-        Character ganyu = new Character("Cryo", 90, 9796.73,334.85,630.21, "Hunter's Path", 541.83, list, "CD", 38.4);
-        System.out.println(ganyu.getTotalATK());
+        Character ganyu = new Character("Cryo", 90, 9796.73,334.85,630.21, "Hunter's Path", 541.83, list, "CD", 38.4, ExtraStatNames, ExtraStatValues);
+        // System.out.println(ganyu.getTotalATK());
 
         BetterArtifacts test = new BetterArtifacts(ganyu);
-        System.out.println(test.randomize("Sands"));
+        System.out.println("Probability that a randomly generated Flower is worse: " + test.randomize("Flower"));
     }
     
 }

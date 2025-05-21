@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.ArrayList;
 
 public class Character {
     private double baseHP;
@@ -23,6 +24,9 @@ public class Character {
     private String ascendName;
     private double ascendValue;
 
+    private String[] ExtraStatNames;
+    private double[] ExtraStatValues;
+
     // PHDMG, PDMG, HDMG, ADMG, EDMG, DDMG, CDMG, GDMG
     private double[] elementalDMG = {0, 0, 0, 0, 0, 0, 0, 0};
 
@@ -30,7 +34,7 @@ public class Character {
 
     // In a future update, make it so you can set
     // your character and level and it'll autofill
-    public Character(String element, int level, double bhp, double bat, double bdf, String weaponName, double weaponATK, Artifact[] a, String ascensionStatName, double ascensionStatValue){
+    public Character(String element, int level, double bhp, double bat, double bdf, String weaponName, double weaponATK, Artifact[] a, String ascensionStatName, double ascensionStatValue, String[] ExtraStatNames, double[] ExtraStatValues){
         this.element = element;
         this.level = level;
 
@@ -49,8 +53,13 @@ public class Character {
         ascendName = ascensionStatName;
         ascendValue = ascensionStatValue;
 
+        this.ExtraStatNames = ExtraStatNames;
+        this.ExtraStatValues = ExtraStatValues;
+
         for (Artifact ar: a){
+            
             totalATK += getRealValue("ATK", ar.getATK());
+
             totalATK += getRealValue("PATK", ar.getPATK()) * baseATK;
             
             totalDEF += getRealValue("DEF", ar.getDEF());
@@ -132,13 +141,13 @@ public class Character {
                 totalATK += ascendValue;
                 break;
             case "PHP":
-                totalHP += ascendValue;
+                totalHP += ascendValue * baseHP;
                 break;
             case "PDEF":
-                totalDEF += ascendValue;
+                totalDEF += ascendValue * baseDEF;
                 break;
             case "PATK":
-                totalATK += ascendValue;
+                totalATK += ascendValue * baseATK;
                 break;
             case "EM":
                 EM += ascendValue;
@@ -176,6 +185,65 @@ public class Character {
             case "GDMG":
                 elementalDMG[7] += ascendValue;
                 break;
+        }
+        for (int i = 0; i < ExtraStatNames.length; i++)
+        {
+            switch (ExtraStatNames[i]){
+                case "HP":
+                    totalHP += ExtraStatValues[i];
+                    break;
+                case "DEF":
+                    totalDEF += ExtraStatValues[i];
+                    break;
+                case "ATK":
+                    totalATK += ExtraStatValues[i];
+                    break;
+                case "PHP":
+                    totalHP += ExtraStatValues[i] * baseHP;
+                    break;
+                case "PDEF":
+                    totalDEF += ExtraStatValues[i] * baseDEF;
+                    break;
+                case "PATK":
+                    totalATK += ExtraStatValues[i] * baseATK;
+                    break;
+                case "EM":
+                    EM += ExtraStatValues[i];
+                    break;
+                case "ER":
+                    ER += ExtraStatValues[i];
+                    break;
+                case "CR":
+                    CR += ExtraStatValues[i];
+                    break;
+                case "CD":
+                    CD += ExtraStatValues[i];
+                    break;
+                case "PHDMG":
+                    elementalDMG[0] += ExtraStatValues[i];
+                    break;
+                case "PDMG":
+                    elementalDMG[1] += ExtraStatValues[i];
+                    break;
+                case "HDMG":
+                    elementalDMG[2] += ExtraStatValues[i];
+                    break;
+                case "ADMG":
+                    elementalDMG[3] += ExtraStatValues[i];
+                    break;
+                case "EDMG":
+                    elementalDMG[4] += ExtraStatValues[i];
+                    break;
+                case "DDMG":
+                    elementalDMG[5] += ExtraStatValues[i];
+                    break;
+                case "CDMG":
+                    elementalDMG[6] += ExtraStatValues[i];
+                    break;
+                case "GDMG":
+                    elementalDMG[7] += ExtraStatValues[i];
+                    break;
+            }
         }
     }
 
@@ -195,21 +263,46 @@ public class Character {
         totalATK = baseATK;
         totalDEF = baseDEF;
 
+        EM = 0.0;
+
+        CR = 5.0;
+        CD = 50.0;
+
+        ER = 100.0;  
+
         ascendName = ascensionStatName;
         ascendValue = ascensionStatValue;
 
+        this.ExtraStatNames = ExtraStatNames;
+        this.ExtraStatValues = ExtraStatValues;
+
         for (Artifact ar: a){
+            
+            // System.out.println("-------------------------------");
+            // if (ar.getType().equals("Sands")){
+            //     System.out.println("PRINT SANDS");
+            //     System.out.println(ar);
+            // }
+
+
             totalATK += getRealValue("ATK", ar.getATK());
             totalATK += getRealValue("PATK", ar.getPATK()) * baseATK;
-            
+
             totalDEF += getRealValue("DEF", ar.getDEF());
             totalDEF += getRealValue("PDEF", ar.getPDEF()) * baseDEF;
             
             totalHP += getRealValue("HP", ar.getHP());
             totalHP += getRealValue("PHP", ar.getPHP()) * baseHP;
 
+            // System.out.println("Total CR before: " + CR);
+            // System.out.println("Total CD before: " + CD);
+            // System.out.println("Adding CR: " + getRealValue("CR", ar.getCR()));
+            // System.out.println("Adding CD: " + getRealValue("CD", ar.getCD()));
             CR += getRealValue("CR", ar.getCR());
             CD += getRealValue("CD", ar.getCD());
+            // System.out.println("Total CR after: " + CR);
+            // System.out.println("Total CD after: " + CD);
+
             EM += getRealValue("EM", ar.getEM());
             ER += getRealValue("ER", ar.getER());
 
@@ -281,13 +374,13 @@ public class Character {
                 totalATK += ascendValue;
                 break;
             case "PHP":
-                totalHP += ascendValue;
+                totalHP += ascendValue * baseHP;
                 break;
             case "PDEF":
-                totalDEF += ascendValue;
+                totalDEF += ascendValue * baseDEF;
                 break;
             case "PATK":
-                totalATK += ascendValue;
+                totalATK += ascendValue * baseATK;
                 break;
             case "EM":
                 EM += ascendValue;
@@ -325,6 +418,65 @@ public class Character {
             case "GDMG":
                 elementalDMG[7] += ascendValue;
                 break;
+        }
+        for (int i = 0; i < ExtraStatNames.length; i++)
+        {
+            switch (ExtraStatNames[i]){
+                case "HP":
+                    totalHP += ExtraStatValues[i];
+                    break;
+                case "DEF":
+                    totalDEF += ExtraStatValues[i];
+                    break;
+                case "ATK":
+                    totalATK += ExtraStatValues[i];
+                    break;
+                case "PHP":
+                    totalHP += ExtraStatValues[i] * baseHP;
+                    break;
+                case "PDEF":
+                    totalDEF += ExtraStatValues[i] * baseDEF;
+                    break;
+                case "PATK":
+                    totalATK += ExtraStatValues[i] * baseATK;
+                    break;
+                case "EM":
+                    EM += ExtraStatValues[i];
+                    break;
+                case "ER":
+                    ER += ExtraStatValues[i];
+                    break;
+                case "CR":
+                    CR += ExtraStatValues[i];
+                    break;
+                case "CD":
+                    CD += ExtraStatValues[i];
+                    break;
+                case "PHDMG":
+                    elementalDMG[0] += ExtraStatValues[i];
+                    break;
+                case "PDMG":
+                    elementalDMG[1] += ExtraStatValues[i];
+                    break;
+                case "HDMG":
+                    elementalDMG[2] += ExtraStatValues[i];
+                    break;
+                case "ADMG":
+                    elementalDMG[3] += ExtraStatValues[i];
+                    break;
+                case "EDMG":
+                    elementalDMG[4] += ExtraStatValues[i];
+                    break;
+                case "DDMG":
+                    elementalDMG[5] += ExtraStatValues[i];
+                    break;
+                case "CDMG":
+                    elementalDMG[6] += ExtraStatValues[i];
+                    break;
+                case "GDMG":
+                    elementalDMG[7] += ExtraStatValues[i];
+                    break;
+            }
         }
     }
 
@@ -348,21 +500,39 @@ public class Character {
             RealEMList, RealERList,
             RealCRList, RealCDList
         };
-        String[] StringList = {
-            "HP", "PHP", "DEF", "PDEF", "ATK", "PATK", "EM", "ER", "CR", "CD"
-        };
+        // String[] StringList = {
+        //     "HP", "PHP", "DEF", "PDEF", "ATK", "PATK", "EM", "ER", "CR", "CD"
+        // };
+
+        ArrayList<String> StringList = new ArrayList<String>();
+
+        // StringList = ["HP", "PHP", "DEF", "PDEF", "ATK", "PATK", "EM", "ER", "CR", "CD"];
+        StringList.add("HP");
+        StringList.add("PHP");
+        StringList.add("DEF");
+        StringList.add("PDEF");
+        StringList.add("ATK");
+        StringList.add("PATK");
+        StringList.add("EM");
+        StringList.add("ER");
+        StringList.add("CR");
+        StringList.add("CD");
 
         double lowestDiff = 100000;
         int lowestDiffIndex = 0;
+        
 
-        for (int i = 0; i < RealList[Arrays.binarySearch(StringList, statName)].length; i++){
-            double realStat = RealList[Arrays.binarySearch(StringList,statName)][i];
+        //for (int i = 0; i < RealList[Arrays.binarySearch(StringList, statName)].length; i++){
+        for (int i = 0; i < RealList[StringList.indexOf(statName)].length; i++){
+            double realStat = RealList[StringList.indexOf(statName)][i];
             if (Math.abs(statValue - realStat) < lowestDiff){
                 lowestDiff = Math.abs(statValue - realStat);
                 lowestDiffIndex = i;
             }
+            
         }
-        return RealList[Arrays.binarySearch(StringList,statName)][lowestDiffIndex];
+        // System.out.println("Return: " + RealList[Arrays.binarySearch(StringList,statName)][lowestDiffIndex]);
+        return RealList[StringList.indexOf(statName)][lowestDiffIndex];
     }
 
     public String getElement(){
@@ -385,6 +555,7 @@ public class Character {
         } else if (type.equals("Circlet")){
             return arts[4];
         }
+        
         return new Artifact();
     }
 
@@ -397,11 +568,14 @@ public class Character {
             arts[2] = artifact;
         } else if (type.equals("Goblet")){
             arts[3] = artifact;
+
         } else if (type.equals("Circlet")){
             arts[4] = artifact;
         }
         updateStats(element, level, baseHP, baseATK - weaponATK, baseDEF, weaponName, weaponATK, arts, ascendName, ascendValue);
     }
+
+    
 
     public double getTotalATK(){
         return totalATK;

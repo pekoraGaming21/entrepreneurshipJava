@@ -29,7 +29,7 @@ public class Calculator{
     }
 
     public void setTarget(int enemyLevel, int charLevel, double enemyRes, double resShred){
-        targetDefMult = (charLevel + 100)/(1 * (enemyLevel + 100) + (charLevel + 100));
+        targetDefMult = (double) (charLevel + 100)/(1 * (enemyLevel + 100) + (charLevel + 100));
         targetResMult = enemyRes;
         
         double temp = resShred;
@@ -64,10 +64,16 @@ public class Calculator{
             critRate = 100;
         }
         critDMG = CD;
+
+        // System.out.println("CR Input: " + critRate);
+        // System.out.println("CD Input: " + critDMG);
+
     }
 
     public double calculate(){
         double nonCrit = ((baseDMG * baseMult) + baseAddDMG)* bonusDMGMult * targetDefMult * targetResMult * ampMult;
+        
+        // System.out.println("Base Dmg: " + baseDMG * baseMult);
         if (hitType.equals("NonCrit")){
             return nonCrit;
         } else if (hitType.equals("Average")){

@@ -16,7 +16,14 @@ public class Artifact{
     }
 
     public Artifact(){
-        System.out.println("SOMETHING WENT WRONG");
+        type = "asdf";
+        main = "Main";
+        mainValue = 12345;
+        substats[0] = new Substat("asdf", 50000);
+        substats[1] = new Substat("asdf", 50000);
+        substats[2] = new Substat("asdf", 50000);
+        substats[3] = new Substat("asdf", 50000);
+        System.out.println("Calling empty artifact constructor");
     }
 
     public Artifact(String type, String mn, double mstat, Substat one, Substat two, Substat three){
@@ -30,6 +37,10 @@ public class Artifact{
 
     public String toString(){
         return "Main: " + main + " " + String.valueOf(mainValue) + "\n" + substats[0].toString() + "," + substats[1].toString() + "," + substats[2].toString() + "," + substats[3].toString();
+    }
+
+    public String getType(){
+        return type;
     }
 
     public String getMain(){
