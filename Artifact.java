@@ -15,16 +15,16 @@ public class Artifact{
         substats[3] = four;
     }
 
-    public Artifact(){
-        type = "asdf";
-        main = "Main";
-        mainValue = 12345;
-        substats[0] = new Substat("asdf", 50000);
-        substats[1] = new Substat("asdf", 50000);
-        substats[2] = new Substat("asdf", 50000);
-        substats[3] = new Substat("asdf", 50000);
-        System.out.println("Calling empty artifact constructor");
-    }
+    // public Artifact(){
+    //     type = "asdf";
+    //     main = "Main";
+    //     mainValue = 12345;
+    //     substats[0] = new Substat("asdf", 50000);
+    //     substats[1] = new Substat("asdf", 50000);
+    //     substats[2] = new Substat("asdf", 50000);
+    //     substats[3] = new Substat("asdf", 50000);
+    //     System.out.println("Calling empty artifact constructor");
+    // }
 
     public Artifact(String type, String mn, double mstat, Substat one, Substat two, Substat three){
         this.type = type; 

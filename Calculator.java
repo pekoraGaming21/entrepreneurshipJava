@@ -14,10 +14,6 @@ public class Calculator{
     private double critRate;
     private String hitType;
 
-    // public Calculator(){
-    //     System.out.println("jenshin");
-    // }
-
     public void setBase(double dmg, double mult, double add){
         baseDMG = dmg;
         baseMult = mult;
@@ -64,16 +60,10 @@ public class Calculator{
             critRate = 100;
         }
         critDMG = CD;
-
-        // System.out.println("CR Input: " + critRate);
-        // System.out.println("CD Input: " + critDMG);
-
     }
 
     public double calculate(){
         double nonCrit = ((baseDMG * baseMult) + baseAddDMG)* bonusDMGMult * targetDefMult * targetResMult * ampMult;
-        
-        // System.out.println("Base Dmg: " + baseDMG * baseMult);
         if (hitType.equals("NonCrit")){
             return nonCrit;
         } else if (hitType.equals("Average")){

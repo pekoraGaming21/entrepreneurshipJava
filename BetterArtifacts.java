@@ -21,16 +21,15 @@ public class BetterArtifacts {
         damage.setCritDMG("Average", character.getCR(), character.getCD());
         double oldDamage = damage.calculate();
 
-        int sampledArtifacts = 10000;
+        int sampledArtifacts = 100000;
 
         for (int i = 0; i < sampledArtifacts; i++){
-            if (i % 1000 == 0){
-                System.out.println("Artifact #" + i + 1);
+            if (i % 10000 == 0){
+                System.out.println("Artifact #" + i);
             }
             Artifact newArtifact = RandomArtifact.create(type);
 
             character.setArtifact(type, newArtifact);
-           
 
             damage.setBase(character.getTotalATK() * 2.805, 1, 0);
             damage.setBonus(1.586);
@@ -38,24 +37,11 @@ public class BetterArtifacts {
             damage.setAmp(character.getEM(), "Reverse Melt", 0);
             damage.setCritDMG("Average", character.getCR(), character.getCD());
             double newDamage = damage.calculate();
-            
-           
-            
-            if (newDamage <= oldDamage){
-                numWorse++;
-                // System.out.println("increment worse artifacts")
-            }
+                     
+            if (newDamage <= oldDamage)
+            {numWorse++;}
             else
-            {
-
-                BetterArtifacts.add(newArtifact);
-                // System.out.println(newArtifact);
-                // System.out.println("Char ATK after set: " + character.getTotalATK());
-                // System.out.println("Char EM after set: " + character.getEM());
-                // System.out.println("Char CR after set: " + character.getCR());
-                // System.out.println("Char CD after set: " + character.getCD());
-            }
-            
+            {BetterArtifacts.add(newArtifact);}
         }
 
         character.setArtifact(type, old);

@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.ArrayList;
 
 public class Character {
@@ -59,7 +58,6 @@ public class Character {
         for (Artifact ar: a){
             
             totalATK += getRealValue("ATK", ar.getATK());
-
             totalATK += getRealValue("PATK", ar.getPATK()) * baseATK;
             
             totalDEF += getRealValue("DEF", ar.getDEF());
@@ -277,14 +275,6 @@ public class Character {
         this.ExtraStatValues = ExtraStatValues;
 
         for (Artifact ar: a){
-            
-            // System.out.println("-------------------------------");
-            // if (ar.getType().equals("Sands")){
-            //     System.out.println("PRINT SANDS");
-            //     System.out.println(ar);
-            // }
-
-
             totalATK += getRealValue("ATK", ar.getATK());
             totalATK += getRealValue("PATK", ar.getPATK()) * baseATK;
 
@@ -294,14 +284,8 @@ public class Character {
             totalHP += getRealValue("HP", ar.getHP());
             totalHP += getRealValue("PHP", ar.getPHP()) * baseHP;
 
-            // System.out.println("Total CR before: " + CR);
-            // System.out.println("Total CD before: " + CD);
-            // System.out.println("Adding CR: " + getRealValue("CR", ar.getCR()));
-            // System.out.println("Adding CD: " + getRealValue("CD", ar.getCD()));
             CR += getRealValue("CR", ar.getCR());
             CD += getRealValue("CD", ar.getCD());
-            // System.out.println("Total CR after: " + CR);
-            // System.out.println("Total CD after: " + CD);
 
             EM += getRealValue("EM", ar.getEM());
             ER += getRealValue("ER", ar.getER());
@@ -480,7 +464,6 @@ public class Character {
         }
     }
 
-
     public double getRealValue(String statName, double statValue){
         double[] RealHPList = {0, 209.13, 239.0, 269.88, 298.75, 418.26, 448.13, 478.0, 479.01, 507.88, 508.88, 537.75, 539.76, 568.63, 597.5, 627.39, 657.26, 687.13, 688.14, 717.0, 717.01, 718.01, 746.88, 747.88, 748.89, 776.75, 777.76, 778.76, 806.63, 807.63, 809.64, 836.5, 836.52, 838.51, 866.39, 867.38, 896.25, 896.26, 897.27, 926.13, 926.14, 927.14, 956.0, 956.01, 957.01, 958.02, 985.88, 986.88, 986.89, 987.89, 1015.75, 1015.76, 1016.76, 1017.76, 1018.77, 1045.63, 1045.65, 1046.63, 1047.64, 1048.64, 1075.5, 1075.52, 1076.51, 1077.51, 1079.52, 1105.38, 1105.39, 1106.38, 1106.4, 1108.39, 1135.25, 1135.26, 1135.27, 1136.27, 1137.26, 1165.13, 1165.14, 1166.13, 1166.14, 1167.15, 1195.0, 1195.01, 1196.01, 1196.02, 1197.02, 1224.88, 1224.89, 1225.88, 1225.89, 1226.89, 1227.9, 1254.75, 1254.76, 1254.78, 1255.76, 1256.76, 1256.77, 1257.77, 1284.63, 1284.65, 1285.63, 1285.64, 1286.64, 1287.64, 1288.65, 1314.5, 1314.51, 1314.52, 1315.51, 1315.53, 1316.51, 1317.52, 1318.52, 1344.38, 1344.39, 1344.4, 1345.38, 1345.4, 1346.39, 1347.39, 1349.4, 1374.25, 1374.26, 1374.27, 1375.26, 1375.27, 1376.26, 1376.28, 1378.27, 1404.13, 1404.14, 1405.13, 1405.14, 1405.15, 1406.15, 1407.14, 1434.0, 1434.01, 1434.02, 1435.01, 1435.02, 1436.01, 1436.02, 1437.03, 1463.88, 1463.89, 1464.88, 1464.89, 1465.89, 1465.9, 1466.9, 1493.75, 1493.76, 1494.76, 1494.77, 1495.76, 1495.77, 1496.77, 1497.78, 1523.63, 1523.64, 1524.63, 1524.64, 1525.64, 1526.64, 1526.65, 1527.65, 1553.5, 1553.51, 1554.51, 1555.51, 1555.52, 1556.52, 1557.52, 1558.53, 1583.38, 1584.38, 1584.39, 1585.39, 1586.39, 1587.4, 1588.4, 1613.25, 1613.26, 1614.26, 1615.26, 1616.27, 1617.27, 1619.28, 1643.13, 1644.13, 1645.14, 1646.14, 1648.15, 1673.0, 1674.01, 1675.01, 1677.02, 1702.88, 1703.88, 1705.89, 1732.75, 1734.76, 1763.63, 1792.5};
         double[] RealPHPList = {0, 0.0408, 0.0466, 0.0525, 0.0583, 0.0816, 0.0874, 0.0933, 0.0991, 0.1049, 0.105, 0.1108, 0.1166, 0.1224, 0.1282, 0.1341, 0.1399, 0.1457, 0.1458, 0.1516, 0.1574, 0.1575, 0.1632, 0.1633, 0.169, 0.1691, 0.1749, 0.1807, 0.1865, 0.1866, 0.1924, 0.1982, 0.1983, 0.204, 0.2041, 0.2098, 0.2099, 0.21, 0.2157, 0.2158, 0.2215, 0.2216, 0.2273, 0.2274, 0.233, 0.2332, 0.239, 0.2391, 0.2448, 0.2449, 0.2506, 0.2507, 0.2508, 0.2565, 0.2566, 0.2623, 0.2624, 0.2625, 0.2681, 0.2682, 0.2683, 0.2738, 0.274, 0.2741, 0.2796, 0.2798, 0.2799, 0.2856, 0.2857, 0.2913, 0.2915, 0.2916, 0.2973, 0.2974, 0.3031, 0.3032, 0.3033, 0.309, 0.3091, 0.3148, 0.3149, 0.315, 0.3206, 0.3207, 0.3208, 0.3265, 0.3266, 0.3323, 0.3324, 0.3381, 0.3382, 0.344, 0.3498};
@@ -500,13 +483,9 @@ public class Character {
             RealEMList, RealERList,
             RealCRList, RealCDList
         };
-        // String[] StringList = {
-        //     "HP", "PHP", "DEF", "PDEF", "ATK", "PATK", "EM", "ER", "CR", "CD"
-        // };
 
         ArrayList<String> StringList = new ArrayList<String>();
 
-        // StringList = ["HP", "PHP", "DEF", "PDEF", "ATK", "PATK", "EM", "ER", "CR", "CD"];
         StringList.add("HP");
         StringList.add("PHP");
         StringList.add("DEF");
@@ -521,17 +500,13 @@ public class Character {
         double lowestDiff = 100000;
         int lowestDiffIndex = 0;
         
-
-        //for (int i = 0; i < RealList[Arrays.binarySearch(StringList, statName)].length; i++){
         for (int i = 0; i < RealList[StringList.indexOf(statName)].length; i++){
             double realStat = RealList[StringList.indexOf(statName)][i];
             if (Math.abs(statValue - realStat) < lowestDiff){
                 lowestDiff = Math.abs(statValue - realStat);
                 lowestDiffIndex = i;
-            }
-            
+            }    
         }
-        // System.out.println("Return: " + RealList[Arrays.binarySearch(StringList,statName)][lowestDiffIndex]);
         return RealList[StringList.indexOf(statName)][lowestDiffIndex];
     }
 
@@ -552,11 +527,9 @@ public class Character {
             return arts[2];
         } else if (type.equals("Goblet")){
             return arts[3];
-        } else if (type.equals("Circlet")){
+        } else { // Circlet
             return arts[4];
         }
-        
-        return new Artifact();
     }
 
     public void setArtifact(String type, Artifact artifact){
@@ -574,8 +547,6 @@ public class Character {
         }
         updateStats(element, level, baseHP, baseATK - weaponATK, baseDEF, weaponName, weaponATK, arts, ascendName, ascendValue);
     }
-
-    
 
     public double getTotalATK(){
         return totalATK;
@@ -629,5 +600,4 @@ public class Character {
     public double getGDMG(){
         return elementalDMG[7];
     }
-
 }
