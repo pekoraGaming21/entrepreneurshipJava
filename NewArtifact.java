@@ -45,6 +45,8 @@ class NewArtifact
             
         if (newArtifact.getSubstat4() != null)
         {
+            long duration = 0;
+
             ZeroDegreePossibleArtifacts.add(newArtifact);
             FirstDegreePossibleArtifacts = CreateDegreeListPossibleArtifact(ZeroDegreePossibleArtifacts);
             SecondDegreePossibleArtifacts = CreateDegreeListPossibleArtifact(FirstDegreePossibleArtifacts);
@@ -58,6 +60,7 @@ class NewArtifact
 
 
             Calculator damage = new Calculator();
+
             damage.setBase(character.getTotalATK() * 2.805, 1, 0);
             damage.setBonus(1.586);
             damage.setTarget(103, 90, 0.1, 0);
@@ -65,16 +68,25 @@ class NewArtifact
             damage.setCritDMG("Average", character.getCR(), character.getCD());
             double oldDamage = damage.calculate();
 
+            System.out.println("Begin NewArtifact calc");
             for (Artifact artifact : FifthDegreePossibleArtifacts)
             {
+                long startTime = System.nanoTime();
+                
                 counter++;
                 if (counter % 10000 == 0)
                 {
                     System.out.println("Counter: " + counter);
+                    System.out.println("Execution time: " + duration / 1000000000 + " seconds");
+                    
                 }
                 if (isBetterArtifact(artifact, artifact.getType(), character, oldDamage))
                     ArtifactBetterCounter += 1;
+
+                long endTime = System.nanoTime();
+                duration += (endTime - startTime); // in nanoseconds
             }
+            
             System.out.println("Num of Artifacts Better: " + ArtifactBetterCounter);
             return (double) ArtifactBetterCounter / FifthDegreePossibleArtifacts.size();
         }
@@ -159,17 +171,23 @@ class NewArtifact
     
     public boolean isBetterArtifact(Artifact artifact, String artifactType, Character character, double oldDamage)
     {
+        
         Artifact oldArtifact = character.getArtifact(artifactType);
+        
+        character.setArtifact(artifactType, oldArtifact, artifact);
 
-        character.setArtifact(artifactType, artifact);
         Calculator damage = new Calculator();
+
         damage.setBase(character.getTotalATK() * 2.805, 1, 0);
         damage.setBonus(1.586);
         damage.setTarget(103, 90, 0.1, 0);
         damage.setAmp(character.getEM(), "Reverse Melt", 0);
         damage.setCritDMG("Average", character.getCR(), character.getCD());
         double newDamage = damage.calculate();
-        character.setArtifact(artifactType, oldArtifact);
+
+        
+        character.setArtifact(artifactType, artifact, oldArtifact);
+        
 
         if (newDamage <= oldDamage)
             {return false;}

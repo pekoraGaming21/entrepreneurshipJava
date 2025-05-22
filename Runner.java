@@ -1,5 +1,6 @@
 public class Runner{
     public static void main(String[] args){
+        System.out.println("Running Code");
         // Calculator calc = new Calculator();
         // calc.setBase(820*.867, 1.0, 0.0);
         // calc.setBonus(1.35);
@@ -34,8 +35,10 @@ public class Runner{
             
         // }
 
-        Artifact testartifact = new Artifact("Sands", "EM", 186.5, new Substat("CR", 3.9), new Substat("CD", 7.8), new Substat("PATK", 0.058), new Substat("ATK", 16));
+        Artifact testartifact = new Artifact("Sands", "EM", 186.5, new Substat("CR", 2.7), new Substat("CD", 5.4), new Substat("PATK", 0.041), new Substat("ER", 0));
+       
         NewArtifact function = new NewArtifact(testartifact, ganyu, 20);
+     
         System.out.println(function.Probability());
     }
     

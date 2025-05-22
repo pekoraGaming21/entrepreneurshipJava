@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Character {
     private double baseHP;
@@ -19,9 +20,6 @@ public class Character {
     private double weaponATK;
     private String element;
     private int level;
-
-    private String ascendName;
-    private double ascendValue;
 
     private String[] ExtraStatNames;
     private double[] ExtraStatValues;
@@ -49,6 +47,7 @@ public class Character {
         totalATK = baseATK;
         totalDEF = baseDEF;
 
+    
         this.ExtraStatNames = ExtraStatNames;
         this.ExtraStatValues = ExtraStatValues;
 
@@ -188,7 +187,7 @@ public class Character {
         }
     }
 
-    public void updateStats(String element, int level, double bhp, double bat, double bdf, String weaponName, double weaponATK, Artifact[] a){
+    public void updateStats(String element, int level, double bhp, double bat, double bdf, String weaponName, double weaponATK, Artifact[] a, String[] ExtraStatNames, double[] ExtraStatValues){
         this.element = element;
         this.level = level;
 
@@ -213,7 +212,8 @@ public class Character {
 
         this.ExtraStatNames = ExtraStatNames;
         this.ExtraStatValues = ExtraStatValues;
-
+        
+        
         for (Artifact ar: a){
             totalATK += getRealValue("ATK", ar.getATK());
             totalATK += getRealValue("PATK", ar.getPATK()) * baseATK;
@@ -287,6 +287,7 @@ public class Character {
                     break;
             }
         }
+        
         
         for (int i = 0; i < ExtraStatNames.length; i++)
         {
@@ -369,18 +370,8 @@ public class Character {
             RealCRList, RealCDList
         };
 
-        ArrayList<String> StringList = new ArrayList<String>();
-
-        StringList.add("HP");
-        StringList.add("PHP");
-        StringList.add("DEF");
-        StringList.add("PDEF");
-        StringList.add("ATK");
-        StringList.add("PATK");
-        StringList.add("EM");
-        StringList.add("ER");
-        StringList.add("CR");
-        StringList.add("CD");
+        String[] BadStringList = {"HP", "PHP", "DEF", "PDEF", "ATK", "PATK", "EM", "ER", "CR", "CD"};
+        ArrayList<String> StringList = new ArrayList<String>(Arrays.asList(BadStringList));
 
         double lowestDiff = 100000;
         int lowestDiffIndex = 0;
@@ -390,7 +381,14 @@ public class Character {
             if (Math.abs(statValue - realStat) < lowestDiff){
                 lowestDiff = Math.abs(statValue - realStat);
                 lowestDiffIndex = i;
-            }    
+            
+            }  
+            if ((statValue - realStat < -2 && (statName.equals("HP") || statName.equals("DEF") || statName.equals("ATK") || statName.equals("EM") || statName.equals("ER") || statName.equals("CR") || statName.equals("CD"))) || (statValue - realStat < -0.1 && (statName.equals("PHP") || statName.equals("PDEF") || statName.equals("PATK"))))
+  
+            //if (statValue - realStat < -2)
+            {
+                i += (RealList[StringList.indexOf(statName)].length);
+            }
         }
         return RealList[StringList.indexOf(statName)][lowestDiffIndex];
     }
@@ -417,20 +415,177 @@ public class Character {
         }
     }
 
-    public void setArtifact(String type, Artifact artifact){
+    public void setArtifact(String type, Artifact Oldartifact, Artifact Newartifact)
+    {
+        switch (Oldartifact.getMain()){
+            case "HP":
+                totalHP -= Oldartifact.getMainV();
+                break;
+            case "ATK":
+                totalATK -= Oldartifact.getMainV();
+                break;
+            case "PHP":
+                totalHP -= Oldartifact.getMainV()*baseHP;
+                break;
+            case "PDEF":
+                totalDEF -= Oldartifact.getMainV()*baseDEF;
+                break;
+            case "PATK":
+                totalATK -= Oldartifact.getMainV()*baseATK;
+                break;
+            case "EM":
+                EM -= Oldartifact.getMainV();
+                break;
+            case "ER":
+                ER -= Oldartifact.getMainV();
+                break;
+            case "CR":
+                CR -= Oldartifact.getMainV();
+                break;
+            case "CD":
+                CD -= Oldartifact.getMainV();
+                break;
+            case "PHDMG":
+                elementalDMG[0] -= Oldartifact.getMainV();
+                break;
+            case "PDMG":
+                elementalDMG[1] -= Oldartifact.getMainV();
+                break;
+            case "HDMG":
+                elementalDMG[2] -= Oldartifact.getMainV();
+                break;
+            case "ADMG":
+                elementalDMG[3] -= Oldartifact.getMainV();
+                break;
+            case "EDMG":
+                elementalDMG[4] -= Oldartifact.getMainV();
+                break;
+            case "DDMG":
+                elementalDMG[5] -= Oldartifact.getMainV();
+                break;
+            case "CDMG":
+                elementalDMG[6] -= Oldartifact.getMainV();
+                break;
+            case "GDMG":
+                elementalDMG[7] -= Oldartifact.getMainV();
+                break;
+        }
+        totalATK -= getRealValue("ATK", Oldartifact.getATK());
+        totalATK -= getRealValue("PATK", Oldartifact.getPATK()) * baseATK;
+
+        totalDEF -= getRealValue("DEF", Oldartifact.getDEF());
+        totalDEF -= getRealValue("PDEF", Oldartifact.getPDEF()) * baseDEF;
+        
+        totalHP -= getRealValue("HP", Oldartifact.getHP());
+        totalHP -= getRealValue("PHP", Oldartifact.getPHP()) * baseHP;
+
+        CR -= getRealValue("CR", Oldartifact.getCR());
+        CD -= getRealValue("CD", Oldartifact.getCD());
+
+        EM -= getRealValue("EM", Oldartifact.getEM());
+        ER -= getRealValue("ER", Oldartifact.getER());
+        
+        switch (Newartifact.getMain()){
+            case "HP":
+                totalHP += Newartifact.getMainV();
+                break;
+            case "ATK":
+                totalATK += Newartifact.getMainV();
+                break;
+            case "PHP":
+                totalHP += Newartifact.getMainV()*baseHP;
+                break;
+            case "PDEF":
+                totalDEF += Newartifact.getMainV()*baseDEF;
+                break;
+            case "PATK":
+                totalATK += Newartifact.getMainV()*baseATK;
+                break;
+            case "EM":
+                EM += Newartifact.getMainV();
+                break;
+            case "ER":
+                ER += Newartifact.getMainV();
+                break;
+            case "CR":
+                CR += Newartifact.getMainV();
+                break;
+            case "CD":
+                CD += Newartifact.getMainV();
+                break;
+            case "PHDMG":
+                elementalDMG[0] += Newartifact.getMainV();
+                break;
+            case "PDMG":
+                elementalDMG[1] += Newartifact.getMainV();
+                break;
+            case "HDMG":
+                elementalDMG[2] += Newartifact.getMainV();
+                break;
+            case "ADMG":
+                elementalDMG[3] += Newartifact.getMainV();
+                break;
+            case "EDMG":
+                elementalDMG[4] += Newartifact.getMainV();
+                break;
+            case "DDMG":
+                elementalDMG[5] += Newartifact.getMainV();
+                break;
+            case "CDMG":
+                elementalDMG[6] += Newartifact.getMainV();
+                break;
+            case "GDMG":
+                elementalDMG[7] += Newartifact.getMainV();
+                break;
+            }
+
+        totalATK += getRealValue("ATK", Newartifact.getATK());
+        totalATK += getRealValue("PATK", Newartifact.getPATK()) * baseATK;
+
+        totalDEF += getRealValue("DEF", Newartifact.getDEF());
+        totalDEF += getRealValue("PDEF", Newartifact.getPDEF()) * baseDEF;
+        
+        totalHP += getRealValue("HP", Newartifact.getHP());
+        totalHP += getRealValue("PHP", Newartifact.getPHP()) * baseHP;
+
+        CR += getRealValue("CR", Newartifact.getCR());
+        CD += getRealValue("CD", Newartifact.getCD());
+
+        EM += getRealValue("EM", Newartifact.getEM());
+        ER += getRealValue("ER", Newartifact.getER());
+
         if (type.equals("Flower")){
-            arts[0] = artifact;
+            arts[0] = Newartifact;
         } else if (type.equals("Feather")){
-            arts[1] = artifact;
+            arts[1] = Newartifact;
         } else if (type.equals("Sands")){
-            arts[2] = artifact;
+            arts[2] = Newartifact;
         } else if (type.equals("Goblet")){
-            arts[3] = artifact;
+            arts[3] = Newartifact;
 
         } else if (type.equals("Circlet")){
-            arts[4] = artifact;
+            arts[4] = Newartifact;
+        } 
+    }
+
+    public void setArtifact(String type, Artifact Newartifact)
+    {
+        if (type.equals("Flower")){
+            arts[0] = Newartifact;
+        } else if (type.equals("Feather")){
+            arts[1] = Newartifact;
+        } else if (type.equals("Sands")){
+            arts[2] = Newartifact;
+        } else if (type.equals("Goblet")){
+            arts[3] = Newartifact;
+
+        } else if (type.equals("Circlet")){
+            arts[4] = Newartifact;
+        } else {
+            System.out.println("SET ARTIFACT TYPE INVALID");
         }
-        updateStats(element, level, baseHP, baseATK - weaponATK, baseDEF, weaponName, weaponATK, arts);
+        updateStats(element, level, baseHP, baseATK - weaponATK, baseDEF, weaponName, weaponATK, arts, ExtraStatNames, ExtraStatValues);
+
     }
 
     public double getTotalATK(){

@@ -29,7 +29,7 @@ public class Calculator{
         targetResMult = enemyRes;
         
         double temp = resShred;
-        if ((targetResMult >= 0.75 ) &&(targetResMult - resShred > 0.75)){
+        if ((targetResMult >= 0.75 ) && (targetResMult - resShred > 0.75)){
             targetResMult = 1/(4* enemyRes + 1);
         } else if (targetResMult >= 0.75){
             targetResMult = 1/(4*enemyRes + 1);
