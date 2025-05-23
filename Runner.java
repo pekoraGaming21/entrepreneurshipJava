@@ -35,7 +35,7 @@ public class Runner{
             
         // }
 
-        Artifact testartifact = new Artifact("Sands", "EM", 186.5, new Substat("CR", 2.7), new Substat("CD", 5.4), new Substat("PATK", 0.041), new Substat("ER", 0));
+        Artifact testartifact = new Artifact("Sands", "EM", 186.5, new Substat("CR", 2.7), new Substat("CD", 5.4), new Substat("DEF", 16));
        
         NewArtifact function = new NewArtifact(testartifact, ganyu, 20);
      

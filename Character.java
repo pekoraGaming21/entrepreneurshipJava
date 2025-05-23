@@ -47,25 +47,81 @@ public class Character {
         totalATK = baseATK;
         totalDEF = baseDEF;
 
-    
         this.ExtraStatNames = ExtraStatNames;
         this.ExtraStatValues = ExtraStatValues;
 
         for (Artifact ar: a){
             
-            totalATK += getRealValue("ATK", ar.getATK());
-            totalATK += getRealValue("PATK", ar.getPATK()) * baseATK;
+            // totalATK += getRealValue("ATK", ar.getATK());
+            // totalATK += getRealValue("PATK", ar.getPATK()) * baseATK;
             
-            totalDEF += getRealValue("DEF", ar.getDEF());
-            totalDEF += getRealValue("PDEF", ar.getPDEF()) * baseDEF;
+            // totalDEF += getRealValue("DEF", ar.getDEF());
+            // totalDEF += getRealValue("PDEF", ar.getPDEF()) * baseDEF;
             
+            // totalHP += getRealValue("HP", ar.getHP());
+            // totalHP += getRealValue("PHP", ar.getPHP()) * baseHP;
+
+            // CR += getRealValue("CR", ar.getCR());
+            // CD += getRealValue("CD", ar.getCD());
+            // EM += getRealValue("EM", ar.getEM());
+            // ER += getRealValue("ER", ar.getER());
+
+            if (ar.getATK() != 0)
+            {
+                totalATK += getRealValue("ATK", ar.getATK());
+            }
+            
+            if (ar.getPATK() != 0)
+            {
+                totalATK += getRealValue("PATK", ar.getPATK()) * baseATK;
+            }
+            
+            
+            if (ar.getDEF() != 0)
+            {
+                totalDEF += getRealValue("DEF", ar.getDEF());
+            }
+            
+            if (ar.getPDEF() != 0)
+            {
+                totalDEF += getRealValue("PDEF", ar.getPDEF()) * baseDEF;
+            }
+            
+            if (ar.getATK() != 0)
+            {
+                
+            }
             totalHP += getRealValue("HP", ar.getHP());
+            if (ar.getATK() != 0)
+            {
+                
+            }
             totalHP += getRealValue("PHP", ar.getPHP()) * baseHP;
 
+            if (ar.getATK() != 0)
+            {
+                
+            }
             CR += getRealValue("CR", ar.getCR());
+            if (ar.getATK() != 0)
+            {
+                
+            }
             CD += getRealValue("CD", ar.getCD());
+            if (ar.getATK() != 0)
+            {
+                
+            }
             EM += getRealValue("EM", ar.getEM());
+            if (ar.getATK() != 0)
+            {
+                
+            }
             ER += getRealValue("ER", ar.getER());
+            if (ar.getATK() != 0)
+            {
+                
+            }
 
             switch (ar.getMain()){
                 case "HP":
@@ -215,20 +271,36 @@ public class Character {
         
         
         for (Artifact ar: a){
-            totalATK += getRealValue("ATK", ar.getATK());
-            totalATK += getRealValue("PATK", ar.getPATK()) * baseATK;
+            // totalATK += getRealValue("ATK", ar.getATK());
+            // totalATK += getRealValue("PATK", ar.getPATK()) * baseATK;
 
-            totalDEF += getRealValue("DEF", ar.getDEF());
-            totalDEF += getRealValue("PDEF", ar.getPDEF()) * baseDEF;
+            // totalDEF += getRealValue("DEF", ar.getDEF());
+            // totalDEF += getRealValue("PDEF", ar.getPDEF()) * baseDEF;
             
-            totalHP += getRealValue("HP", ar.getHP());
-            totalHP += getRealValue("PHP", ar.getPHP()) * baseHP;
+            // totalHP += getRealValue("HP", ar.getHP());
+            // totalHP += getRealValue("PHP", ar.getPHP()) * baseHP;
 
-            CR += getRealValue("CR", ar.getCR());
-            CD += getRealValue("CD", ar.getCD());
+            // CR += getRealValue("CR", ar.getCR());
+            // CD += getRealValue("CD", ar.getCD());
 
-            EM += getRealValue("EM", ar.getEM());
-            ER += getRealValue("ER", ar.getER());
+            // EM += getRealValue("EM", ar.getEM());
+            // ER += getRealValue("ER", ar.getER());
+
+            totalATK += ar.getATK();
+            totalATK += ar.getPATK() * baseATK;
+
+            totalDEF += ar.getDEF();
+            totalDEF += ar.getPDEF() * baseDEF;
+            
+            totalHP += ar.getHP();
+            totalHP += ar.getPHP() * baseHP;
+
+            CR += ar.getCR();
+            CD += ar.getCD();
+
+            EM += ar.getEM();
+            ER += ar.getER();
+
 
             switch (ar.getMain()){
                 case "HP":
@@ -373,9 +445,9 @@ public class Character {
         String[] BadStringList = {"HP", "PHP", "DEF", "PDEF", "ATK", "PATK", "EM", "ER", "CR", "CD"};
         ArrayList<String> StringList = new ArrayList<String>(Arrays.asList(BadStringList));
 
-        double lowestDiff = 100000;
+        double lowestDiff = 1000;
         int lowestDiffIndex = 0;
-        
+        // 
         for (int i = 0; i < RealList[StringList.indexOf(statName)].length; i++){
             double realStat = RealList[StringList.indexOf(statName)][i];
             if (Math.abs(statValue - realStat) < lowestDiff){
@@ -383,7 +455,7 @@ public class Character {
                 lowestDiffIndex = i;
             
             }  
-            if ((statValue - realStat < -2 && (statName.equals("HP") || statName.equals("DEF") || statName.equals("ATK") || statName.equals("EM") || statName.equals("ER") || statName.equals("CR") || statName.equals("CD"))) || (statValue - realStat < -0.1 && (statName.equals("PHP") || statName.equals("PDEF") || statName.equals("PATK"))))
+            if ((statValue - realStat <= -5 && (statName.equals("HP") || statName.equals("DEF") || statName.equals("ATK") || statName.equals("EM") || statName.equals("ER") || statName.equals("CR") || statName.equals("CD"))) || (statValue - realStat < -0.1 && (statName.equals("PHP") || statName.equals("PDEF") || statName.equals("PATK"))))
   
             //if (statValue - realStat < -2)
             {
@@ -470,20 +542,35 @@ public class Character {
                 elementalDMG[7] -= Oldartifact.getMainV();
                 break;
         }
-        totalATK -= getRealValue("ATK", Oldartifact.getATK());
-        totalATK -= getRealValue("PATK", Oldartifact.getPATK()) * baseATK;
+        // totalATK -= getRealValue("ATK", Oldartifact.getATK());
+        // totalATK -= getRealValue("PATK", Oldartifact.getPATK()) * baseATK;
 
-        totalDEF -= getRealValue("DEF", Oldartifact.getDEF());
-        totalDEF -= getRealValue("PDEF", Oldartifact.getPDEF()) * baseDEF;
+        // totalDEF -= getRealValue("DEF", Oldartifact.getDEF());
+        // totalDEF -= getRealValue("PDEF", Oldartifact.getPDEF()) * baseDEF;
         
-        totalHP -= getRealValue("HP", Oldartifact.getHP());
-        totalHP -= getRealValue("PHP", Oldartifact.getPHP()) * baseHP;
+        // totalHP -= getRealValue("HP", Oldartifact.getHP());
+        // totalHP -= getRealValue("PHP", Oldartifact.getPHP()) * baseHP;
 
-        CR -= getRealValue("CR", Oldartifact.getCR());
-        CD -= getRealValue("CD", Oldartifact.getCD());
+        // CR -= getRealValue("CR", Oldartifact.getCR());
+        // CD -= getRealValue("CD", Oldartifact.getCD());
 
-        EM -= getRealValue("EM", Oldartifact.getEM());
-        ER -= getRealValue("ER", Oldartifact.getER());
+        // EM -= getRealValue("EM", Oldartifact.getEM());
+        // ER -= getRealValue("ER", Oldartifact.getER());
+
+        totalATK -= ar.getATK();
+        totalATK -= ar.getPATK() * baseATK;
+
+        totalDEF -= ar.getDEF();
+        totalDEF -= ar.getPDEF() * baseDEF;
+        
+        totalHP -= ar.getHP();
+        totalHP -= ar.getPHP() * baseHP;
+
+        CR -= ar.getCR();
+        CD -= ar.getCD();
+
+        EM -= ar.getEM();
+        ER -= ar.getER();
         
         switch (Newartifact.getMain()){
             case "HP":
@@ -539,20 +626,35 @@ public class Character {
                 break;
             }
 
-        totalATK += getRealValue("ATK", Newartifact.getATK());
-        totalATK += getRealValue("PATK", Newartifact.getPATK()) * baseATK;
+        // totalATK += getRealValue("ATK", Newartifact.getATK());
+        // totalATK += getRealValue("PATK", Newartifact.getPATK()) * baseATK;
 
-        totalDEF += getRealValue("DEF", Newartifact.getDEF());
-        totalDEF += getRealValue("PDEF", Newartifact.getPDEF()) * baseDEF;
+        // totalDEF += getRealValue("DEF", Newartifact.getDEF());
+        // totalDEF += getRealValue("PDEF", Newartifact.getPDEF()) * baseDEF;
         
-        totalHP += getRealValue("HP", Newartifact.getHP());
-        totalHP += getRealValue("PHP", Newartifact.getPHP()) * baseHP;
+        // totalHP += getRealValue("HP", Newartifact.getHP());
+        // totalHP += getRealValue("PHP", Newartifact.getPHP()) * baseHP;
 
-        CR += getRealValue("CR", Newartifact.getCR());
-        CD += getRealValue("CD", Newartifact.getCD());
+        // CR += getRealValue("CR", Newartifact.getCR());
+        // CD += getRealValue("CD", Newartifact.getCD());
 
-        EM += getRealValue("EM", Newartifact.getEM());
-        ER += getRealValue("ER", Newartifact.getER());
+        // EM += getRealValue("EM", Newartifact.getEM());
+        // ER += getRealValue("ER", Newartifact.getER());
+
+        totalATK += ar.getATK();
+        totalATK += ar.getPATK() * baseATK;
+
+        totalDEF += ar.getDEF();
+        totalDEF += ar.getPDEF() * baseDEF;
+        
+        totalHP += ar.getHP();
+        totalHP += ar.getPHP() * baseHP;
+
+        CR += ar.getCR();
+        CD += ar.getCD();
+
+        EM += ar.getEM();
+        ER += ar.getER();
 
         if (type.equals("Flower")){
             arts[0] = Newartifact;

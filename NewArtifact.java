@@ -24,77 +24,118 @@ class NewArtifact
         ArrayList<Artifact> FifthDegreePossibleArtifacts = new ArrayList<Artifact>();
 
         ArrayList<Artifact> AllPossibleArtifacts = new ArrayList<Artifact>();
-
-
-        
-
-        String[] StatList = {
-            "HP", "HP", "HP", "HP", "HP", "HP", 
-            "PHP", "PHP", "PHP", "PHP", 
-            "DEF", "DEF", "DEF", "DEF", "DEF", "DEF",
-            "PDEF", "PDEF", "PDEF", "PDEF", 
-            "ATK", "ATK", "ATK", "ATK", "ATK", "ATK", 
-            "PATK", "PATK", "PATK", "PATK", 
-            "EM", "EM", "EM", "EM", 
-            "ER", "ER", "ER", "ER", 
-            "CR", "CR", "CR", 
-            "CD", "CD", "CD"};
         
         
-
+        long duration = 0;
             
         if (newArtifact.getSubstat4() != null)
         {
-            long duration = 0;
+            System.out.println("Four Substat Artifact");
 
             ZeroDegreePossibleArtifacts.add(newArtifact);
             FirstDegreePossibleArtifacts = CreateDegreeListPossibleArtifact(ZeroDegreePossibleArtifacts);
-            SecondDegreePossibleArtifacts = CreateDegreeListPossibleArtifact(FirstDegreePossibleArtifacts);
-            ThirdDegreePossibleArtifacts = CreateDegreeListPossibleArtifact(SecondDegreePossibleArtifacts);
-            FourthDegreePossibleArtifacts = CreateDegreeListPossibleArtifact(ThirdDegreePossibleArtifacts);
-            FifthDegreePossibleArtifacts = CreateDegreeListPossibleArtifact(FourthDegreePossibleArtifacts);
-
-            System.out.println("Fifth Degree size: " + FifthDegreePossibleArtifacts.size());
-            int ArtifactBetterCounter = 0;
-            int counter = 0;
-
-
-            Calculator damage = new Calculator();
-
-            damage.setBase(character.getTotalATK() * 2.805, 1, 0);
-            damage.setBonus(1.586);
-            damage.setTarget(103, 90, 0.1, 0);
-            damage.setAmp(character.getEM(), "Reverse Melt", 0);
-            damage.setCritDMG("Average", character.getCR(), character.getCD());
-            double oldDamage = damage.calculate();
-
-            System.out.println("Begin NewArtifact calc");
-            for (Artifact artifact : FifthDegreePossibleArtifacts)
-            {
-                long startTime = System.nanoTime();
-                
-                counter++;
-                if (counter % 10000 == 0)
-                {
-                    System.out.println("Counter: " + counter);
-                    System.out.println("Execution time: " + duration / 1000000000 + " seconds");
-                    
-                }
-                if (isBetterArtifact(artifact, artifact.getType(), character, oldDamage))
-                    ArtifactBetterCounter += 1;
-
-                long endTime = System.nanoTime();
-                duration += (endTime - startTime); // in nanoseconds
-            }
             
-            System.out.println("Num of Artifacts Better: " + ArtifactBetterCounter);
-            return (double) ArtifactBetterCounter / FifthDegreePossibleArtifacts.size();
         }
 
         else // Three stats
         {
+            System.out.println("Three Substat Artifact");
+
+            String[] StatList = {
+                "HP", "HP", "HP", "HP", "HP", "HP", 
+                "PHP", "PHP", "PHP", "PHP", 
+                "DEF", "DEF", "DEF", "DEF", "DEF", "DEF",
+                "PDEF", "PDEF", "PDEF", "PDEF", 
+                "ATK", "ATK", "ATK", "ATK", "ATK", "ATK", 
+                "PATK", "PATK", "PATK", "PATK", 
+                "EM", "EM", "EM", "EM", 
+                "ER", "ER", "ER", "ER", 
+                "CR", "CR", "CR", 
+                "CD", "CD", "CD"};
+
+            ArrayList<String> StatChoose = new ArrayList<String>(Arrays.asList(StatList));
+            StatChoose = RemoveStatFromArray(newArtifact.getMain(), StatChoose);
+
+            StatChoose = RemoveStatFromArray(newArtifact.getSubstat1().getStat(), StatChoose);
+            StatChoose = RemoveStatFromArray(newArtifact.getSubstat2().getStat(), StatChoose);
+            StatChoose = RemoveStatFromArray(newArtifact.getSubstat3().getStat(), StatChoose);
+
+            for (String stat : StatChoose)
+            {
+                System.out.print(stat + " ");
+            }
+
+            for (String substatName : StatChoose)
+            {
+                for (int substatRoll = 0; substatRoll < 4; substatRoll++)
+                {
+                    
+                    Artifact addArtifact = new Artifact(newArtifact.getType(), newArtifact.getMain(), newArtifact.getMainV(), newArtifact.getSubstat1(), newArtifact.getSubstat2(), newArtifact.getSubstat3(), new Substat(substatName, ChooseNumberStat(substatName, substatRoll)));
+                   
+                    FirstDegreePossibleArtifacts.add(addArtifact);
+                }
+            }
 
         }
+
+        
+
+        SecondDegreePossibleArtifacts = CreateDegreeListPossibleArtifact(FirstDegreePossibleArtifacts);
+        System.out.println("Created Second Degree");
+        ThirdDegreePossibleArtifacts = CreateDegreeListPossibleArtifact(SecondDegreePossibleArtifacts);
+        System.out.println("Created Third Degree");
+        FourthDegreePossibleArtifacts = CreateDegreeListPossibleArtifact(ThirdDegreePossibleArtifacts);
+        System.out.println("Created Fourth Degree");
+        FifthDegreePossibleArtifacts = CreateDegreeListPossibleArtifact(FourthDegreePossibleArtifacts);
+
+        // int artifactcounter = 0;
+        // for (Artifact artifact : SecondDegreePossibleArtifacts)
+        // {   
+        //     artifactcounter++;
+        //     if (artifactcounter < 300)
+        //     {
+        //         System.out.println(artifact);
+        //     }
+        // }
+
+        System.out.println("Array size: " + FifthDegreePossibleArtifacts.size());
+        int ArtifactBetterCounter = 0;
+        int counter = 0;
+
+
+        Calculator damage = new Calculator();
+
+        damage.setBase(character.getTotalATK() * 2.805, 1, 0);
+        damage.setBonus(1.586);
+        damage.setTarget(103, 90, 0.1, 0);
+        damage.setAmp(character.getEM(), "Reverse Melt", 0);
+        damage.setCritDMG("Average", character.getCR(), character.getCD());
+        double oldDamage = damage.calculate();
+
+        System.out.println("Begin NewArtifact calc");
+        for (Artifact artifact : FifthDegreePossibleArtifacts)
+        {
+            long startTime = System.currentTimeMillis();
+            
+            counter++;
+            if (counter % 100000 == 0)
+            {
+                System.out.println("Counter: " + counter);
+                System.out.println("Total Execution time: " + duration / 1000 + " seconds");
+                //System.out.println(artifact);
+                
+            }
+            if (isBetterArtifact(artifact, artifact.getType(), character, oldDamage))
+                ArtifactBetterCounter += 1;
+
+            long endTime = System.currentTimeMillis();
+            duration += (endTime - startTime); // in nanoseconds
+        }
+        
+        System.out.println("Num of Artifacts Better: " + ArtifactBetterCounter);
+        return (double) ArtifactBetterCounter / FifthDegreePossibleArtifacts.size();
+
+        
             
             
 
@@ -104,7 +145,6 @@ class NewArtifact
             
 
         
-        return -1580;
         // # If newArtifact has 3 stats
         // # First roll creates the 4th stat
         // # Roll the newArtifact 4 times
@@ -153,7 +193,9 @@ class NewArtifact
                     }
                     if (sub == 4)
                     {
-                        double Adding = ChooseNumberStat(testArtifact.getSubstat1().getStat(), stat);
+                        
+                        double Adding = ChooseNumberStat(testArtifact.getSubstat4().getStat(), stat);
+                        
                         // testArtifact.getSubstat4().setValue(testArtifact.getSubstat4().getValue() + Adding)
                         Artifact addArtifact = new Artifact(testArtifact.getType(), testArtifact.getMain(), testArtifact.getMainV(), testArtifact.getSubstat1(), testArtifact.getSubstat2(), testArtifact.getSubstat3(), new Substat(testArtifact.getSubstat4().getStat(), testArtifact.getSubstat4().getValue() + Adding));
 
@@ -195,14 +237,20 @@ class NewArtifact
             {return true;}
     }
 
-    // public RemoveSubstat(String stat, statlist):
-    //     // Given the name of the stat and the stalist: 
+    public ArrayList<String> RemoveStatFromArray(String Stat, ArrayList<String> StatList)
+    {
+        // Remove all of a certain stat in the list
+        int count = 0;
+        for (String stat : StatList)
+        {
+            if (stat.equals(Stat))
+            {count++;}
+        }
+        for (int i = 0; i < count; i++)
+            {StatList.remove(Stat);}
 
-    //     # Remove a stat completely from the statlist
-    //     statcount=statlist.count(stat)
-    //     for i in range(statcount):
-    //         statlist.remove(stat)
-    //     return statlist
+        return StatList;
+    }
 
     public double ChooseNumberStat(String Substatname, int index)
     {    // Given the name of substat
