@@ -14,7 +14,7 @@ class NewArtifact
         this.level = level;
     }
 
-    public double Probability()
+    public double Probability(String speed)
     {
         ArrayList<Artifact> ZeroDegreePossibleArtifacts = new ArrayList<Artifact>();
         ArrayList<Artifact> FirstDegreePossibleArtifacts = new ArrayList<Artifact>();
@@ -60,11 +60,6 @@ class NewArtifact
             StatChoose = RemoveStatFromArray(newArtifact.getSubstat2().getStat(), StatChoose);
             StatChoose = RemoveStatFromArray(newArtifact.getSubstat3().getStat(), StatChoose);
 
-            for (String stat : StatChoose)
-            {
-                System.out.print(stat + " ");
-            }
-
             for (String substatName : StatChoose)
             {
                 for (int substatRoll = 0; substatRoll < 4; substatRoll++)
@@ -83,9 +78,9 @@ class NewArtifact
         SecondDegreePossibleArtifacts = CreateDegreeListPossibleArtifact(FirstDegreePossibleArtifacts);
         System.out.println("Created Second Degree");
         ThirdDegreePossibleArtifacts = CreateDegreeListPossibleArtifact(SecondDegreePossibleArtifacts);
-        System.out.println("Created Third Degree");
+        System.out.println("Created Third Degree (length + " + ThirdDegreePossibleArtifacts.size() + ")");
         FourthDegreePossibleArtifacts = CreateDegreeListPossibleArtifact(ThirdDegreePossibleArtifacts);
-        System.out.println("Created Fourth Degree");
+        System.out.println("Created Fourth Degree (length + " + FourthDegreePossibleArtifacts.size() + ")");
         FifthDegreePossibleArtifacts = CreateDegreeListPossibleArtifact(FourthDegreePossibleArtifacts);
 
         // int artifactcounter = 0;
@@ -118,14 +113,14 @@ class NewArtifact
             long startTime = System.currentTimeMillis();
             
             counter++;
-            if (counter % 100000 == 0)
+            if (counter % 500000 == 0)
             {
                 System.out.println("Counter: " + counter);
                 System.out.println("Total Execution time: " + duration / 1000 + " seconds");
                 //System.out.println(artifact);
                 
             }
-            if (isBetterArtifact(artifact, artifact.getType(), character, oldDamage))
+            if (isBetterArtifact(artifact, artifact.getType(), character, oldDamage, speed))
                 ArtifactBetterCounter += 1;
 
             long endTime = System.currentTimeMillis();
@@ -155,9 +150,11 @@ class NewArtifact
     {
         ArrayList<Artifact> NewList = new ArrayList<Artifact>();
 
+       
+
         for (Artifact testArtifact : PastList)
         {
-            //Artifact testArtifact = new Artifact(testArtifact.getType(), testArtifact.getMain(), testArtifact.getMainV(), testArtifact.getSubstat1(), testArtifact.getSubstat2(), testArtifact.getSubstat3(), testArtifact.getSubstat4()); 
+
             for (int sub = 1; sub <= 5; sub++)
             {
                 
@@ -211,12 +208,12 @@ class NewArtifact
     
     
     
-    public boolean isBetterArtifact(Artifact artifact, String artifactType, Character character, double oldDamage)
+    public boolean isBetterArtifact(Artifact artifact, String artifactType, Character character, double oldDamage, String speed)
     {
         
         Artifact oldArtifact = character.getArtifact(artifactType);
         
-        character.setArtifact(artifactType, oldArtifact, artifact);
+        character.setArtifact(artifactType, oldArtifact, artifact, speed);
 
         Calculator damage = new Calculator();
 
@@ -228,7 +225,7 @@ class NewArtifact
         double newDamage = damage.calculate();
 
         
-        character.setArtifact(artifactType, artifact, oldArtifact);
+        character.setArtifact(artifactType, artifact, oldArtifact, speed);
         
 
         if (newDamage <= oldDamage)

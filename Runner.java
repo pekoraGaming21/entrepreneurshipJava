@@ -19,7 +19,9 @@ public class Runner{
         String[] ExtraStatNames = {"CD", "ATK", "CR"};
         double[] ExtraStatValues = {38.4, 1377.686, 66.1};
 
-        Character ganyu = new Character("Cryo", 90, 9796.73,334.85,630.21, "Hunter's Path", 541.83, list, ExtraStatNames, ExtraStatValues);
+        String speed = "Slow";
+
+        Character ganyu = new Character("Cryo", 90, 9796.73,334.85,630.21, "Hunter's Path", 541.83, list, ExtraStatNames, ExtraStatValues, speed);
         // System.out.println(ganyu.getTotalATK());
 
         // BetterArtifacts test = new BetterArtifacts(ganyu);
@@ -35,11 +37,23 @@ public class Runner{
             
         // }
 
-        Artifact testartifact = new Artifact("Sands", "EM", 186.5, new Substat("CR", 2.7), new Substat("CD", 5.4), new Substat("DEF", 16));
-       
+        //Artifact testartifact = new Artifact("Sands", "EM", 186.5, new Substat("CR", 3.9), new Substat("CD", 7.8), new Substat("PATK", 0.058));
+        // Probability that Artifact is better: 0.022707257952008928
+        Artifact testartifact = new Artifact("Sands", "EM", 186.5, new Substat("CR", 3.9), new Substat("CD", 7.8), new Substat("PATK", 0.058), new Substat("ATK", 19));
+        // Probability that Artifact is better: 0.020468711853027344
+
+
         NewArtifact function = new NewArtifact(testartifact, ganyu, 20);
      
-        System.out.println(function.Probability());
+        System.out.println("Probability that Artifact is better: " + function.Probability(speed));
+        System.out.println("");
+        System.out.println("Artifact Input: ");
+        System.out.println(testartifact);
     }
+
+    //Probability that Artifact is better: 0.07162366594587054]
+    //Probability that Artifact is better: 0.06006622314453125
+
+    //Probability that Artifact is better: 0.32343292236328125
     
 }

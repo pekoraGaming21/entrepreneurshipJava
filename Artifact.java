@@ -54,70 +54,67 @@ public class Artifact{
             if (s != null)
             {
                 switch (s.getStat()){
-                    // case "HP":
-                    //     HP += s.getValue();
-                    //     break;
-                    // case "DEF":
-                    //     DEF += s.getValue();
-                    //     break;
-                    // case "ATK":
-                    //     ATK += s.getValue();
-                    //     break;
-                    // case "PHP":
-                    //     PHP += s.getValue();
-                    //     break;
-                    // case "PDEF":
-                    //     PDEF += s.getValue();
-                    //     break;
-                    // case "PATK":
-                    //     PATK += s.getValue();
-                    //     break;
-                    // case "EM":
-                    //     EM += s.getValue();
-                    //     break;
-                    // case "ER":
-                    //     ER += s.getValue();
-                    //     break;
-                    // case "CR":
-                    //     CR += s.getValue();
-                    //     break;
-                    // case "CD":
-                    //     CD += s.getValue();
-                    //     break;
-
                     case "HP":
-                        HP += getRealValue("HP", s.getValue());
+                        HP += s.getValue();
                         break;
                     case "DEF":
-                        DEF += getRealValue("DEF", s.getValue());
+                        DEF += s.getValue();
                         break;
                     case "ATK":
-                        ATK += getRealValue("ATK", s.getValue());
+                        ATK += s.getValue();
                         break;
                     case "PHP":
-                        PHP += getRealValue("PHP", s.getValue());
+                        PHP += s.getValue();
                         break;
                     case "PDEF":
-                        PDEF += getRealValue("PDEF", s.getValue());
+                        PDEF += s.getValue();
                         break;
                     case "PATK":
-                        PATK += getRealValue("PATK", s.getValue());
+                        PATK += s.getValue();
                         break;
                     case "EM":
-                        EM += getRealValue("EM", s.getValue());
+                        EM += s.getValue();
                         break;
                     case "ER":
-                        ER += getRealValue("ER", s.getValue());
+                        ER += s.getValue();
                         break;
                     case "CR":
-                        CR += getRealValue("CR", s.getValue());
+                        CR += s.getValue();
                         break;
                     case "CD":
-                        CD += getRealValue("CD", s.getValue());
+                        CD += s.getValue();
                         break;
 
-
-
+                    // case "HP":
+                    //     HP += getRealValue("HP", s.getValue());
+                    //     break;
+                    // case "DEF":
+                    //     DEF += getRealValue("DEF", s.getValue());
+                    //     break;
+                    // case "ATK":
+                    //     ATK += getRealValue("ATK", s.getValue());
+                    //     break;
+                    // case "PHP":
+                    //     PHP += getRealValue("PHP", s.getValue());
+                    //     break;
+                    // case "PDEF":
+                    //     PDEF += getRealValue("PDEF", s.getValue());
+                    //     break;
+                    // case "PATK":
+                    //     PATK += getRealValue("PATK", s.getValue());
+                    //     break;
+                    // case "EM":
+                    //     EM += getRealValue("EM", s.getValue());
+                    //     break;
+                    // case "ER":
+                    //     ER += getRealValue("ER", s.getValue());
+                    //     break;
+                    // case "CR":
+                    //     CR += getRealValue("CR", s.getValue());
+                    //     break;
+                    // case "CD":
+                    //     CD += getRealValue("CD", s.getValue());
+                    //     break;
                     
                 }
             }
@@ -125,7 +122,11 @@ public class Artifact{
     }
 
     public String toString(){
-        return "Main: " + main + " " + String.valueOf(mainValue) + "\n" + substats[0].toString() + " | " + substats[1].toString() + " | " + substats[2].toString() + " | " + substats[3].toString();
+        if (substats[3] == null)
+
+        {return "Main: " + main + " " + String.valueOf(mainValue) + "\n" + substats[0].toString() + " | " + substats[1].toString() + " | " + substats[2].toString() + " | " + "None";}
+        else
+        {return "Main: " + main + " " + String.valueOf(mainValue) + "\n" + substats[0].toString() + " | " + substats[1].toString() + " | " + substats[2].toString() + " | " + substats[3].toString();}
     }
 
     public String getType(){
