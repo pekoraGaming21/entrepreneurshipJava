@@ -7,7 +7,7 @@ public class BetterArtifacts {
         character = c;
     }
 
-    public double randomize(String type){
+    public double randomize(String type, String speed){
         ArrayList<Artifact> BetterArtifacts = new ArrayList<Artifact>();
 
         Artifact old = character.getArtifact(type);
@@ -29,7 +29,7 @@ public class BetterArtifacts {
             }
             Artifact newArtifact = RandomArtifact.create(type);
 
-            character.setArtifact(type, newArtifact);
+            character.setArtifact(type, newArtifact, speed);
 
             damage.setBase(character.getTotalATK() * 2.805, 1, 0);
             damage.setBonus(1.586);
@@ -44,7 +44,7 @@ public class BetterArtifacts {
             {BetterArtifacts.add(newArtifact);}
         }
 
-        character.setArtifact(type, old);
+        character.setArtifact(type, old, speed);
         System.out.println();
         System.out.println("Artifacts worse: " + numWorse);
         System.out.println();

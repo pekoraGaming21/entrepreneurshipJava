@@ -100,12 +100,14 @@ class NewArtifact
 
         Calculator damage = new Calculator();
 
-        damage.setBase(character.getTotalATK() * 2.805, 1, 0);
-        damage.setBonus(1.586);
-        damage.setTarget(103, 90, 0.1, 0);
-        damage.setAmp(character.getEM(), "Reverse Melt", 0);
-        damage.setCritDMG("Average", character.getCR(), character.getCD());
-        double oldDamage = damage.calculate();
+        double oldDamage = damage.calculateDamage("CADMG", "Cryo", "Average", "Cryo", character.getTotalATK(), 2.805, 1, 0, 1.586, 103, 90, 0.1, 0, character.getEM(), "Reverse Melt", 0, character.getCR(), character.getCD());
+
+        // damage.setBase(character.getTotalATK() * 2.805, 1, 0);
+        // damage.setBonus(1.586);
+        // damage.setTarget(103, 90, 0.1, 0);
+        // damage.setAmp(character.getEM(), "Reverse Melt", 0);
+        // damage.setCritDMG("Average", character.getCR(), character.getCD());
+        // double oldDamage = damage.calculate();
 
         System.out.println("Begin NewArtifact calc");
         for (Artifact artifact : FifthDegreePossibleArtifacts)
@@ -217,12 +219,15 @@ class NewArtifact
 
         Calculator damage = new Calculator();
 
-        damage.setBase(character.getTotalATK() * 2.805, 1, 0);
-        damage.setBonus(1.586);
-        damage.setTarget(103, 90, 0.1, 0);
-        damage.setAmp(character.getEM(), "Reverse Melt", 0);
-        damage.setCritDMG("Average", character.getCR(), character.getCD());
-        double newDamage = damage.calculate();
+        double newDamage = damage.calculateDamage("CADMG", "Cryo", "Average", "Cryo", character.getTotalATK(), 2.805, 1, 0, 1.586, 103, 90, 0.1, 0, character.getEM(), "Reverse Melt", 0, character.getCR(), character.getCD());
+
+
+        // damage.setBase(character.getTotalATK() * 2.805, 1, 0);
+        // damage.setBonus(1.586);
+        // damage.setTarget(103, 90, 0.1, 0);
+        // damage.setAmp(character.getEM(), "Reverse Melt", 0);
+        // damage.setCritDMG("Average", character.getCR(), character.getCD());
+        // double newDamage = damage.calculate();
 
         
         character.setArtifact(artifactType, artifact, oldArtifact, speed);
