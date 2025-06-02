@@ -34,9 +34,7 @@ public class Artifact{
         substats[3] = four;
         setArtifactStats();
     }
-
-
-
+    
     public Artifact(String type, String mn, double mstat, Substat one, Substat two, Substat three){
         this.type = type; 
         main = mn;

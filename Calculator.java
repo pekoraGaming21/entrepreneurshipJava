@@ -64,10 +64,21 @@ public class Calculator{
         critDMG = CD;
     }
     //public double calculateDamage(Object[] DamageStuff)
-    public double calculateDamage(String damageHitType, String elementHitType, String critHitType, String charElement, double charStat, double charMult, double dmgMult, double add, double bonusDmgMult, int enemyLevel, int charLevel, double enemyRes, double resShred, double charEM, String reaction, double reactionBonus, double charCR, double charCD)
+    public double calculateDamage(String damageHitType, String elementHitType, String critHitType, Character character, String charStat, double charMult, double dmgMult, double add, double bonusDmgMult, int enemyLevel, double enemyRes, double resShred,  String reaction, double reactionBonus)
     {
-        baseDMG = charStat * charMult;
-        //baseDMG = (double) DamageStuff[0] * (double) DamageStuff[1];
+        if (charStat.equals("ATK"))
+        {
+            baseDMG = character.getTotalATK() * charMult;
+        }
+        else if (charStat.equals("HP"))
+        {
+            baseDMG = character.getTotalHP() * charMult;
+        }
+        else if (charStat.equals("DEF"))
+        {
+            baseDMG = character.getTotalDEF() * charMult;
+        }
+            //baseDMG = (double) DamageStuff[0] * (double) DamageStuff[1];
         baseMult = dmgMult;
         //baseMult = (double) DamageStuff[2];
         baseAddDMG = add;
@@ -75,9 +86,10 @@ public class Calculator{
 
         this.bonusDMGMult = bonusDmgMult;
         //bonusDmgMult = (double) DamageStuff[4];
+        bonusDMGMult += character.getElementalDMG(elementHitType);
         // Add NA damage, elemental dmg from goblets etc.
 
-        targetDefMult = (double) (charLevel + 100)/(1 * (enemyLevel + 100) + (charLevel + 100));
+        targetDefMult = (double) (character.getLevel() + 100)/(1 * (enemyLevel + 100) + (character.getLevel() + 100));
         targetResMult = enemyRes;
         
         double temp = resShred;
@@ -95,19 +107,25 @@ public class Calculator{
         }
 
         if ((reaction.equals("Reverse Melt")) || (reaction.equals("Reverse Vaporize"))){
-            ampMult = 1.5 * (1 + 2.78*(charEM/(charEM+1400)) + reactionBonus);
+            ampMult = 1.5 * (1 + 2.78*(character.getEM() / (character.getEM() + 1400)) + reactionBonus);
         } else if ((reaction.equals("Forward Melt")) || (reaction.equals("Forward Vaporize"))){
-            ampMult = 2 * (1 + 2.78*(charEM/(charEM+1400)) + reactionBonus);
+            ampMult = 2 * (1 + 2.78*(character.getEM() / (character.getEM() + 1400)) + reactionBonus);
         } else {
             ampMult = 1;
         }
 
         hitType = critHitType;
-        critRate = charCR;
-        if (charCR > 100){
+        critRate = character.getCR();
+        if (critRate > 100){
             critRate = 100;
         }
-        critDMG = charCD;
+        critDMG = character.getCD();
+
+
+
+        // System.out.println("Base DMG: " + baseDMG * baseMult);
+
+
 
         double nonCrit = ((baseDMG * baseMult) + baseAddDMG)* bonusDMGMult * targetDefMult * targetResMult * ampMult;
         if (hitType.equals("NonCrit")){
@@ -118,7 +136,7 @@ public class Calculator{
             return nonCrit * (1 + critDMG/100);
         }
         System.out.println("SOMETHING WRONG WITH CALCULATOR.JAVA");
-        return 0.0;
+        return -1;
 
     }
 

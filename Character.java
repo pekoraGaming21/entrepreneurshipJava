@@ -28,7 +28,8 @@ public class Character {
     private double[] elementalDMG = {0, 0, 0, 0, 0, 0, 0, 0};
 
     // NA DMG, CA DMG, SKILL DMG, BURST DMG
-    private double[] typeDMG = {};
+    
+    //private double[] typeDMG = {};
 
     private Artifact[] arts = new Artifact[5];
 
@@ -283,6 +284,16 @@ public class Character {
         CD = 50.0;
 
         ER = 100.0;  
+
+        elementalDMG[0] = 0;
+        elementalDMG[1] = 0;
+        elementalDMG[2] = 0;
+        elementalDMG[3] = 0;
+        elementalDMG[4] = 0;
+        elementalDMG[5] = 0;
+        elementalDMG[6] = 0;
+        elementalDMG[7] = 0;
+
 
         this.ExtraStatNames = ExtraStatNames;
         this.ExtraStatValues = ExtraStatValues;
@@ -741,5 +752,13 @@ public class Character {
     }
     public double getGDMG(){
         return elementalDMG[7];
+    }
+
+    public double getElementalDMG(String element){
+        String[] BadElementList = {"Physical", "Pyro", "Hydro", "Anemo", "Electro", "Dendro", "Cryo", "Geo"};
+        ArrayList<String> ElementList = new ArrayList<String>(Arrays.asList(BadElementList));
+
+        return elementalDMG[ElementList.indexOf(element)];
+
     }
 }

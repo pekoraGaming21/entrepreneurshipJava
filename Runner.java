@@ -4,6 +4,24 @@ public class Runner{
 
         String speed = "Fast";
 
+
+        
+        String damageHitType = "NADMG";        
+        String elementHitType = "Hydro";
+        String critHitType = "Average";
+        String charStat = "HP";
+        double dmgMult = 1;
+        double add = 0;
+        double bonusDmgMult = 0; 
+        int enemyLevel = 103;
+        double enemyRes = 0.1;
+        double resShred = 0;  
+        String reaction = "Forward Vaporize"; 
+        double reactionBonus = 0;
+
+        // Object[] mixedArray = { "Hello", 123, true, 4.5 };
+
+
         //Ganyu
         // Artifact[] list = {
         //     new Artifact("Flower", "HP",4780, new Substat("CD", 26.4), new Substat("CR", 7.4), new Substat("PATK", 0.105), new Substat("ATK",16)), 
@@ -23,11 +41,11 @@ public class Runner{
         };
 
         
-        //Ganyu
+        // Ganyu
         // String[] ExtraStatNames = {"CD", "ATK", "CR"};
         // double[] ExtraStatValues = {38.4, 1377.686, 66.1};
 
-        //Mualani
+        // Mualani
         String[] ExtraStatNames = {"CR", "CR", "CD", "PHP"};
         double[] ExtraStatValues = {19.2, 40.0, 88.2, 0.20};
 
@@ -38,42 +56,26 @@ public class Runner{
         // System.out.println(mualani.getTotalHP());
         // System.out.println(mualani.getEM());
 
-        // BetterArtifacts test = new BetterArtifacts(ganyu);
+        BetterArtifacts test = new BetterArtifacts(mualani);
 
-        // System.out.println("Probability that a randomly generated Circlet is worse: " + test.randomize("Circlet", speed));
-        // for (int i = 0; i < 1000000; i++)
-        // {
-        //     if (i % 10000 == 0)
-        //     {
-        //         System.out.println("i " + i);
-        //     }
-        //     Artifact newArtifact = RandomArtifact.create(null);
-            
-        // }
+        System.out.println("Probability that a randomly generated Circlet is worse: " + test.randomize("Circlet", speed));
 
-        Artifact testartifact = new Artifact("Circlet", "CD", 62.2, new Substat("CR", 3.9), new Substat("EM", 23), new Substat("PATK", 0.058));
-        // Probability that Artifact is better: 0.022707257952008928
+        Artifact testartifact = new Artifact("Circlet", "CD", 62.2, new Substat("CR", 3.9), new Substat("EM", 23), new Substat("PHP", 0.058));
+        
         //Artifact testartifact = new Artifact("Circlet", "CD", 62.2, new Substat("CR", 3.9), new Substat("EM", 23), new Substat("PATK", 0.058), new Substat("ATK", 19));
-        // Probability that Artifact is better: 0.020468711853027344
+       
 
 
-        //NewArtifact function = new NewArtifact(testartifact, ganyu, 20);
-
-        Object[] mixedArray = { "Hello", 123, true, 4.5 };
-
-        System.out.println((int) mixedArray[1] + 1);
 
 
-     
-        //System.out.println("Probability that Artifact is better: " + function.Probability(speed));
+        NewArtifact function = new NewArtifact(testartifact, mualani, 0);
+        System.out.println("Probability that this Artifact is better: " + function.Probability(speed));
         System.out.println("");
         System.out.println("Artifact Input: ");
         System.out.println(testartifact);
     }
 
-    //Probability that Artifact is better: 0.07162366594587054]
-    //Probability that Artifact is better: 0.06006622314453125
-
-    //Probability that Artifact is better: 0.32343292236328125
+   
     
+
 }

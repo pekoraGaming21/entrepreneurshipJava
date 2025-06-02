@@ -23,7 +23,7 @@ class NewArtifact
         ArrayList<Artifact> FourthDegreePossibleArtifacts = new ArrayList<Artifact>();
         ArrayList<Artifact> FifthDegreePossibleArtifacts = new ArrayList<Artifact>();
 
-        ArrayList<Artifact> AllPossibleArtifacts = new ArrayList<Artifact>();
+        //ArrayList<Artifact> AllPossibleArtifacts = new ArrayList<Artifact>();
         
         
         long duration = 0;
@@ -37,7 +37,7 @@ class NewArtifact
             
         }
 
-        else // Three stats
+        else // Three stats, level 0;
         {
             System.out.println("Three Substat Artifact");
 
@@ -83,6 +83,9 @@ class NewArtifact
         System.out.println("Created Fourth Degree (length + " + FourthDegreePossibleArtifacts.size() + ")");
         FifthDegreePossibleArtifacts = CreateDegreeListPossibleArtifact(FourthDegreePossibleArtifacts);
 
+        // if (level == 20)
+        // {FifthDegreePossibleArtifacts = ZeroDegreePossibleArtifacts};
+
         // int artifactcounter = 0;
         // for (Artifact artifact : SecondDegreePossibleArtifacts)
         // {   
@@ -100,7 +103,8 @@ class NewArtifact
 
         Calculator damage = new Calculator();
 
-        double oldDamage = damage.calculateDamage("CADMG", "Cryo", "Average", "Cryo", character.getTotalATK(), 2.805, 1, 0, 1.586, 103, 90, 0.1, 0, character.getEM(), "Reverse Melt", 0, character.getCR(), character.getCD());
+        //double oldDamage = damage.calculateDamage("CADMG", "Cryo", "Average", character, "ATK", 2.805, 1, 0, 1.586, 103, 0.1, 0, "Reverse Melt", 0);
+        double oldDamage = damage.calculateDamage("NADMG", "Hydro", "Average", character, "HP", 0.7811, 1, 0, 1.586, 103, 0.1, 0, "Forward Vaporize", 0);
 
         // damage.setBase(character.getTotalATK() * 2.805, 1, 0);
         // damage.setBonus(1.586);
@@ -128,17 +132,11 @@ class NewArtifact
             long endTime = System.currentTimeMillis();
             duration += (endTime - startTime); // in nanoseconds
         }
-        
+        System.out.println("");
         System.out.println("Num of Artifacts Better: " + ArtifactBetterCounter);
         return (double) ArtifactBetterCounter / FifthDegreePossibleArtifacts.size();
 
-        
             
-            
-
-
-
-
             
 
         
@@ -219,7 +217,8 @@ class NewArtifact
 
         Calculator damage = new Calculator();
 
-        double newDamage = damage.calculateDamage("CADMG", "Cryo", "Average", "Cryo", character.getTotalATK(), 2.805, 1, 0, 1.586, 103, 90, 0.1, 0, character.getEM(), "Reverse Melt", 0, character.getCR(), character.getCD());
+        //double newDamage = damage.calculateDamage("CADMG", "Cryo", "Average", character, "ATK", 2.805, 1, 0, 1.586, 103, 0.1, 0, "Reverse Melt", 0);
+        double newDamage = damage.calculateDamage("NADMG", "Hydro", "Average", character, "HP", 0.7811, 1, 0, 1.586, 103, 0.1, 0, "Forward Vaporize", 0);
 
 
         // damage.setBase(character.getTotalATK() * 2.805, 1, 0);
