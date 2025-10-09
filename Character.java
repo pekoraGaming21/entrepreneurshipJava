@@ -21,7 +21,7 @@ public class Character {
     private String element;
     private int level;
 
-    private String[] ExtraStatNames;
+    private String[] ExtraStatStats;
     private double[] ExtraStatValues;
 
     // PHDMG, PDMG, HDMG, ADMG, EDMG, DDMG, CDMG, GDMG
@@ -56,7 +56,7 @@ public class Character {
 
     // In a future update, make it so you can set
     // your character and level and it'll autofill
-    public Character(String element, int level, double bhp, double bat, double bdf, String weaponName, double weaponATK, Artifact[] a, String[] ExtraStatNames, double[] ExtraStatValues, String speed){
+    public Character(String element, int level, double bhp, double bat, double bdf, String weaponName, double weaponATK, Artifact[] a, String[] ExtraStatStats, double[] ExtraStatValues, String speed){
         this.element = element;
         this.level = level;
 
@@ -72,7 +72,7 @@ public class Character {
         totalATK = baseATK;
         totalDEF = baseDEF;
 
-        this.ExtraStatNames = ExtraStatNames;
+        this.ExtraStatStats = ExtraStatStats;
         this.ExtraStatValues = ExtraStatValues;
 
         for (Artifact ar: a){
@@ -201,9 +201,9 @@ public class Character {
         }
         
         
-        for (int i = 0; i < ExtraStatNames.length; i++)
+        for (int i = 0; i < ExtraStatStats.length; i++)
         {
-            switch (ExtraStatNames[i]){
+            switch (ExtraStatStats[i]){
                 case "HP":
                     totalHP += ExtraStatValues[i];
                     break;
@@ -262,7 +262,7 @@ public class Character {
         }
     }
 
-    public void updateStats(String element, int level, double bhp, double bat, double bdf, String weaponName, double weaponATK, Artifact[] a, String[] ExtraStatNames, double[] ExtraStatValues, String speed){
+    public void updateStats(String element, int level, double bhp, double bat, double bdf, String weaponName, double weaponATK, Artifact[] a, String[] ExtraStatStats, double[] ExtraStatValues, String speed){
         this.element = element;
         this.level = level;
 
@@ -295,7 +295,7 @@ public class Character {
         elementalDMG[7] = 0;
 
 
-        this.ExtraStatNames = ExtraStatNames;
+        this.ExtraStatStats = ExtraStatStats;
         this.ExtraStatValues = ExtraStatValues;
         
         
@@ -390,9 +390,9 @@ public class Character {
         }
         
         
-        for (int i = 0; i < ExtraStatNames.length; i++)
+        for (int i = 0; i < ExtraStatStats.length; i++)
         {
-            switch (ExtraStatNames[i]){
+            switch (ExtraStatStats[i]){
                 case "HP":
                     totalHP += ExtraStatValues[i];
                     break;
@@ -454,6 +454,7 @@ public class Character {
     public double getRealValue(String statName, double statValue, String speed){
         if (speed.equals("Fast"))
         {return statValue;}
+        
         ArrayList<String> StringList = new ArrayList<String>(Arrays.asList(BadStringList));
 
         double lowestDiff = 1000;
@@ -697,7 +698,7 @@ public class Character {
         } else {
             System.out.println("SET ARTIFACT TYPE INVALID");
         }
-        updateStats(element, level, baseHP, baseATK - weaponATK, baseDEF, weaponName, weaponATK, arts, ExtraStatNames, ExtraStatValues, speed);
+        updateStats(element, level, baseHP, baseATK - weaponATK, baseDEF, weaponName, weaponATK, arts, ExtraStatStats, ExtraStatValues, speed);
 
     }
 

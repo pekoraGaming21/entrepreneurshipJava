@@ -34,7 +34,7 @@ public class RandomArtifact extends Artifact
         "CD", "CD", "CD"
         };
 
-        if (Math.random() >= 0.2)
+        if (Math.random() <= 0.2)
         {
             threeliner = false;
         }

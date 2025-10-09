@@ -12,6 +12,7 @@ public class BetterArtifacts {
         ArrayList<Artifact> WorseArtifacts = new ArrayList<Artifact>();
 
         int numWorse = 0;
+        int numBetter = 0;
 
         Artifact old = character.getArtifact(type);
 
@@ -60,10 +61,10 @@ public class BetterArtifacts {
             // damage.setCritDMG("Average", character.getCR(), character.getCD());
             // double newDamage = damage.calculate();
             if (i % 500000 == 0){
-                System.out.println("New Artifact: ");
-                System.out.println(newArtifact);
-                System.out.println("New Damage: " + newDamage);
-                System.out.println("Old Damage: " + oldDamage);
+                // System.out.println("New Artifact: ");
+                // System.out.println(newArtifact);
+                // System.out.println("New Damage: " + newDamage);
+                // System.out.println("Old Damage: " + oldDamage);
 
             }
             if (newDamage <= oldDamage)
@@ -75,10 +76,14 @@ public class BetterArtifacts {
             else
             {
                 BetterArtifacts.add(newArtifact);
-                // System.out.println("BETTER Artifact: ");
-                // System.out.println(newArtifact);
-                // System.out.println("New Damage: " + newDamage);
-                // System.out.println("Old Damage: " + oldDamage);
+                numBetter++;
+                // if (Math.random() >= 0.99)
+                // {
+                //     System.out.println("BETTER Artifact: ");
+                //     System.out.println(newArtifact);
+                //     System.out.println("New Damage: " + newDamage);
+                //     System.out.println("Old Damage: " + oldDamage);
+                // }
 
             }
         }
@@ -93,7 +98,7 @@ public class BetterArtifacts {
         System.out.println("Sample Artifact worse: ");
         System.out.println(WorseArtifacts.get(0));
 
-        return (double) numWorse / sampledArtifacts;
+        return (double) numBetter / sampledArtifacts;
     }
 }
 
