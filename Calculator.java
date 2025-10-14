@@ -30,6 +30,9 @@ public class Calculator{
         targetDefMult = (double) (charLevel + 100)/(1 * (enemyLevel + 100) + (charLevel + 100));
         targetResMult = enemyRes;
         
+        // CHANGE RES SHRED
+        // subtracts until the threshold amount, then keep goign with the new calc.
+        // Accurately res shreds with large amounts (xilonen, vv, deepwood, etc.)
         double temp = resShred;
         if ((targetResMult >= 0.75 ) && (targetResMult - resShred > 0.75)){
             targetResMult = 1/(4* enemyRes + 1);
@@ -92,6 +95,9 @@ public class Calculator{
         targetDefMult = (double) (character.getLevel() + 100)/(1 * (enemyLevel + 100) + (character.getLevel() + 100));
         targetResMult = enemyRes;
         
+        // CHANGE RES SHRED
+        // subtracts until the threshold amount, then keep goign with the new calc.
+        // Accurately res shreds with large amounts (xilonen, vv, deepwood, etc.)
         double temp = resShred;
         if ((targetResMult >= 0.75 ) && (targetResMult - resShred > 0.75)){
             targetResMult = 1/(4* enemyRes + 1);
@@ -135,7 +141,7 @@ public class Calculator{
         } else if (hitType.equals("Crit")){
             return nonCrit * (1 + critDMG/100);
         }
-        System.out.println("SOMETHING WRONG WITH CALCULATOR.JAVA");
+        System.out.println("Invalid Crit Text");
         return -1;
 
     }
@@ -149,7 +155,7 @@ public class Calculator{
         } else if (hitType.equals("Crit")){
             return nonCrit * (1 + critDMG/100);
         }
-        System.out.println("SOMETHING WRONG WITH CALCULATOR.JAVA");
+        System.out.println("Invalid Crit Text");
         return 0.0;
     }
 }

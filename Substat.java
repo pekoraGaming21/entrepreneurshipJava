@@ -1,14 +1,16 @@
 public class Substat{
     private String stat;
     private double value;
+    private int roll;
 
-    public Substat(String s, double v){
+    public Substat(String s, double v, int r){
         stat = s;
         value = v;
+        roll = r;
     }
 
     public String toString(){
-        return stat + ": " + String.valueOf(value);
+        return "[" + roll + "] " + stat + " - " + String.valueOf(value);
     }
 
     public String getStat(){
@@ -17,5 +19,9 @@ public class Substat{
 
     public double getValue(){
         return value;
+    }
+
+    public int getRoll(){
+        return roll;
     }
 }

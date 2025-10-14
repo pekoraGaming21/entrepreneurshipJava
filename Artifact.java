@@ -34,7 +34,7 @@ public class Artifact{
         substats[1] = two;
         substats[2] = three;
         substats[3] = four;
-        special = special;
+        this.special = special;
         setArtifactStats();
     }
     
@@ -124,10 +124,9 @@ public class Artifact{
 
     public String toString(){
         if (substats[3] == null)
-
-        {return "Main: " + main + " " + String.valueOf(mainValue) + "\n" + substats[0].toString() + "\n" + substats[1].toString() + "\n" + substats[2].toString() + "\n" + "None";}
+        {return "Main: " + main + ": " + String.valueOf(mainValue) + "\n" + substats[0].toString() + "\n" + substats[1].toString() + "\n" + substats[2].toString() + "\n" + "None" + "\n";}
         else
-        {return "Main: " + main + " " + String.valueOf(mainValue) + "\n" + substats[0].toString() + "\n" + substats[1].toString() + "\n" + substats[2].toString() + "\n" + substats[3].toString();}
+        {return "Main: " + main + " " + String.valueOf(mainValue) + "\n" + substats[0].toString() + "\n" + substats[1].toString() + "\n" + substats[2].toString() + "\n" + substats[3].toString() + "\n";}
     }
 
     public String getType(){
@@ -271,7 +270,6 @@ public class Artifact{
                 // within x0.01 of that value (to account for wide range of values from hundred to tenths)
             }
 
-        
             RV += RVList[lowestDiffIndex];
         }        
         return RV;

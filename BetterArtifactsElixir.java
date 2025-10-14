@@ -18,46 +18,23 @@ public class BetterArtifactsElixir {
 
         Calculator damage = new Calculator();
 
-        double oldDamage = damage.calculateDamage("NADMG", "Hydro", "Average", character, "HP", 0.7811, 1, 0, 1.586, 103, 0.1, 0, "Forward Vaporize", 0);
+        //double oldDamage = damage.calculateDamage("NADMG", "Hydro", "Average", character, "HP", 0.7811, 1, 0, 1.586, 103, 0.1, 0, "Forward Vaporize", 0);
+        double oldDamage = damage.calculateDamage("CADMG", "Cryo", "Average", character, "ATK", 3.92, 1, 0, 1.586, 103, 0.1, 0, "Reverse Melt", 0);
 
 
-        // damage.setBase(character.getTotalATK() * 2.805, 1, 0);
-        // damage.setBonus(1.586);
-        // damage.setTarget(103, 90, 0.1, 0);
-        // damage.setAmp(character.getEM(), "Reverse Melt", 0);
-        // damage.setCritDMG("Average", character.getCR(), character.getCD());
-        // double oldDamage = damage.calculate();
 
         int sampledArtifacts = 1000000;
 
         for (int i = 0; i < sampledArtifacts; i++){
-            if (i % 100000 == 0){
+            if (i % 10000 == 0){
                 System.out.println("Artifact #" + i);
-                System.out.println("Old CHAR");
-                System.out.println(character.getCR());
-                System.out.println(character.getCD());
-                System.out.println("-------");
-
             }
             Artifact newArtifact = ElixirArtifact.create(type, Stats);
             character.setArtifact(type, newArtifact, speed);
 
-            double newDamage = damage.calculateDamage("NADMG", "Hydro", "Average", character, "HP", 0.7811, 1, 0, 1.586, 103, 0.1, 0, "Forward Vaporize", 0);
+            //double newDamage = damage.calculateDamage("NADMG", "Hydro", "Average", character, "HP", 0.7811, 1, 0, 1.586, 103, 0.1, 0, "Forward Vaporize", 0);
+            double newDamage = damage.calculateDamage("CADMG", "Cryo", "Average", character, "ATK", 3.92, 1, 0, 1.586, 103, 0.1, 0, "Reverse Melt", 0);
 
-
-            
-            if (i % 100000 == 0){
-                System.out.println("New Artifact: ");
-                System.out.println(newArtifact);
-                System.out.println("new CHAR");
-                System.out.println(character.getCR());
-                System.out.println(character.getCD());
-                System.out.println("New Damage: " + newDamage);
-                System.out.println("Old Damage: " + oldDamage);
-
-                System.out.println("-------");
-
-            }
             if (newDamage <= oldDamage)
             {
                 numWorse++;

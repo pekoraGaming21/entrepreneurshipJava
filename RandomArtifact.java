@@ -16,6 +16,11 @@ public class RandomArtifact extends Artifact
         boolean threeliner = true;
         Random random = new Random();
 
+        int Stat1Roll = 0;
+        int Stat2Roll = 0;
+        int Stat3Roll = 0;
+        int Stat4Roll = -1;
+
         if (type == null)
         {
             type = artifactTypeList[random.nextInt(artifactTypeList.length)];
@@ -37,13 +42,8 @@ public class RandomArtifact extends Artifact
         if (Math.random() <= 0.2)
         {
             threeliner = false;
-            System.out.println("FOUR LINER");
+            Stat4Roll = 0;
         }
-        else
-        {
-            System.out.println("THREE LINER");
-        }
-
         
         ArrayList<String> StatChoose = new ArrayList<String>(Arrays.asList(StatList));
 
@@ -71,6 +71,7 @@ public class RandomArtifact extends Artifact
             {
                 threeliner = false;
                 System.out.println("three liner true thing");
+                Stat4Roll++;
             }
             else
             {
@@ -79,23 +80,26 @@ public class RandomArtifact extends Artifact
                 if (StatSelect == 1)
                 {
                     Stat1Value += RandomChooseNumberStat(Stat1Name);
+                    Stat1Roll++;
                 }
                 else if (StatSelect == 2)
                 {
                     Stat2Value += RandomChooseNumberStat(Stat2Name);
+                    Stat2Roll++;
                 }
                 else if (StatSelect == 3)
                 {
-                    
                     Stat3Value += RandomChooseNumberStat(Stat3Name);
+                    Stat3Roll++;
                 }
                 else if (StatSelect == 4)
                 {
                     Stat4Value += RandomChooseNumberStat(Stat4Name);
+                    Stat4Roll++;
                 }   
             }
         }
-        return new RandomArtifact(type, main, mainValue, new Substat(Stat1Name, Stat1Value), new Substat(Stat2Name, Stat2Value), new Substat(Stat3Name, Stat3Value), new Substat(Stat4Name, Stat4Value), "Normal");
+        return new RandomArtifact(type, main, mainValue, new Substat(Stat1Name, Stat1Value, Stat1Roll), new Substat(Stat2Name, Stat2Value, Stat2Roll), new Substat(Stat3Name, Stat3Value, Stat3Roll), new Substat(Stat4Name, Stat4Value, Stat4Roll), "Normal");
     }
     
     public static String GetMainName(String artifactType)
@@ -195,6 +199,7 @@ public class RandomArtifact extends Artifact
         {
             return CDList[random.nextInt(CDList.length)];
         }
+        System.out.println("Invalid Stat Name");
         return -1;
     }
 
@@ -236,7 +241,7 @@ public class RandomArtifact extends Artifact
         else if (stat.equals("HBonus"))
         {returner = 35.9;}
 
-
+        System.out.println("Invalid Stat Name");
         return returner;
     }
 

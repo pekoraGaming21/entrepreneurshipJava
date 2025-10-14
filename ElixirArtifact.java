@@ -17,10 +17,18 @@ public class ElixirArtifact extends Artifact
     {
         // assuming a 1/3 chance for 4 liner (double check)
         boolean threeliner = true;
-        if (Math.random() < (1/3))
+
+        int Stat1Roll = 0;
+        int Stat2Roll = 0;
+        int Stat3Roll = 0;
+        int Stat4Roll = -1;
+
+        if (Math.random() < (0.33333))
         {
             threeliner = false;
+            Stat4Roll = 0;
         }
+        
         
         Random random = new Random();
 
@@ -62,7 +70,14 @@ public class ElixirArtifact extends Artifact
 
         for (int i = 0; i < 5; i++)
         {
-            if (guarenteedrolls > 0)
+
+            if (threeliner)
+            {
+                threeliner = false;
+                Stat4Roll++;
+            }
+
+            else if (guarenteedrolls > 0)
             {
                 guarenteedrolls--;
                 int StatSelect = random.nextInt(2) + 1;
@@ -70,17 +85,15 @@ public class ElixirArtifact extends Artifact
                 if (StatSelect == 1)
                 {
                     Stat1Value += RandomChooseNumberStat(Stat1Name);
+                    Stat1Roll++;
                 }
                 else if (StatSelect == 2)
                 {
                     Stat2Value += RandomChooseNumberStat(Stat2Name);
+                    Stat2Roll++;
                 }
             }
 
-            else if (threeliner)
-            {
-                threeliner = false;
-            }
             else
             {
                 int StatSelect = random.nextInt(4) + 1;
@@ -88,28 +101,27 @@ public class ElixirArtifact extends Artifact
                 if (StatSelect == 1)
                 {
                     Stat1Value += RandomChooseNumberStat(Stat1Name);
+                    Stat1Roll++;
                 }
                 else if (StatSelect == 2)
                 {
                     Stat2Value += RandomChooseNumberStat(Stat2Name);
+                    Stat2Roll++;
                 }
                 else if (StatSelect == 3)
-                {
-                    
+                {                    
                     Stat3Value += RandomChooseNumberStat(Stat3Name);
+                    Stat3Roll++;
                 }
                 else if (StatSelect == 4)
                 {
                     Stat4Value += RandomChooseNumberStat(Stat4Name);
+                    Stat4Roll++;
                 }   
             }
         }
-        return new ElixirArtifact(ArtifactType, Stats[0], mainValue, new Substat(Stat1Name, Stat1Value), new Substat(Stat2Name, Stat2Value), new Substat(Stat3Name, Stat3Value), new Substat(Stat4Name, Stat4Value), "Elixir");
+        return new ElixirArtifact(ArtifactType, Stats[0], mainValue, new Substat(Stat1Name, Stat1Value, Stat1Roll), new Substat(Stat2Name, Stat2Value, Stat2Roll), new Substat(Stat3Name, Stat3Value, Stat3Roll), new Substat(Stat4Name, Stat4Value, Stat4Roll), "Elixir");
     }
-    
-    
-
-    //public BetterElixir
 
     public static double RandomChooseNumberStat(String StatName)
     {
@@ -210,12 +222,5 @@ public class ElixirArtifact extends Artifact
 
         return returner;
     }
-
-
-        // Take in artifact type, mainstat, and two stats
-        // Determine 3 or 4 liner (accurately) and find the two other stats with their values
-
-        // Roll artifact 
-            // guarentee two into the top 2
 }    
 

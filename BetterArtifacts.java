@@ -20,14 +20,6 @@ public class BetterArtifacts {
 
         double oldDamage = damage.calculateDamage("NADMG", "Hydro", "Average", character, "HP", 0.7811, 1, 0, 1.586, 103, 0.1, 0, "Forward Vaporize", 0);
 
-
-        // damage.setBase(character.getTotalATK() * 2.805, 1, 0);
-        // damage.setBonus(1.586);
-        // damage.setTarget(103, 90, 0.1, 0);
-        // damage.setAmp(character.getEM(), "Reverse Melt", 0);
-        // damage.setCritDMG("Average", character.getCR(), character.getCD());
-        // double oldDamage = damage.calculate();
-
         int sampledArtifacts = 1000000;
 
         for (int i = 0; i < sampledArtifacts; i++){
@@ -40,15 +32,6 @@ public class BetterArtifacts {
 
             double newDamage = damage.calculateDamage("NADMG", "Hydro", "Average", character, "HP", 0.7811, 1, 0, 1.586, 103, 0.1, 0, "Forward Vaporize", 0);
 
-
-            
-            if (i % 500000 == 0){
-                // System.out.println("New Artifact: ");
-                // System.out.println(newArtifact);
-                // System.out.println("New Damage: " + newDamage);
-                // System.out.println("Old Damage: " + oldDamage);
-
-            }
             if (newDamage <= oldDamage)
             {
                 numWorse++;

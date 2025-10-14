@@ -28,7 +28,7 @@ class NewArtifact
         
         long duration = 0;
             
-        if (newArtifact.getSubstat4() != null)
+        if (newArtifact.getSubstat4() != null) // four stat artifact level 0
         {
             System.out.println("Four Substat Artifact");
 
@@ -65,7 +65,7 @@ class NewArtifact
                 for (int substatRoll = 0; substatRoll < 4; substatRoll++)
                 {
                     
-                    Artifact addArtifact = new Artifact(newArtifact.getType(), newArtifact.getMain(), newArtifact.getMainV(), newArtifact.getSubstat1(), newArtifact.getSubstat2(), newArtifact.getSubstat3(), new Substat(substatName, ChooseNumberStat(substatName, substatRoll)), newArtifact.getSpecial());
+                    Artifact addArtifact = new Artifact(newArtifact.getType(), newArtifact.getMain(), newArtifact.getMainV(), newArtifact.getSubstat1(), newArtifact.getSubstat2(), newArtifact.getSubstat3(), new Substat(substatName, ChooseNumberStat(substatName, substatRoll), -1), newArtifact.getSpecial());
                    
                     FirstDegreePossibleArtifacts.add(addArtifact);
                 }
@@ -73,7 +73,6 @@ class NewArtifact
 
         }
 
-        
 
         SecondDegreePossibleArtifacts = CreateDegreeListPossibleArtifact(FirstDegreePossibleArtifacts);
         System.out.println("Created Second Degree");
@@ -106,13 +105,6 @@ class NewArtifact
         //double oldDamage = damage.calculateDamage("CADMG", "Cryo", "Average", character, "ATK", 2.805, 1, 0, 1.586, 103, 0.1, 0, "Reverse Melt", 0);
         double oldDamage = damage.calculateDamage("NADMG", "Hydro", "Average", character, "HP", 0.7811, 1, 0, 1.586, 103, 0.1, 0, "Forward Vaporize", 0);
 
-        // damage.setBase(character.getTotalATK() * 2.805, 1, 0);
-        // damage.setBonus(1.586);
-        // damage.setTarget(103, 90, 0.1, 0);
-        // damage.setAmp(character.getEM(), "Reverse Melt", 0);
-        // damage.setCritDMG("Average", character.getCR(), character.getCD());
-        // double oldDamage = damage.calculate();
-
         System.out.println("Begin NewArtifact calc");
         for (Artifact artifact : FifthDegreePossibleArtifacts)
         {
@@ -135,66 +127,64 @@ class NewArtifact
         System.out.println("");
         System.out.println("Num of Artifacts Better: " + ArtifactBetterCounter);
         return (double) ArtifactBetterCounter / FifthDegreePossibleArtifacts.size();
-
-            
-            
-
-        
-        // # If newArtifact has 3 stats
-        // # First roll creates the 4th stat
-        // # Roll the newArtifact 4 times
-        // # # Cycle through: Choose first sub add first stat, choose first sub add 2nd stat
     }
 
     public ArrayList<Artifact> CreateDegreeListPossibleArtifact(ArrayList<Artifact> PastList)
     {
         ArrayList<Artifact> NewList = new ArrayList<Artifact>();
 
-       
-
         for (Artifact testArtifact : PastList)
         {
-
             for (int sub = 1; sub <= 5; sub++)
             {
-                
                 for (int stat = 0; stat < 4; stat++)
                 {
-                    if (sub == 1)
+                    if (testArtifact.getSubstat4().getRoll() == -1)
+                    {
+                        double Adding = ChooseNumberStat(testArtifact.getSubstat4().getStat(), stat);
+                        
+                        // testArtifact.getSubstat4().setValue(testArtifact.getSubstat4().getValue() + Adding)
+                        Artifact addArtifact = new Artifact(testArtifact.getType(), testArtifact.getMain(), testArtifact.getMainV(), testArtifact.getSubstat1(), testArtifact.getSubstat2(), testArtifact.getSubstat3(), new Substat(testArtifact.getSubstat4().getStat(), testArtifact.getSubstat4().getValue() + Adding, testArtifact.getSubstat4().getRoll() + 1), testArtifact.getSpecial());
+
+                        NewList.add(addArtifact);
+                        // testArtifact.getSubstat4().setValue(testArtifact.getSubstat4().getValue() - Adding)
+                    }
+
+                    else if (sub == 1)
                     {
                         double Adding = ChooseNumberStat(testArtifact.getSubstat1().getStat(), stat);
-                        Artifact addArtifact = new Artifact(testArtifact.getType(), testArtifact.getMain(), testArtifact.getMainV(), new Substat(testArtifact.getSubstat1().getStat(), testArtifact.getSubstat1().getValue() + Adding), testArtifact.getSubstat2(), testArtifact.getSubstat3(), testArtifact.getSubstat4(), testArtifact.getSpecial());
+                        Artifact addArtifact = new Artifact(testArtifact.getType(), testArtifact.getMain(), testArtifact.getMainV(), new Substat(testArtifact.getSubstat1().getStat(), testArtifact.getSubstat1().getValue() + Adding, testArtifact.getSubstat1().getRoll() + 1), testArtifact.getSubstat2(), testArtifact.getSubstat3(), testArtifact.getSubstat4(), testArtifact.getSpecial());
                         
                         NewList.add(addArtifact);
                         
                         // testArtifact.setSubstat1Value(testArtifact.getSubstat1().getValue() - Adding);
                     }    
-                    if (sub == 2)
+                    else if (sub == 2)
                     {
                         double Adding = ChooseNumberStat(testArtifact.getSubstat2().getStat(), stat);
                         // testArtifact.getSubstat2().setValue(testArtifact.getSubstat2().getValue() + Adding)
 
-                        Artifact addArtifact = new Artifact(testArtifact.getType(), testArtifact.getMain(), testArtifact.getMainV(), testArtifact.getSubstat1(), new Substat(testArtifact.getSubstat2().getStat(), testArtifact.getSubstat2().getValue() + Adding), testArtifact.getSubstat3(), testArtifact.getSubstat4(), testArtifact.getSpecial());
+                        Artifact addArtifact = new Artifact(testArtifact.getType(), testArtifact.getMain(), testArtifact.getMainV(), testArtifact.getSubstat1(), new Substat(testArtifact.getSubstat2().getStat(), testArtifact.getSubstat2().getValue() + Adding, testArtifact.getSubstat2().getRoll() + 1), testArtifact.getSubstat3(), testArtifact.getSubstat4(), testArtifact.getSpecial());
 
                         NewList.add(addArtifact);
                         // testArtifact.getSubstat2().setValue(testArtifact.getSubstat2().getValue() - Adding)
                     }
-                    if (sub == 3)
+                    else if (sub == 3)
                     {
                         double Adding = ChooseNumberStat(testArtifact.getSubstat3().getStat(), stat);
                         // testArtifact.getSubstat3().setValue(testArtifact.getSubstat3().getValue() + Adding)
-                        Artifact addArtifact = new Artifact(testArtifact.getType(), testArtifact.getMain(), testArtifact.getMainV(), testArtifact.getSubstat1(), testArtifact.getSubstat2(), new Substat(testArtifact.getSubstat3().getStat(), testArtifact.getSubstat3().getValue() + Adding), testArtifact.getSubstat4(), testArtifact.getSpecial());
+                        Artifact addArtifact = new Artifact(testArtifact.getType(), testArtifact.getMain(), testArtifact.getMainV(), testArtifact.getSubstat1(), testArtifact.getSubstat2(), new Substat(testArtifact.getSubstat3().getStat(), testArtifact.getSubstat3().getValue() + Adding, testArtifact.getSubstat3().getRoll() + 1), testArtifact.getSubstat4(), testArtifact.getSpecial());
 
                         NewList.add(addArtifact);
                         // testArtifact.getSubstat3().setValue(testArtifact.getSubstat3().getValue() - Adding)
                     }
-                    if (sub == 4)
+                    else if (sub == 4)
                     {
                         
                         double Adding = ChooseNumberStat(testArtifact.getSubstat4().getStat(), stat);
                         
                         // testArtifact.getSubstat4().setValue(testArtifact.getSubstat4().getValue() + Adding)
-                        Artifact addArtifact = new Artifact(testArtifact.getType(), testArtifact.getMain(), testArtifact.getMainV(), testArtifact.getSubstat1(), testArtifact.getSubstat2(), testArtifact.getSubstat3(), new Substat(testArtifact.getSubstat4().getStat(), testArtifact.getSubstat4().getValue() + Adding), testArtifact.getSpecial());
+                        Artifact addArtifact = new Artifact(testArtifact.getType(), testArtifact.getMain(), testArtifact.getMainV(), testArtifact.getSubstat1(), testArtifact.getSubstat2(), testArtifact.getSubstat3(), new Substat(testArtifact.getSubstat4().getStat(), testArtifact.getSubstat4().getValue() + Adding, testArtifact.getSubstat4().getRoll() + 1), testArtifact.getSpecial());
 
                         NewList.add(addArtifact);
                         // testArtifact.getSubstat4().setValue(testArtifact.getSubstat4().getValue() - Adding)
@@ -220,15 +210,6 @@ class NewArtifact
         //double newDamage = damage.calculateDamage("CADMG", "Cryo", "Average", character, "ATK", 2.805, 1, 0, 1.586, 103, 0.1, 0, "Reverse Melt", 0);
         double newDamage = damage.calculateDamage("NADMG", "Hydro", "Average", character, "HP", 0.7811, 1, 0, 1.586, 103, 0.1, 0, "Forward Vaporize", 0);
 
-
-        // damage.setBase(character.getTotalATK() * 2.805, 1, 0);
-        // damage.setBonus(1.586);
-        // damage.setTarget(103, 90, 0.1, 0);
-        // damage.setAmp(character.getEM(), "Reverse Melt", 0);
-        // damage.setCritDMG("Average", character.getCR(), character.getCD());
-        // double newDamage = damage.calculate();
-
-        
         character.setArtifact(artifactType, artifact, oldArtifact, speed);
         
 
