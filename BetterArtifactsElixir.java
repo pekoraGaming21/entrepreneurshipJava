@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 
-public class BetterArtifacts {
+public class BetterArtifactsElixir {
     Character character;
 
-    public BetterArtifacts(Character c){
+    public BetterArtifactsElixir(Character c){
         character = c;
     }
 
-    public double randomize(String type, String speed){
+    public double randomize(String type, String[] Stats, String speed){
         ArrayList<Artifact> BetterArtifacts = new ArrayList<Artifact>();
         ArrayList<Artifact> WorseArtifacts = new ArrayList<Artifact>();
 
@@ -33,20 +33,29 @@ public class BetterArtifacts {
         for (int i = 0; i < sampledArtifacts; i++){
             if (i % 100000 == 0){
                 System.out.println("Artifact #" + i);
-            }
-            Artifact newArtifact = RandomArtifact.create(type);
+                System.out.println("Old CHAR");
+                System.out.println(character.getCR());
+                System.out.println(character.getCD());
+                System.out.println("-------");
 
+            }
+            Artifact newArtifact = ElixirArtifact.create(type, Stats);
             character.setArtifact(type, newArtifact, speed);
 
             double newDamage = damage.calculateDamage("NADMG", "Hydro", "Average", character, "HP", 0.7811, 1, 0, 1.586, 103, 0.1, 0, "Forward Vaporize", 0);
 
 
             
-            if (i % 500000 == 0){
-                // System.out.println("New Artifact: ");
-                // System.out.println(newArtifact);
-                // System.out.println("New Damage: " + newDamage);
-                // System.out.println("Old Damage: " + oldDamage);
+            if (i % 100000 == 0){
+                System.out.println("New Artifact: ");
+                System.out.println(newArtifact);
+                System.out.println("new CHAR");
+                System.out.println(character.getCR());
+                System.out.println(character.getCD());
+                System.out.println("New Damage: " + newDamage);
+                System.out.println("Old Damage: " + oldDamage);
+
+                System.out.println("-------");
 
             }
             if (newDamage <= oldDamage)

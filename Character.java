@@ -468,8 +468,6 @@ public class Character {
             
             }  
             if ((statValue - realStat <= -2 && (statName.equals("HP") || statName.equals("DEF") || statName.equals("ATK") || statName.equals("EM") || statName.equals("ER") || statName.equals("CR") || statName.equals("CD"))) || (statValue - realStat < -0.2 && (statName.equals("PHP") || statName.equals("PDEF") || statName.equals("PATK"))))
-  
-            //if (statValue - realStat < -2)
             {
                 i += (RealList[StringList.indexOf(statName)].length);
             }

@@ -65,7 +65,7 @@ class NewArtifact
                 for (int substatRoll = 0; substatRoll < 4; substatRoll++)
                 {
                     
-                    Artifact addArtifact = new Artifact(newArtifact.getType(), newArtifact.getMain(), newArtifact.getMainV(), newArtifact.getSubstat1(), newArtifact.getSubstat2(), newArtifact.getSubstat3(), new Substat(substatName, ChooseNumberStat(substatName, substatRoll)));
+                    Artifact addArtifact = new Artifact(newArtifact.getType(), newArtifact.getMain(), newArtifact.getMainV(), newArtifact.getSubstat1(), newArtifact.getSubstat2(), newArtifact.getSubstat3(), new Substat(substatName, ChooseNumberStat(substatName, substatRoll)), newArtifact.getSpecial());
                    
                     FirstDegreePossibleArtifacts.add(addArtifact);
                 }
@@ -163,7 +163,7 @@ class NewArtifact
                     if (sub == 1)
                     {
                         double Adding = ChooseNumberStat(testArtifact.getSubstat1().getStat(), stat);
-                        Artifact addArtifact = new Artifact(testArtifact.getType(), testArtifact.getMain(), testArtifact.getMainV(), new Substat(testArtifact.getSubstat1().getStat(), testArtifact.getSubstat1().getValue() + Adding), testArtifact.getSubstat2(), testArtifact.getSubstat3(), testArtifact.getSubstat4());
+                        Artifact addArtifact = new Artifact(testArtifact.getType(), testArtifact.getMain(), testArtifact.getMainV(), new Substat(testArtifact.getSubstat1().getStat(), testArtifact.getSubstat1().getValue() + Adding), testArtifact.getSubstat2(), testArtifact.getSubstat3(), testArtifact.getSubstat4(), testArtifact.getSpecial());
                         
                         NewList.add(addArtifact);
                         
@@ -174,7 +174,7 @@ class NewArtifact
                         double Adding = ChooseNumberStat(testArtifact.getSubstat2().getStat(), stat);
                         // testArtifact.getSubstat2().setValue(testArtifact.getSubstat2().getValue() + Adding)
 
-                        Artifact addArtifact = new Artifact(testArtifact.getType(), testArtifact.getMain(), testArtifact.getMainV(), testArtifact.getSubstat1(), new Substat(testArtifact.getSubstat2().getStat(), testArtifact.getSubstat2().getValue() + Adding), testArtifact.getSubstat3(), testArtifact.getSubstat4());
+                        Artifact addArtifact = new Artifact(testArtifact.getType(), testArtifact.getMain(), testArtifact.getMainV(), testArtifact.getSubstat1(), new Substat(testArtifact.getSubstat2().getStat(), testArtifact.getSubstat2().getValue() + Adding), testArtifact.getSubstat3(), testArtifact.getSubstat4(), testArtifact.getSpecial());
 
                         NewList.add(addArtifact);
                         // testArtifact.getSubstat2().setValue(testArtifact.getSubstat2().getValue() - Adding)
@@ -183,7 +183,7 @@ class NewArtifact
                     {
                         double Adding = ChooseNumberStat(testArtifact.getSubstat3().getStat(), stat);
                         // testArtifact.getSubstat3().setValue(testArtifact.getSubstat3().getValue() + Adding)
-                        Artifact addArtifact = new Artifact(testArtifact.getType(), testArtifact.getMain(), testArtifact.getMainV(), testArtifact.getSubstat1(), testArtifact.getSubstat2(), new Substat(testArtifact.getSubstat3().getStat(), testArtifact.getSubstat3().getValue() + Adding), testArtifact.getSubstat4());
+                        Artifact addArtifact = new Artifact(testArtifact.getType(), testArtifact.getMain(), testArtifact.getMainV(), testArtifact.getSubstat1(), testArtifact.getSubstat2(), new Substat(testArtifact.getSubstat3().getStat(), testArtifact.getSubstat3().getValue() + Adding), testArtifact.getSubstat4(), testArtifact.getSpecial());
 
                         NewList.add(addArtifact);
                         // testArtifact.getSubstat3().setValue(testArtifact.getSubstat3().getValue() - Adding)
@@ -194,7 +194,7 @@ class NewArtifact
                         double Adding = ChooseNumberStat(testArtifact.getSubstat4().getStat(), stat);
                         
                         // testArtifact.getSubstat4().setValue(testArtifact.getSubstat4().getValue() + Adding)
-                        Artifact addArtifact = new Artifact(testArtifact.getType(), testArtifact.getMain(), testArtifact.getMainV(), testArtifact.getSubstat1(), testArtifact.getSubstat2(), testArtifact.getSubstat3(), new Substat(testArtifact.getSubstat4().getStat(), testArtifact.getSubstat4().getValue() + Adding));
+                        Artifact addArtifact = new Artifact(testArtifact.getType(), testArtifact.getMain(), testArtifact.getMainV(), testArtifact.getSubstat1(), testArtifact.getSubstat2(), testArtifact.getSubstat3(), new Substat(testArtifact.getSubstat4().getStat(), testArtifact.getSubstat4().getValue() + Adding), testArtifact.getSpecial());
 
                         NewList.add(addArtifact);
                         // testArtifact.getSubstat4().setValue(testArtifact.getSubstat4().getValue() - Adding)

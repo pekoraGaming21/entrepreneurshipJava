@@ -44,11 +44,11 @@ public class Runner{
 
         // "top 100" build (with hp circlet)
         Artifact[] ArtifactLoadout = {
-            new Artifact("Flower", "HP", 4780, new Substat("PHP", 0.192), new Substat("CR", 6.2), new Substat("CD", 6.2), new Substat("EM",35)), 
-            new Artifact("Feather", "ATK", 311,new Substat("EM", 23), new Substat("HP", 448), new Substat("CR", 14.0), new Substat("CD", 14.0)),
-            new Artifact("Sands", "PHP", 0.466, new Substat("HP", 538), new Substat("CR", 3.5), new Substat("EM", 40), new Substat("CD", 29.5)),
-            new Artifact("Goblet", "HDMG", 0.466, new Substat("CR", 10.5), new Substat("PHP", 0.047), new Substat("ATK", 18), new Substat("CD", 21.0)),
-            new Artifact("Circlet", "PHP", 0.466, new Substat("CR", 3.5), new Substat("CD", 34.2), new Substat("EM", 42), new Substat("ER", 4.5))
+            new Artifact("Flower", "HP", 4780, new Substat("PHP", 0.192), new Substat("CR", 6.2), new Substat("CD", 6.2), new Substat("EM",35), "Normal"), 
+            new Artifact("Feather", "ATK", 311,new Substat("EM", 23), new Substat("HP", 448), new Substat("CR", 14.0), new Substat("CD", 14.0), "Normal"),
+            new Artifact("Sands", "PHP", 0.466, new Substat("HP", 538), new Substat("CR", 3.5), new Substat("EM", 40), new Substat("CD", 29.5), "Normal"),
+            new Artifact("Goblet", "HDMG", 0.466, new Substat("CR", 10.5), new Substat("PHP", 0.047), new Substat("ATK", 18), new Substat("CD", 21.0), "Normal"),
+            new Artifact("Circlet", "PHP", 0.466, new Substat("CR", 3.5), new Substat("CD", 34.2), new Substat("EM", 42), new Substat("ER", 4.5), "Normal")
         };
 
         
@@ -65,14 +65,13 @@ public class Runner{
         //Character ganyu = new Character("Cryo", 90, 9796.73,334.85,630.21, "Hunter's Path", 541.83, ArtifactLoadout, ExtraStatStats, ExtraStatValues, speed);
         Character mualani = new Character("Hydro", 90, 15184.93, 181.78, 570.27, "Surf's Up", 541.83, ArtifactLoadout, ExtraStatStats, ExtraStatValues, speed);
 
-        // System.out.println(mualani.getTotalHP());
-        // System.out.println(mualani.getEM());
+        
 
-        BetterArtifacts test = new BetterArtifacts(mualani);
-
-        probability = test.randomize("Flower", speed);
-        System.out.println("Probability that a randomly generated Sands is better: " + probability);
-        System.out.println("Probability that a randomly generated Sands is worse: " + (1 - probability));
+        // Better Artifact test
+        // BetterArtifacts test = new BetterArtifacts(mualani);
+        // probability = test.randomize("Flower", speed);
+        // System.out.println("Probability that a randomly generated Sands is better: " + probability);
+        // System.out.println("Probability that a randomly generated Sands is worse: " + (1 - probability));
 
 
 
@@ -81,16 +80,32 @@ public class Runner{
         //Artifact testartifact = new Artifact("Circlet", "CD", 62.2, new Substat("CR", 3.9), new Substat("EM", 23), new Substat("PHP", 0.058));
         //Artifact testartifact = new Artifact("Circlet", "CD", 62.2, new Substat("CR", 3.9), new Substat("EM", 23), new Substat("PATK", 0.058), new Substat("ATK", 19));
        
-        String[] AcceptableStats = {"CR", "CD", "EM", "PHP"};
+        // RV Test
+        // String[] AcceptableStats = {"CR", "CD", "EM", "PHP"};
+        // System.out.println(ArtifactLoadout[3].getRV(AcceptableStats));
 
-        System.out.println(ArtifactLoadout[3].getRV(AcceptableStats));
 
-
+        // NewArtifact Test
         // NewArtifact function = new NewArtifact(testartifact, mualani, 0);
         // System.out.println("Probability that this Artifact is better: " + function.Probability(speed));
         // System.out.println("");
         // System.out.println("Artifact Input: ");
         // System.out.println(testartifact);
+
+
+        String[] Stats = {"HDMG", "CR", "CD"};
+
+        Artifact newArtifact = ElixirArtifact.create("Goblet", Stats);
+        System.out.print(newArtifact);
+
+        System.out.println();
+
+
+        BetterArtifactsElixir test = new BetterArtifactsElixir(mualani);
+        probability = test.randomize("Goblet", Stats, speed);
+        System.out.println("Probability that a randomly generated Goblet is better: " + probability);
+        System.out.println("Probability that a randomly generated Goblet is worse: " + (1 - probability));
+
     }
 
    

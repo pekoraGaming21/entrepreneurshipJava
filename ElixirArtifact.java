@@ -1,25 +1,28 @@
-import java.util.Random;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
-public class RandomArtifact extends Artifact
+public class ElixirArtifact extends Artifact
 {
-    private RandomArtifact(String type, String main, double mainV, Substat one, Substat two, Substat three, Substat four, String special)
-    {
+    Character character;
+
+   
+    private ElixirArtifact(String type, String main, double mainV, Substat one, Substat two, Substat three, Substat four, String special)
+    {   
         super(type, main, mainV, one, two, three, four, special);
     }
 
-    public static RandomArtifact create(String type)
+
+    public static ElixirArtifact create(String ArtifactType, String[] Stats)
     {
-        String[] artifactTypeList = {"Flower", "Feather", "Sands", "Goblet", "Circlet"};
-
+        // assuming a 1/3 chance for 4 liner (double check)
         boolean threeliner = true;
-        Random random = new Random();
-
-        if (type == null)
+        if (Math.random() < (1/3))
         {
-            type = artifactTypeList[random.nextInt(artifactTypeList.length)];
+            threeliner = false;
         }
+        
+        Random random = new Random();
 
         String[] StatList = {
         "HP", "HP", "HP", "HP", "HP", "HP", 
@@ -34,26 +37,16 @@ public class RandomArtifact extends Artifact
         "CD", "CD", "CD"
         };
 
-        if (Math.random() <= 0.2)
-        {
-            threeliner = false;
-            System.out.println("FOUR LINER");
-        }
-        else
-        {
-            System.out.println("THREE LINER");
-        }
-
         
         ArrayList<String> StatChoose = new ArrayList<String>(Arrays.asList(StatList));
 
-        String main = GetMainName(type);
-        double mainValue = GetMainStatValue(main);
-        StatChoose = RemoveStatFromArray(main, StatChoose);
+        
+        double mainValue = GetMainStatValue(Stats[0]);
+        StatChoose = RemoveStatFromArray(Stats[0], StatChoose);
 
-        String Stat1Name = StatChoose.get(random.nextInt(StatChoose.size()));
+        String Stat1Name = Stats[1];
         StatChoose = RemoveStatFromArray(Stat1Name, StatChoose);
-        String Stat2Name = StatChoose.get(random.nextInt(StatChoose.size()));
+        String Stat2Name = Stats[2];
         StatChoose = RemoveStatFromArray(Stat2Name, StatChoose);
         String Stat3Name = StatChoose.get(random.nextInt(StatChoose.size()));
         StatChoose = RemoveStatFromArray(Stat3Name, StatChoose);
@@ -65,12 +58,28 @@ public class RandomArtifact extends Artifact
         double Stat3Value = RandomChooseNumberStat(Stat3Name);
         double Stat4Value = RandomChooseNumberStat(Stat4Name);
 
+        int guarenteedrolls = 2;
+
         for (int i = 0; i < 5; i++)
         {
-            if (threeliner)
+            if (guarenteedrolls > 0)
+            {
+                guarenteedrolls--;
+                int StatSelect = random.nextInt(2) + 1;
+                
+                if (StatSelect == 1)
+                {
+                    Stat1Value += RandomChooseNumberStat(Stat1Name);
+                }
+                else if (StatSelect == 2)
+                {
+                    Stat2Value += RandomChooseNumberStat(Stat2Name);
+                }
+            }
+
+            else if (threeliner)
             {
                 threeliner = false;
-                System.out.println("three liner true thing");
             }
             else
             {
@@ -95,50 +104,12 @@ public class RandomArtifact extends Artifact
                 }   
             }
         }
-        return new RandomArtifact(type, main, mainValue, new Substat(Stat1Name, Stat1Value), new Substat(Stat2Name, Stat2Value), new Substat(Stat3Name, Stat3Value), new Substat(Stat4Name, Stat4Value), "Normal");
+        return new ElixirArtifact(ArtifactType, Stats[0], mainValue, new Substat(Stat1Name, Stat1Value), new Substat(Stat2Name, Stat2Value), new Substat(Stat3Name, Stat3Value), new Substat(Stat4Name, Stat4Value), "Elixir");
     }
     
-    public static String GetMainName(String artifactType)
-    {
-        Random random = new Random();
-        String[] SandsMainStatList = {
-        "PHP", "PHP", "PHP", "PHP", "PHP", "PHP", "PHP", "PHP", 
-        "PDEF", "PDEF", "PDEF", "PDEF", "PDEF", "PDEF", "PDEF", "PDEF", 
-        "PATK", "PATK", "PATK", "PATK", "PATK", "PATK", "PATK", "PATK", 
-        "EM", "EM", "EM", 
-        "ER", "ER", "ER"};
-        String[] GobletMainStatList = CreateGobletMainStatList(); // probabilities are specific, manual list creation would be extremely long
-        String[] CircletMainStatList = {
-        "PHP", "PHP", "PHP", "PHP", "PHP", "PHP", "PHP", "PHP", "PHP", "PHP", "PHP", 
-        "PDEF", "PDEF", "PDEF", "PDEF", "PDEF", "PDEF", "PDEF", "PDEF", "PDEF", "PDEF", "PDEF", 
-        "PATK", "PATK", "PATK", "PATK", "PATK", "PATK", "PATK", "PATK", "PATK", "PATK", "PATK", 
-        "EM", "EM", 
-        "CR", "CR", "CR", "CR", "CR", 
-        "CD", "CD", "CD", "CD", "CD",
-        "HBonus", "HBonus", "HBonus", "HBonus", "HBonus"};
-        if (artifactType == "Flower")
-        {
-            return "HP";
-        }
+    
 
-        else if (artifactType == "Feather")
-        {
-            return "ATK";
-        }
-        else if (artifactType == "Sands")
-        {
-            return SandsMainStatList[random.nextInt(SandsMainStatList.length)];
-        }
-
-        else if (artifactType == "Goblet")
-        {
-            return GobletMainStatList[random.nextInt(GobletMainStatList.length)];
-        }
-        else
-        {
-            return CircletMainStatList[random.nextInt(CircletMainStatList.length)];
-        }
-    }
+    //public BetterElixir
 
     public static double RandomChooseNumberStat(String StatName)
     {
@@ -240,33 +211,11 @@ public class RandomArtifact extends Artifact
         return returner;
     }
 
-    public static String[] CreateGobletMainStatList()
-    {
-        String[] returnlist = new String[400];
-        for (int i = 0; i < 77; i++)
-        {returnlist[i] = "PHP";}
-        for (int i = 77; i < 154; i++)
-        {returnlist[i] = "PATK";}
-        for (int i = 154; i < 230; i++)
-        {returnlist[i] = "PDEF";}
-        for (int i = 230; i < 250; i++)
-        {returnlist[i] = "PHDMG";}
-        for (int i = 250; i < 270; i++)
-        {returnlist[i] = "PDMG";}
-        for (int i = 270; i < 290; i++)
-        {returnlist[i] = "HDMG";}
-        for (int i = 290; i < 310; i++)
-        {returnlist[i] = "ADMG";}
-        for (int i = 310; i < 330; i++)
-        {returnlist[i] = "EDMG";}
-        for (int i = 330; i < 350; i++)
-        {returnlist[i] = "DDMG";}
-        for (int i = 350; i < 370; i++)
-        {returnlist[i] = "CDMG";}
-        for (int i = 370; i < 390; i++)
-        {returnlist[i] = "GDMG";}
-        for (int i = 390; i < 400; i++)
-        {returnlist[i] = "EM";}
-        return returnlist;
-    }
-}
+
+        // Take in artifact type, mainstat, and two stats
+        // Determine 3 or 4 liner (accurately) and find the two other stats with their values
+
+        // Roll artifact 
+            // guarentee two into the top 2
+}    
+

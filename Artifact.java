@@ -8,6 +8,8 @@ public class Artifact{
 
     private Substat[] substats = new Substat[4];
 
+    private String special;
+
     private double ATK;
     private double PATK;
 
@@ -24,7 +26,7 @@ public class Artifact{
     private double CD;
 
 
-    public Artifact(String type, String mn, double mstat, Substat one, Substat two, Substat three, Substat four){
+    public Artifact(String type, String mn, double mstat, Substat one, Substat two, Substat three, Substat four, String special){
         this.type = type; 
         main = mn;
         mainValue = mstat;
@@ -32,6 +34,7 @@ public class Artifact{
         substats[1] = two;
         substats[2] = three;
         substats[3] = four;
+        special = special;
         setArtifactStats();
     }
     
@@ -122,9 +125,9 @@ public class Artifact{
     public String toString(){
         if (substats[3] == null)
 
-        {return "Main: " + main + " " + String.valueOf(mainValue) + "\n" + substats[0].toString() + " | " + substats[1].toString() + " | " + substats[2].toString() + " | " + "None";}
+        {return "Main: " + main + " " + String.valueOf(mainValue) + "\n" + substats[0].toString() + "\n" + substats[1].toString() + "\n" + substats[2].toString() + "\n" + "None";}
         else
-        {return "Main: " + main + " " + String.valueOf(mainValue) + "\n" + substats[0].toString() + " | " + substats[1].toString() + " | " + substats[2].toString() + " | " + substats[3].toString();}
+        {return "Main: " + main + " " + String.valueOf(mainValue) + "\n" + substats[0].toString() + "\n" + substats[1].toString() + "\n" + substats[2].toString() + "\n" + substats[3].toString();}
     }
 
     public String getType(){
@@ -155,7 +158,9 @@ public class Artifact{
         return substats[3];
     }
 
-
+    public String getSpecial(){
+        return special;
+    }
 
     public double getATK(){
         return ATK;
@@ -251,7 +256,6 @@ public class Artifact{
                 StatValue = getStat(StatName);
             }
 
-
             double lowestDiff = 1000;
             int lowestDiffIndex = 0;
         
@@ -263,22 +267,14 @@ public class Artifact{
                     lowestDiff = Math.abs(StatValue - realStat);
                     lowestDiffIndex = i;
                 }
+                // if want to save time:
+                // within x0.01 of that value (to account for wide range of values from hundred to tenths)
             }
 
-            RV += RVList[lowestDiffIndex];
-
-
-        }
-
         
+            RV += RVList[lowestDiffIndex];
+        }        
         return RV;
-
-        // Take in a list of substat names that will be accounted for
-        // Iterate through list, find if the artifact has said substat name
-        // if artifact has substat name, match the value it has with a corresponding RV value
-            // within x0.01 of that value (to account for wide range of values from hundred to tenths)
-        // Add rv value, continue iterate through list
-        // After all iterations throughl list, total rv should be added
     }
 
     // public double getATK(){
@@ -426,12 +422,7 @@ public class Artifact{
         double[] RealCRList = {0, 2.72, 3.11, 3.5, 3.89, 5.44, 5.83, 6.22, 6.61, 7.0, 7.39, 7.78, 8.16, 8.55, 8.94, 9.33, 9.72, 10.11, 10.5, 10.88, 10.89, 11.27, 11.28, 11.66, 11.67, 12.05, 12.44, 12.83, 13.22, 13.6, 13.61, 13.99, 14.0, 14.38, 14.39, 14.77, 14.78, 15.16, 15.17, 15.55, 15.56, 15.94, 16.32, 16.33, 16.71, 16.72, 17.1, 17.11, 17.49, 17.5, 17.88, 17.89, 18.27, 18.28, 18.66, 18.67, 19.05, 19.06, 19.44, 19.45, 19.83, 20.22, 20.61, 21.0, 21.39, 21.78, 22.17, 22.56, 22.95, 23.34};
         double[] RealCDList = {0, 5.44, 6.22, 6.99, 7.77, 10.88, 11.66, 12.43, 12.44, 13.21, 13.98, 13.99, 14.76, 15.54, 16.32, 17.1, 17.87, 17.88, 18.65, 18.66, 19.42, 19.43, 20.2, 20.21, 20.97, 20.98, 21.75, 21.76, 22.53, 22.54, 23.31, 23.32, 24.09, 24.1, 24.86, 24.87, 24.88, 25.64, 25.65, 26.41, 26.42, 26.43, 27.19, 27.2, 27.96, 27.97, 27.98, 28.74, 28.75, 28.76, 29.52, 29.53, 29.54, 30.3, 30.31, 30.32, 31.08, 31.09, 31.1, 31.85, 31.86, 31.87, 32.63, 32.64, 32.65, 33.4, 33.41, 33.42, 34.18, 34.19, 34.2, 34.95, 34.96, 34.97, 34.98, 35.73, 35.74, 35.75, 35.76, 36.51, 36.52, 36.53, 36.54, 37.29, 37.3, 37.31, 37.32, 38.07, 38.08, 38.09, 38.84, 38.85, 38.86, 38.87, 39.62, 39.63, 39.64, 40.39, 40.4, 40.41, 40.42, 41.17, 41.18, 41.19, 41.94, 41.95, 41.96, 41.97, 42.72, 42.73, 42.74, 43.5, 43.51, 43.52, 44.28, 44.29, 45.06, 45.07, 45.84, 46.62};
 
-        double[][] RealList = {
-            RealHPList, RealPHPList,
-            RealDEFList, RealPDEFList,
-            RealATKList, RealPATKList,
-            RealEMList, RealERList,
-            RealCRList, RealCDList
+        double[][] RealList = {RealHPList, RealPHPList, RealDEFList, RealPDEFList, RealATKList, RealPATKList, RealEMList, RealERList, RealCRList, RealCDList
         };
 
         String[] BadStringList = {"HP", "PHP", "DEF", "PDEF", "ATK", "PATK", "EM", "ER", "CR", "CD"};
@@ -445,11 +436,8 @@ public class Artifact{
             if (Math.abs(statValue - realStat) < lowestDiff){
                 lowestDiff = Math.abs(statValue - realStat);
                 lowestDiffIndex = i;
-            
             }  
             if ((statValue - realStat <= -5 && (statName.equals("HP") || statName.equals("DEF") || statName.equals("ATK") || statName.equals("EM") || statName.equals("ER") || statName.equals("CR") || statName.equals("CD"))) || (statValue - realStat < -0.1 && (statName.equals("PHP") || statName.equals("PDEF") || statName.equals("PATK"))))
-  
-            //if (statValue - realStat < -2)
             {
                 i += (RealList[StringList.indexOf(statName)].length);
             }
