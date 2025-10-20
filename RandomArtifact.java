@@ -4,12 +4,12 @@ import java.util.Arrays;
 
 public class RandomArtifact extends Artifact
 {
-    private RandomArtifact(String type, String main, double mainV, Substat one, Substat two, Substat three, Substat four, String special)
+    private RandomArtifact(String type, String main, double mainV, Substat one, Substat two, Substat three, Substat four, String set, String special)
     {
-        super(type, main, mainV, one, two, three, four, special);
+        super(type, main, mainV, one, two, three, four, set, special);
     }
 
-    public static RandomArtifact create(String type)
+    public static RandomArtifact create(String type, String[] sets)
     {
         String[] artifactTypeList = {"Flower", "Feather", "Sands", "Goblet", "Circlet"};
 
@@ -20,6 +20,8 @@ public class RandomArtifact extends Artifact
         int Stat2Roll = 0;
         int Stat3Roll = 0;
         int Stat4Roll = -1;
+
+        String set = sets[random.nextInt(sets.length)];
 
         if (type == null)
         {
@@ -99,7 +101,7 @@ public class RandomArtifact extends Artifact
                 }   
             }
         }
-        return new RandomArtifact(type, main, mainValue, new Substat(Stat1Name, Stat1Value, Stat1Roll), new Substat(Stat2Name, Stat2Value, Stat2Roll), new Substat(Stat3Name, Stat3Value, Stat3Roll), new Substat(Stat4Name, Stat4Value, Stat4Roll), "Normal");
+        return new RandomArtifact(type, main, mainValue, new Substat(Stat1Name, Stat1Value, Stat1Roll), new Substat(Stat2Name, Stat2Value, Stat2Roll), new Substat(Stat3Name, Stat3Value, Stat3Roll), new Substat(Stat4Name, Stat4Value, Stat4Roll), set, "Normal");
     }
     
     public static String GetMainName(String artifactType)

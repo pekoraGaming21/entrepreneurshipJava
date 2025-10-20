@@ -8,6 +8,7 @@ public class Artifact{
 
     private Substat[] substats = new Substat[4];
 
+    private String Set;
     private String special;
 
     private double ATK;
@@ -26,7 +27,7 @@ public class Artifact{
     private double CD;
 
 
-    public Artifact(String type, String mn, double mstat, Substat one, Substat two, Substat three, Substat four, String special){
+    public Artifact(String type, String mn, double mstat, Substat one, Substat two, Substat three, Substat four, String set, String special){
         this.type = type; 
         main = mn;
         mainValue = mstat;
@@ -123,10 +124,12 @@ public class Artifact{
     }
 
     public String toString(){
+        String[] AcceptableStats = {"CR", "CD", "EM", "PATK"};
+
         if (substats[3] == null)
-        {return "Main: " + main + ": " + String.valueOf(mainValue) + "\n" + substats[0].toString() + "\n" + substats[1].toString() + "\n" + substats[2].toString() + "\n" + "None" + "\n";}
+        {return Set + " " + type + "\n" + "Main: " + main + ": " + String.valueOf(mainValue) + "\n" + substats[0].toString() + "\n" + substats[1].toString() + "\n" + substats[2].toString() + "\n" + "None" + "\n";}
         else
-        {return "Main: " + main + " " + String.valueOf(mainValue) + "\n" + substats[0].toString() + "\n" + substats[1].toString() + "\n" + substats[2].toString() + "\n" + substats[3].toString() + "\n";}
+        {return "Main: " + main + " " + String.valueOf(mainValue) + "\n" + substats[0].toString() + "\n" + substats[1].toString() + "\n" + substats[2].toString() + "\n" + substats[3].toString() + "\n" + "RV: " + getRV(AcceptableStats) + "\n";}
     }
 
     public String getType(){
@@ -155,6 +158,10 @@ public class Artifact{
 
     public Substat getSubstat4(){
         return substats[3];
+    }
+
+    public String getSet(){
+        return Set;
     }
 
     public String getSpecial(){
@@ -222,6 +229,23 @@ public class Artifact{
                 return CR;
             case "CD":
                 return CD;
+        }
+        return -1;
+    }
+
+    public int getSubstatNumber(String Stat)
+    {
+        if (Stat.equals(substats[0].getStat())){
+            return 1;
+        }
+        else if (Stat.equals(substats[1].getStat())){
+            return 2;
+        }
+        else if (Stat.equals(substats[2].getStat())){
+            return 3;
+        }
+        else if (Stat.equals(substats[3].getStat())){
+            return 4;
         }
         return -1;
     }

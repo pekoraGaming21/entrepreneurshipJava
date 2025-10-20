@@ -7,13 +7,13 @@ public class ElixirArtifact extends Artifact
     Character character;
 
    
-    private ElixirArtifact(String type, String main, double mainV, Substat one, Substat two, Substat three, Substat four, String special)
+    private ElixirArtifact(String type, String main, double mainV, Substat one, Substat two, Substat three, Substat four, String set, String special)
     {   
-        super(type, main, mainV, one, two, three, four, special);
+        super(type, main, mainV, one, two, three, four, set, special);
     }
 
 
-    public static ElixirArtifact create(String ArtifactType, String[] Stats)
+    public static ElixirArtifact create(String ArtifactSet, String ArtifactType, String[] Stats)
     {
         // assuming a 1/3 chance for 4 liner (double check)
         boolean threeliner = true;
@@ -120,7 +120,7 @@ public class ElixirArtifact extends Artifact
                 }   
             }
         }
-        return new ElixirArtifact(ArtifactType, Stats[0], mainValue, new Substat(Stat1Name, Stat1Value, Stat1Roll), new Substat(Stat2Name, Stat2Value, Stat2Roll), new Substat(Stat3Name, Stat3Value, Stat3Roll), new Substat(Stat4Name, Stat4Value, Stat4Roll), "Elixir");
+        return new ElixirArtifact(ArtifactType, Stats[0], mainValue, new Substat(Stat1Name, Stat1Value, Stat1Roll), new Substat(Stat2Name, Stat2Value, Stat2Roll), new Substat(Stat3Name, Stat3Value, Stat3Roll), new Substat(Stat4Name, Stat4Value, Stat4Roll), ArtifactSet, "Elixir");
     }
 
     public static double RandomChooseNumberStat(String StatName)

@@ -16,6 +16,7 @@ public class Character {
 
     private double ER = 100.0;  
     
+    private String weaponType;
     private String weaponName;
     private double weaponATK;
     private String element;
@@ -25,11 +26,10 @@ public class Character {
     private double[] ExtraStatValues;
 
     // PHDMG, PDMG, HDMG, ADMG, EDMG, DDMG, CDMG, GDMG
-    private double[] elementalDMG = {0, 0, 0, 0, 0, 0, 0, 0};
+    private double[] elementalDMG = {1, 1, 1, 1, 1, 1, 1, 1};
 
-    // NA DMG, CA DMG, SKILL DMG, BURST DMG
-    
-    //private double[] typeDMG = {};
+    // NA DMG, CA DMG, SKILL DMG, BURST DMG   
+    private double[] typeDMG = {1, 1, 1, 1};
 
     private Artifact[] arts = new Artifact[5];
 
@@ -56,7 +56,7 @@ public class Character {
 
     // In a future update, make it so you can set
     // your character and level and it'll autofill
-    public Character(String element, int level, double bhp, double bat, double bdf, String weaponName, double weaponATK, Artifact[] a, String[] ExtraStatStats, double[] ExtraStatValues, String speed){
+    public Character(String element, int level, double bhp, double bat, double bdf, String weaponType, String weaponName, double weaponATK, Artifact[] a, String[] ExtraStatStats, double[] ExtraStatValues, String speed){
         this.element = element;
         this.level = level;
 
@@ -258,6 +258,18 @@ public class Character {
                 case "GDMG":
                     elementalDMG[7] += ExtraStatValues[i];
                     break;
+                case "NADMG":
+                    typeDMG[0] += ExtraStatValues[i];
+                    break;
+                case "CADMG":
+                    typeDMG[1] += ExtraStatValues[i];
+                    break;
+                case "SkillDMG":
+                    typeDMG[2] += ExtraStatValues[i];
+                    break;
+                case "BurstDMG":
+                    typeDMG[3] += ExtraStatValues[i];
+                    break;
             }
         }
     }
@@ -285,15 +297,18 @@ public class Character {
 
         ER = 100.0;  
 
-        elementalDMG[0] = 0;
-        elementalDMG[1] = 0;
-        elementalDMG[2] = 0;
-        elementalDMG[3] = 0;
-        elementalDMG[4] = 0;
-        elementalDMG[5] = 0;
-        elementalDMG[6] = 0;
-        elementalDMG[7] = 0;
-
+        elementalDMG[0] = 1;
+        elementalDMG[1] = 1;
+        elementalDMG[2] = 1;
+        elementalDMG[3] = 1;
+        elementalDMG[4] = 1;
+        elementalDMG[5] = 1;
+        elementalDMG[6] = 1;
+        elementalDMG[7] = 1;
+        typeDMG[0] = 1;
+        typeDMG[1] = 1;
+        typeDMG[2] = 1;
+        typeDMG[3] = 1;
 
         this.ExtraStatStats = ExtraStatStats;
         this.ExtraStatValues = ExtraStatValues;
@@ -447,6 +462,18 @@ public class Character {
                 case "GDMG":
                     elementalDMG[7] += ExtraStatValues[i];
                     break;
+                case "NADMG":
+                    typeDMG[0] += ExtraStatValues[i];
+                    break;
+                case "CADMG":
+                    typeDMG[1] += ExtraStatValues[i];
+                    break;
+                case "SkillDMG":
+                    typeDMG[2] += ExtraStatValues[i];
+                    break;
+                case "BurstDMG":
+                    typeDMG[3] += ExtraStatValues[i];
+                    break;
             }
         }
     }
@@ -566,21 +593,6 @@ public class Character {
 
         EM -= getRealValue("EM", Oldartifact.getEM(), speed);
         ER -= getRealValue("ER", Oldartifact.getER(), speed);
-
-        // totalATK -= Newartifact.getATK();
-        // totalATK -= Newartifact.getPATK() * baseATK;
-
-        // totalDEF -= Newartifact.getDEF();
-        // totalDEF -= Newartifact.getPDEF() * baseDEF;
-        
-        // totalHP -= Newartifact.getHP();
-        // totalHP -= Newartifact.getPHP() * baseHP;
-
-        // CR -= Newartifact.getCR();
-        // CD -= Newartifact.getCD();
-
-        // EM -= Newartifact.getEM();
-        // ER -= Newartifact.getER();
         
         switch (Newartifact.getMain()){
             case "HP":
@@ -690,7 +702,6 @@ public class Character {
             arts[2] = Newartifact;
         } else if (type.equals("Goblet")){
             arts[3] = Newartifact;
-
         } else if (type.equals("Circlet")){
             arts[4] = Newartifact;
         } else {
@@ -698,6 +709,10 @@ public class Character {
         }
         updateStats(element, level, baseHP, baseATK - weaponATK, baseDEF, weaponName, weaponATK, arts, ExtraStatStats, ExtraStatValues, speed);
 
+    }
+
+    public String toString(){
+        return "HP - " + totalHP + "\n" + "ATK - " + totalATK + "\n" + "DEF - " + totalDEF + "\n" + "EM - " + EM + "\n" + "Crit Rate - " + CR + "\n" + "Crit DMG - " + CD + "\n" + "Energy Recharge - " + ER;  
     }
 
     public double getTotalATK(){
@@ -756,8 +771,12 @@ public class Character {
     public double getElementalDMG(String element){
         String[] BadElementList = {"Physical", "Pyro", "Hydro", "Anemo", "Electro", "Dendro", "Cryo", "Geo"};
         ArrayList<String> ElementList = new ArrayList<String>(Arrays.asList(BadElementList));
-
         return elementalDMG[ElementList.indexOf(element)];
+    }
 
+    public double getTypeDMG(String type){
+        String[] BadTypeList = {"NADMG", "CADMG", "SkillDMG", "BurstDMG"};
+        ArrayList<String> TypeList = new ArrayList<String>(Arrays.asList(BadTypeList));
+        return typeDMG[TypeList.indexOf(type)];
     }
 }

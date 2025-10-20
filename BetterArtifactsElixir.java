@@ -7,7 +7,7 @@ public class BetterArtifactsElixir {
         character = c;
     }
 
-    public double randomize(String type, String[] Stats, String speed){
+    public double randomize(String Set, String type, String[] Stats, String speed){
         ArrayList<Artifact> BetterArtifacts = new ArrayList<Artifact>();
         ArrayList<Artifact> WorseArtifacts = new ArrayList<Artifact>();
 
@@ -26,10 +26,10 @@ public class BetterArtifactsElixir {
         int sampledArtifacts = 1000000;
 
         for (int i = 0; i < sampledArtifacts; i++){
-            if (i % 10000 == 0){
+            if (i % 100000 == 0){
                 System.out.println("Artifact #" + i);
             }
-            Artifact newArtifact = ElixirArtifact.create(type, Stats);
+            Artifact newArtifact = ElixirArtifact.create(Set, type, Stats);
             character.setArtifact(type, newArtifact, speed);
 
             //double newDamage = damage.calculateDamage("NADMG", "Hydro", "Average", character, "HP", 0.7811, 1, 0, 1.586, 103, 0.1, 0, "Forward Vaporize", 0);

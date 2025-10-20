@@ -7,7 +7,7 @@ public class BetterArtifacts {
         character = c;
     }
 
-    public double randomize(String type, String speed){
+    public double randomize(String type, String[] sets, String speed){
         ArrayList<Artifact> BetterArtifacts = new ArrayList<Artifact>();
         ArrayList<Artifact> WorseArtifacts = new ArrayList<Artifact>();
 
@@ -26,7 +26,7 @@ public class BetterArtifacts {
             if (i % 100000 == 0){
                 System.out.println("Artifact #" + i);
             }
-            Artifact newArtifact = RandomArtifact.create(type);
+            Artifact newArtifact = RandomArtifact.create(type, sets);
 
             character.setArtifact(type, newArtifact, speed);
 

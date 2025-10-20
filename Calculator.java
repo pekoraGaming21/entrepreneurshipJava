@@ -28,22 +28,16 @@ public class Calculator{
 
     public void setTarget(int enemyLevel, int charLevel, double enemyRes, double resShred){
         targetDefMult = (double) (charLevel + 100)/(1 * (enemyLevel + 100) + (charLevel + 100));
-        targetResMult = enemyRes;
         
-        // CHANGE RES SHRED
-        // subtracts until the threshold amount, then keep goign with the new calc.
-        // Accurately res shreds with large amounts (xilonen, vv, deepwood, etc.)
-        double temp = resShred;
-        if ((targetResMult >= 0.75 ) && (targetResMult - resShred > 0.75)){
-            targetResMult = 1/(4* enemyRes + 1);
-        } else if (targetResMult >= 0.75){
+        enemyRes -= resShred;
+        
+        if (targetResMult >= 0.75){
             targetResMult = 1/(4*enemyRes + 1);
-        } else if ((targetResMult >= 0) && (targetResMult - resShred < 0)){
-            temp = resShred - enemyRes;
-            targetResMult = 1 - (-temp/2);
-        } else if (targetResMult >= 0){
+        } 
+        else if (targetResMult >= 0){
             targetResMult = 1 - enemyRes;
-        } else if (targetResMult < 0){
+        } 
+        else if (targetResMult < 0){
             targetResMult = 1 - (enemyRes/2);
         }
     }
@@ -90,25 +84,20 @@ public class Calculator{
         this.bonusDMGMult = bonusDmgMult;
         //bonusDmgMult = (double) DamageStuff[4];
         bonusDMGMult += character.getElementalDMG(elementHitType);
-        // Add NA damage, elemental dmg from goblets etc.
+        bonusDMGMult += character.getTypeDMG(damageHitType);
+        bonusDMGMult += (character.getEM() * 1.6 / 100);
 
         targetDefMult = (double) (character.getLevel() + 100)/(1 * (enemyLevel + 100) + (character.getLevel() + 100));
-        targetResMult = enemyRes;
+
+        enemyRes -= resShred;
         
-        // CHANGE RES SHRED
-        // subtracts until the threshold amount, then keep goign with the new calc.
-        // Accurately res shreds with large amounts (xilonen, vv, deepwood, etc.)
-        double temp = resShred;
-        if ((targetResMult >= 0.75 ) && (targetResMult - resShred > 0.75)){
-            targetResMult = 1/(4* enemyRes + 1);
-        } else if (targetResMult >= 0.75){
+        if (targetResMult >= 0.75){
             targetResMult = 1/(4*enemyRes + 1);
-        } else if ((targetResMult >= 0) && (targetResMult - resShred < 0)){
-            temp = resShred - enemyRes;
-            targetResMult = 1 - (-temp/2);
-        } else if (targetResMult >= 0){
+        } 
+        else if (targetResMult >= 0){
             targetResMult = 1 - enemyRes;
-        } else if (targetResMult < 0){
+        } 
+        else if (targetResMult < 0){
             targetResMult = 1 - (enemyRes/2);
         }
 
