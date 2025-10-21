@@ -35,6 +35,7 @@ public class Artifact{
         substats[1] = two;
         substats[2] = three;
         substats[3] = four;
+        Set = set;
         this.special = special;
         setArtifactStats();
     }

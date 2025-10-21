@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 public class Character {
     private double baseHP;
@@ -27,9 +30,10 @@ public class Character {
 
     // PHDMG, PDMG, HDMG, ADMG, EDMG, DDMG, CDMG, GDMG
     private double[] elementalDMG = {1, 1, 1, 1, 1, 1, 1, 1};
+    private double[] elementalRES = {0, 0, 0, 0, 0, 0, 0, 0};
 
-    // NA DMG, CA DMG, SKILL DMG, BURST DMG   
-    private double[] typeDMG = {1, 1, 1, 1};
+    // NA DMG, CA DMG, PLUNGE DMG, SKILL DMG, BURST DMG, Nightsoul DMG   
+    private double[] typeDMG = {1, 1, 1, 1, 1, 1};
 
     private Artifact[] arts = new Artifact[5];
 
@@ -60,6 +64,7 @@ public class Character {
         this.element = element;
         this.level = level;
 
+        this.weaponType = weaponType;
         this.weaponName = weaponName;
         this.weaponATK = weaponATK;
         
@@ -74,6 +79,13 @@ public class Character {
 
         this.ExtraStatStats = ExtraStatStats;
         this.ExtraStatValues = ExtraStatValues;
+
+        String[] ArtifactSets = {a[0].getSet(), a[1].getSet(), a[2].getSet(), a[3].getSet(), a[4].getSet()};
+        for (String set : ArtifactSets)
+        {
+            System.out.println(set);
+        }
+        ArtifactSetBonus(ArtifactSets);
 
         for (Artifact ar: a){
             
@@ -264,11 +276,17 @@ public class Character {
                 case "CADMG":
                     typeDMG[1] += ExtraStatValues[i];
                     break;
-                case "SkillDMG":
+                case "PlungeDMG":
                     typeDMG[2] += ExtraStatValues[i];
                     break;
-                case "BurstDMG":
+                case "SkillDMG":
                     typeDMG[3] += ExtraStatValues[i];
+                    break;
+                case "BurstDMG":
+                    typeDMG[4] += ExtraStatValues[i];
+                    break;
+                case "NightsoulDMG":
+                    typeDMG[5] += ExtraStatValues[i];
                     break;
             }
         }
@@ -297,6 +315,7 @@ public class Character {
 
         ER = 100.0;  
 
+        // Fix later (clear command?)
         elementalDMG[0] = 1;
         elementalDMG[1] = 1;
         elementalDMG[2] = 1;
@@ -309,11 +328,16 @@ public class Character {
         typeDMG[1] = 1;
         typeDMG[2] = 1;
         typeDMG[3] = 1;
+        typeDMG[4] = 1;
+        typeDMG[5] = 1;
 
         this.ExtraStatStats = ExtraStatStats;
         this.ExtraStatValues = ExtraStatValues;
         
-        
+        String[] ArtifactSets = {a[0].getSet(), a[1].getSet(), a[2].getSet(), a[3].getSet(), a[4].getSet()};
+
+        ArtifactSetBonus(ArtifactSets);
+
         for (Artifact ar: a){
             totalATK += getRealValue("ATK", ar.getATK(), speed);
             totalATK += getRealValue("PATK", ar.getPATK(), speed) * baseATK;
@@ -468,11 +492,17 @@ public class Character {
                 case "CADMG":
                     typeDMG[1] += ExtraStatValues[i];
                     break;
-                case "SkillDMG":
+                case "PlungeDMG":
                     typeDMG[2] += ExtraStatValues[i];
                     break;
-                case "BurstDMG":
+                case "SkillDMG":
                     typeDMG[3] += ExtraStatValues[i];
+                    break;
+                case "BurstDMG":
+                    typeDMG[4] += ExtraStatValues[i];
+                    break;
+                case "NightsoulDMG":
+                    typeDMG[4] += ExtraStatValues[i];
                     break;
             }
         }
@@ -711,8 +741,333 @@ public class Character {
 
     }
 
+    public void ArtifactSetBonus(String[] ArtifactSets)
+    {
+        HashMap<String, Integer> ArtifactSetCount = new HashMap<>();
+
+        for (String set : ArtifactSets)
+        {
+            if (ArtifactSetCount.containsKey(set))
+            {
+                int temp = ArtifactSetCount.get(set);
+                ArtifactSetCount.remove(set);
+                ArtifactSetCount.put(set, temp + 1);
+            }
+            else
+            {
+                ArtifactSetCount.put(set, 1);
+            }
+        }
+        // what to do about external buff artifacts (vv, deepwood, etc.
+        // add "characterresshred"? 
+        Scanner scanner = new Scanner(System.in);
+        for (Map.Entry<String, Integer> e : ArtifactSetCount.entrySet())
+        {
+            if (e.getValue() >= 4)
+            {
+                switch (e.getKey())
+                {
+                    case "Silken Moon's Serenade":
+                        System.out.println("thing");
+                        break;
+                    case "Night of the Sky's Unveiling":
+                        System.out.println("thing");
+                        break;
+                    case "Finale of the Deep Galleries":
+                        System.out.println("thing");
+                        break;
+                    case "Long Night's Oath":
+                        System.out.println("thing");
+                        break;
+                    case "Obsidian Codex":
+                        System.out.println("Activate Obsidian 4p?");
+                        String ObsidianCodexBuff = scanner.nextLine();
+                        if (ObsidianCodexBuff.equals("true"))
+                        {CR += 40; System.out.println("Obsidian 4p Activated");}
+                        break;
+                    case "Scroll of the Hero of Cinder City":
+                        System.out.println("thing");
+                        break;
+                    case "Unfinished Reverie":
+                        System.out.println("thing");
+                        break;
+                    case "Fragment of Harmonic Whimsy":
+                        System.out.println("thing");
+                        break;
+                    case "Nighttime Whispers in the Echoing Woods":
+                        System.out.println("thing");
+                        break;
+                    case "Song of Days Past":
+                        System.out.println("thing");
+                        break;
+                    case "Golden Troupe":
+                        System.out.println("thing");
+                        break;
+                    case "Marechaussee Hunter":
+                        System.out.println("thing");
+                        break;
+                    case "Vourukasha's Glow":
+                        System.out.println("thing");
+                        break;
+                    case "Nymph's Dream":
+                        System.out.println("thing");
+                        break;
+                    case "Flower of Paradise Lost":
+                        System.out.println("thing");
+                        break;
+                    case "Desert Pavilion":
+                        System.out.println("thing");
+                        break;
+                    case "Gilded Dreams":
+                        System.out.println("thing");
+                        break;
+                    case "Deepwood Memories":
+                        System.out.println("thing");
+                        break;
+                    case "Echos of an Offering":
+                        System.out.println("thing");
+                        break;
+                    case "Vermillion Hereafter":
+                        System.out.println("thing");
+                        break;
+                    case "Ocean-Hued Clam":
+                        System.out.println("thing");
+                        break;
+                    case "Husk of Opulent":
+                        System.out.println("thing");
+                        break;
+                    case "Emblem of Severed Fate":
+                        System.out.println("thing");
+                        break;
+                    case "Shimenawa's Reminiscence":
+                        System.out.println("thing");
+                        break;
+                    case "Pale Flame":
+                        System.out.println("thing");
+                        break;
+                    case "Tenacity of the Millelith":
+                        System.out.println("thing");
+                        break;
+                    case "Heart of Depth":
+                        System.out.println("thing");
+                        break;
+                    case "Blizzard Strayer":
+                        System.out.println("thing");
+                        break;
+                    case "Lavawalker":
+                        System.out.println("thing");
+                        break;
+                    case "Crimson Witch of Flames":
+                        System.out.println("thing");
+                        break;
+                    case "Retracing Bolide":
+                        System.out.println("thing");
+                        break;
+                    case "Archaic Petra":
+                        System.out.println("thing");
+                        break;
+                    case "Maiden Beloved":
+                        System.out.println("thing");
+                        break;
+                    case "Viridescent Venener":
+                        System.out.println("thing");
+                        break;
+                    case "Thundersoother":
+                        System.out.println("thing");
+                        break;
+                    case "Thundering Fury":
+                        System.out.println("thing");
+                        break;
+                    case "Noblesse Oblige":
+                        System.out.println("thing");
+                        break;
+                    case "Bloodstained Chivalry":
+                        System.out.println("thing");
+                        break;
+                    case "Wanderer's Troupe":
+                        if (weaponType.equals("Bow") || weaponType.equals("Catalyst)"))
+                        {typeDMG[1] += 0.35;}
+                        break;
+                    case "Gladiator's Finale":
+                        if (weaponType.equals("Sword") || weaponType.equals("Claymore)") || weaponType.equals("Polearm"))
+                        {typeDMG[0] += 0.35;}
+                        break;
+                    // add 4 stars and below (esp instructor)
+                    
+                }
+            }
+            else if (e.getValue() >= 2)
+            {
+                switch (e.getKey())
+                {
+                    case "Silken Moon's Serenade":
+                        ER += 20;
+                        break;
+                    case "Night of the Sky's Unveiling":
+                        EM += 80;
+                        break;
+                    case "Finale of the Deep Galleries":
+                        typeDMG[6] += 0.15;
+                        break;
+                    case "Long Night's Oath":
+                        typeDMG[2] += 0.25;
+                        break;
+                    case "Obsidian Codex":
+                        typeDMG[5] += 0.15;
+                        break;
+                    case "Scroll of the Hero of Cinder City":
+                        System.out.println("thing");
+                        break;
+                    case "Unfinished Reverie":
+                        totalATK += baseATK * 0.18;
+                        break;
+                    case "Fragment of Harmonic Whimsy":
+                        totalATK += baseATK * 0.18;
+                        break;
+                    case "Nighttime Whispers in the Echoing Woods":
+                        totalATK += baseATK * 0.18;
+                        break;
+                    case "Song of Days Past":
+                        System.out.println("thing");
+                        break;
+                    case "Golden Troupe":
+                        typeDMG[3] += 0.2;
+                        break;
+                    case "Marechaussee Hunter":
+                        typeDMG[0] += 0.15;
+                        typeDMG[1] += 0.15;
+                        break;
+                    case "Vourukasha's Glow":
+                        totalHP += baseHP * 0.2;
+                        break;
+                    case "Nymph's Dream":
+                        elementalDMG[2] += 0.15;
+                        break;
+                    case "Flower of Paradise Lost":
+                        EM += 80;
+                        break;
+                    case "Desert Pavilion":
+                        elementalDMG[3] += 0.15;
+                        break;
+                    case "Gilded Dreams":
+                        EM += 80;
+                        break;
+                    case "Deepwood Memories":
+                        elementalDMG[5] += 0.15;
+                        break;
+                    case "Echos of an Offering":
+                        totalATK += baseATK * 0.18;
+                        break;
+                    case "Vermillion Hereafter":
+                        totalATK += baseATK * 0.18;
+                        break;
+                    case "Ocean-Hued Clam":
+                        System.out.println("thing");
+                        break;
+                    case "Husk of Opulent":
+                        totalDEF += baseDEF * 0.30;
+                        break;
+                    case "Emblem of Severed Fate":
+                        ER += 25;
+                        break;
+                    case "Shimenawa's Reminiscence":
+                        totalATK += baseATK * 0.18;
+                        break;
+                    case "Pale Flame":
+                        elementalDMG[0] += 0.25;
+                        break;
+                    case "Tenacity of the Millelith":
+                        totalHP += baseHP * 0.20;
+                        break;
+                    case "Heart of Depth":
+                        elementalDMG[2] += 0.15;
+                        break;
+                    case "Blizzard Strayer":
+                        elementalDMG[6] += 0.15;
+                        break;
+                    case "Lavawalker":
+                        elementalRES[1] += 0.40;
+                        break;
+                    case "Crimson Witch of Flames":
+                        elementalDMG[7] += 0.15;
+                        break;
+                    case "Retracing Bolide":
+                        System.out.println("thing");
+                        break;
+                    case "Archaic Petra":
+                        elementalDMG[7] += 0.15;
+                        break;
+                    case "Maiden Beloved":
+                        System.out.println("thing");
+                        break;
+                    case "Viridescent Venener":
+                        elementalDMG[3] += 0.15; // 
+                        break;
+                    case "Thundersoother":
+                        elementalRES[4] += 0.40;
+                        break;
+                    case "Thundering Fury":
+                        elementalDMG[4] += 0.15;
+                        break;
+                    case "Noblesse Oblige":
+                        typeDMG[4] += 0.2;
+                        break;
+                    case "Bloodstained Chivalry":
+                        elementalDMG[0] += 0.25;
+                        break;
+                    case "Wanderer's Troupe":
+                        EM += 80;
+                        break;
+                    case "Gladiator's Finale":
+                        totalATK += baseATK * 0.18;
+                        break;
+                }
+            }
+        }
+    }
+// Wanderer's Troupe, Bloodstained Chivalry, Noblesse Oblige, Thundering Fury, Thundersoother, Viridescent Venener, Maiden Beloved, Archaic petra, Retracing Bolide, Crimson Witch of Flames, Lavawalker, Blizzard Strayer, Heart of Depth, Tenacity of the Millelith, Pale Flame, Shimenawa's Reminiscence, Emblem of Severed Fate, Husk of Opulent, Ocean-Hued Clam, Vermillion Hereafter, Echos of an Offering, Deepwood Memories, Gilded Dreams, Desert Pavilion, Flower of Paradise Lost, Nymph's Dream, Vourukasha's Glow, Marechaussee Hunter, Golden Troupe, Song of Days Past, Nighttime Whispers in the Echoing Woods, Fragment of Harmonic Whimsy, Unfinished Reverie, Scroll of the Hero of Cinder City, Obsidian Codex, Long Night's Oath, Finale of the Deep Galleries, Night of the Sky's Unveiling, Silken Moon's Serenade
+
+
+
     public String toString(){
         return "HP - " + totalHP + "\n" + "ATK - " + totalATK + "\n" + "DEF - " + totalDEF + "\n" + "EM - " + EM + "\n" + "Crit Rate - " + CR + "\n" + "Crit DMG - " + CD + "\n" + "Energy Recharge - " + ER;  
+    }
+
+    public void AdvancedPrint(){
+        System.out.println("HP - " + totalHP + ": "+ baseHP + " + " + (totalHP - baseHP));
+        System.out.println("HP - " + totalATK + ": "+ baseATK + " + " + (totalATK - baseATK));
+        System.out.println("HP - " + totalDEF + ": "+ baseDEF + " + " + (totalDEF - baseDEF));
+        System.out.println("EM - " + EM);
+        System.out.println("Crit Rate - " + CR);
+        System.out.println("Crit DMG - " + CD);
+        System.out.println("ER - " + ER);
+        System.out.println(""); // Pyro, Hydro, Anemo, Electro, Dendro, Cryo, Geo
+        System.out.println("Physical DMG - " + elementalDMG[0]);
+        System.out.println("Physical RES - " + elementalRES[0]);
+        System.out.println("Pyro DMG - " + elementalDMG[1]);
+        System.out.println("Pyro RES - " + elementalRES[1]);
+        System.out.println("Hydro DMG - " + elementalDMG[2]);
+        System.out.println("Hydro RES - " + elementalRES[2]);
+        System.out.println("Anemo DMG - " + elementalDMG[3]);
+        System.out.println("Anemo RES - " + elementalRES[3]);
+        System.out.println("Electro DMG - " + elementalDMG[4]);
+        System.out.println("Electro RES - " + elementalRES[4]);
+        System.out.println("Dendro DMG - " + elementalDMG[5]);
+        System.out.println("Dendro RES - " + elementalRES[5]);
+        System.out.println("Cryo DMG - " + elementalDMG[6]);
+        System.out.println("Cryo RES - " + elementalRES[6]);
+        System.out.println("Geo DMG - " + elementalDMG[7]);
+        System.out.println("Geo RES - " + elementalRES[7]);
+        System.out.println();
+
+        System.out.println("NA DMG - " + typeDMG[0]);
+        System.out.println("CA DMG - " + typeDMG[1]);
+        System.out.println("Plunge DMG - " + typeDMG[2]);
+        System.out.println("Skill DMG - " + typeDMG[3]);
+        System.out.println("Burst DMG - " + typeDMG[4]);
+        System.out.println("Nightsoul DMG - " + typeDMG[5]);
+
+
     }
 
     public double getTotalATK(){

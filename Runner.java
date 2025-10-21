@@ -1,3 +1,5 @@
+import java.util.stream.IntStream;
+
 public class Runner{
     public static void main(String[] args){
         System.out.println("Running Code");
@@ -101,22 +103,18 @@ public class Runner{
         System.out.println();
 
 
-        BetterArtifactsElixir test = new BetterArtifactsElixir(ganyu);
-        probability = test.randomize("Wanderer's Troupe", "Goblet", Stats, speed);
-        System.out.println("Probability that a randomly generated Goblet is better: " + probability);
-        System.out.println("Probability that a randomly generated Goblet is worse: " + (1 - probability));
+        // BetterArtifactsElixir test = new BetterArtifactsElixir(ganyu);
+        // probability = test.randomize("Wanderer's Troupe", "Goblet", Stats, speed);
+        // System.out.println("Probability that a randomly generated Goblet is better: " + probability);
+        // System.out.println("Probability that a randomly generated Goblet is worse: " + (1 - probability));
 
-
-        System.out.println(ganyu);
+        ganyu.AdvancedPrint();
 
         // BetterArtifactsReroll test = new BetterArtifactsReroll(ganyu);
         // probability = test.randomize(testartifact, WantedStats, 2  , speed);
         // System.out.println("Probability that a randomly generated Circlet is better: " + probability);
         // System.out.println("Probability that a randomly generated Circlet is worse: " + (1 - probability));
+        
 
     }
-
-   
-    
-
 }
