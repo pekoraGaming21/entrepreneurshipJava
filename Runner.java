@@ -59,11 +59,16 @@ public class Runner{
         //String[] ExtraStatNames = {"Ascension", "Artifact Set", "Weapon Substat", "Weapon Subsubstat"};
         // String[] ExtraStatStats = {"CR", "CR", "CD", "PHP"};
         // double[] ExtraStatValues = {19.2, 40.0, 88.2, 0.20};
+        String[] GanyuWeaponSubSubstatNames = {"PHDMG", "PDMG", "HDMG", "ADMG", "EDMG", "DDMG", "CDMG", "GDMG"};
+        double[] GanyuWeaponSubSubstatValues = {0.12, 0.12, 0.12, 0.12 , 0.12, 0.12, 0.12, 0.12};
+        String[] MualaniWeaponSubSubstatNames = {"PHP"};
+        double[] MualaniWeaponSubSubstatValues = {0.20};
 
+        Weapon GanyuWeapon = new Weapon("Bow", "Hunter's Path", 90, 541.83, "CR", 44.1, GanyuWeaponSubSubstatNames, GanyuWeaponSubSubstatValues);
+        Weapon MualaniWeapon = new Weapon("Catalyst", "Surf's Up", 90, 541.83, "CD", 88.2, MualaniWeaponSubSubstatNames, MualaniWeaponSubSubstatValues);
 
-
-        Character ganyu = new Character("Cryo", 90, 9796.73,334.85,630.21, "Bow", "Hunter's Path", 541.83, GanyuArtifactLoadout, ExtraStatStats, ExtraStatValues, speed);
-        Character mualani = new Character("Hydro", 90, 15184.93, 181.78, 570.27, "Catalyst", "Surf's Up", 541.83, MualaniArtifactLoadout, ExtraStatStats, ExtraStatValues, speed);
+        Character ganyu = new Character("Cryo", 90, 9796.73,334.85,630.21, GanyuWeapon, GanyuArtifactLoadout, ExtraStatStats, ExtraStatValues, speed);
+        Character mualani = new Character("Hydro", 90, 15184.93, 181.78, 570.27, MualaniWeapon, MualaniArtifactLoadout, ExtraStatStats, ExtraStatValues, speed);
 
         
 
@@ -115,6 +120,5 @@ public class Runner{
         // System.out.println("Probability that a randomly generated Circlet is better: " + probability);
         // System.out.println("Probability that a randomly generated Circlet is worse: " + (1 - probability));
         
-
     }
 }

@@ -18,6 +18,8 @@ public class Character {
     private double CD = 50.0;
 
     private double ER = 100.0;  
+
+    private double HBonus = 0;
     
     private String weaponType;
     private String weaponName;
@@ -29,11 +31,11 @@ public class Character {
     private double[] ExtraStatValues;
 
     // PHDMG, PDMG, HDMG, ADMG, EDMG, DDMG, CDMG, GDMG
-    private double[] elementalDMG = {1, 1, 1, 1, 1, 1, 1, 1};
+    private double[] elementalDMG = {0, 0, 0, 0, 0, 0, 0, 0};
     private double[] elementalRES = {0, 0, 0, 0, 0, 0, 0, 0};
 
     // NA DMG, CA DMG, PLUNGE DMG, SKILL DMG, BURST DMG, Nightsoul DMG   
-    private double[] typeDMG = {1, 1, 1, 1, 1, 1};
+    private double[] typeDMG = {0, 0, 0, 0, 0, 0};
 
     private Artifact[] arts = new Artifact[5];
 
@@ -60,13 +62,13 @@ public class Character {
 
     // In a future update, make it so you can set
     // your character and level and it'll autofill
-    public Character(String element, int level, double bhp, double bat, double bdf, String weaponType, String weaponName, double weaponATK, Artifact[] a, String[] ExtraStatStats, double[] ExtraStatValues, String speed){
+    public Character(String element, int level, double bhp, double bat, double bdf, Weapon weapon, Artifact[] a, String[] ExtraStatStats, double[] ExtraStatValues, String speed){
         this.element = element;
         this.level = level;
 
-        this.weaponType = weaponType;
-        this.weaponName = weaponName;
-        this.weaponATK = weaponATK;
+        weaponType = weapon.getType();
+        weaponName = weapon.getName();
+        weaponATK = weapon.getATK();
         
         baseHP = bhp;
         baseATK = bat + weaponATK;
@@ -77,7 +79,10 @@ public class Character {
         totalATK = baseATK;
         totalDEF = baseDEF;
 
-        this.ExtraStatStats = ExtraStatStats;
+        ExtraStatStats = CombineArray(CombineArray(ExtraStatStats, weapon.getSubstatName()), weapon.getSubSubstatName());
+        ExtraStatValues = CombineArray(CombineArray(ExtraStatValues, weapon.getSubstatValue()), weapon.getSubSubstatValue());
+
+        //this.ExtraStatStats = ExtraStatStats + weapon.getSubSubstatName();
         this.ExtraStatValues = ExtraStatValues;
 
         String[] ArtifactSets = {a[0].getSet(), a[1].getSet(), a[2].getSet(), a[3].getSet(), a[4].getSet()};
@@ -102,57 +107,6 @@ public class Character {
             CD += getRealValue("CD", ar.getCD(), speed);
             EM += getRealValue("EM", ar.getEM(), speed);
             ER += getRealValue("ER", ar.getER(), speed);
-
-            // if (ar.getATK() != 0)
-            // {
-            //     totalATK += getRealValue("ATK", ar.getATK());
-            // }
-            
-            // if (ar.getPATK() != 0)
-            // {
-            //     totalATK += getRealValue("PATK", ar.getPATK()) * baseATK;
-            // }
-            
-            
-            // if (ar.getDEF() != 0)
-            // {
-            //     totalDEF += getRealValue("DEF", ar.getDEF());
-            // }
-            
-            // if (ar.getPDEF() != 0)
-            // {
-            //     totalDEF += getRealValue("PDEF", ar.getPDEF()) * baseDEF;
-            // }
-            
-            // if (ar.getHP() != 0)
-            // {
-            //     totalHP += getRealValue("PDEF", ar.getPDEF());
-
-            // }
-            // if (ar.getPHP() != 0)
-            // {
-            //     totalHP += getRealValue("PHP", ar.getHP()) * baseHP;
-            // }
-            
-            // if (ar.getCR() != 0)
-            // {
-            //     CR += getRealValue("CR", ar.getCR());
-            // }
-            
-            // if (ar.getCD() != 0)
-            // {
-            //     CD += getRealValue("CD", ar.getCD());
-            // }
-            
-            // if (ar.getEM() != 0)
-            // {
-            //     EM += getRealValue("EM", ar.getEM());
-            // }
-            
-            // if (ar.getER() != 0)
-            // {
-            //     ER += getRealValue("ER", ar.getER());
-            // }
 
             switch (ar.getMain()){
                 case "HP":
@@ -184,6 +138,9 @@ public class Character {
                     break;
                 case "CD":
                     CD += ar.getMainV();
+                    break;
+                case "HBonus":
+                    HBonus += ar.getMainV();
                     break;
                 case "PHDMG":
                     elementalDMG[0] += ar.getMainV();
@@ -246,6 +203,10 @@ public class Character {
                 case "CD":
                     CD += ExtraStatValues[i];
                     break;
+                case "HBonus":
+                    HBonus += ExtraStatValues[i];
+                    break;
+                
                 case "PHDMG":
                     elementalDMG[0] += ExtraStatValues[i];
                     break;
@@ -269,6 +230,30 @@ public class Character {
                     break;
                 case "GDMG":
                     elementalDMG[7] += ExtraStatValues[i];
+                    break;
+                case "PHRES":
+                    elementalRES[0] += ExtraStatValues[i];
+                    break;
+                case "PRES":
+                    elementalRES[1] += ExtraStatValues[i];
+                    break;
+                case "HRES":
+                    elementalRES[2] += ExtraStatValues[i];
+                    break;
+                case "ARES":
+                    elementalRES[3] += ExtraStatValues[i];
+                    break;
+                case "ERES":
+                    elementalRES[4] += ExtraStatValues[i];
+                    break;
+                case "DRES":
+                    elementalRES[5] += ExtraStatValues[i];
+                    break;
+                case "CRES":
+                    elementalRES[6] += ExtraStatValues[i];
+                    break;
+                case "GRES":
+                    elementalRES[7] += ExtraStatValues[i];
                     break;
                 case "NADMG":
                     typeDMG[0] += ExtraStatValues[i];
@@ -315,21 +300,9 @@ public class Character {
 
         ER = 100.0;  
 
-        // Fix later (clear command?)
-        elementalDMG[0] = 1;
-        elementalDMG[1] = 1;
-        elementalDMG[2] = 1;
-        elementalDMG[3] = 1;
-        elementalDMG[4] = 1;
-        elementalDMG[5] = 1;
-        elementalDMG[6] = 1;
-        elementalDMG[7] = 1;
-        typeDMG[0] = 1;
-        typeDMG[1] = 1;
-        typeDMG[2] = 1;
-        typeDMG[3] = 1;
-        typeDMG[4] = 1;
-        typeDMG[5] = 1;
+        ClearArray(elementalDMG);
+        ClearArray(elementalRES);
+        ClearArray(typeDMG);
 
         this.ExtraStatStats = ExtraStatStats;
         this.ExtraStatValues = ExtraStatValues;
@@ -353,22 +326,6 @@ public class Character {
 
             EM += getRealValue("EM", ar.getEM(), speed);
             ER += getRealValue("ER", ar.getER(), speed);
-
-            // totalATK += ar.getATK();
-            // totalATK += ar.getPATK() * baseATK;
-
-            // totalDEF += ar.getDEF();
-            // totalDEF += ar.getPDEF() * baseDEF;
-            
-            // totalHP += ar.getHP();
-            // totalHP += ar.getPHP() * baseHP;
-
-            // CR += ar.getCR();
-            // CD += ar.getCD();
-
-            // EM += ar.getEM();
-            // ER += ar.getER();
-
 
             switch (ar.getMain()){
                 case "HP":
@@ -400,6 +357,9 @@ public class Character {
                     break;
                 case "CD":
                     CD += ar.getMainV();
+                    break;
+                case "HBonus":
+                    HBonus += ar.getMainV();
                     break;
                 case "PHDMG":
                     elementalDMG[0] += ar.getMainV();
@@ -462,6 +422,9 @@ public class Character {
                 case "CD":
                     CD += ExtraStatValues[i];
                     break;
+                case "HBonus":
+                    HBonus += ExtraStatValues[i];
+                    break;
                 case "PHDMG":
                     elementalDMG[0] += ExtraStatValues[i];
                     break;
@@ -485,6 +448,30 @@ public class Character {
                     break;
                 case "GDMG":
                     elementalDMG[7] += ExtraStatValues[i];
+                    break;
+                case "PHRES":
+                    elementalRES[0] += ExtraStatValues[i];
+                    break;
+                case "PRES":
+                    elementalRES[1] += ExtraStatValues[i];
+                    break;
+                case "HRES":
+                    elementalRES[2] += ExtraStatValues[i];
+                    break;
+                case "ARES":
+                    elementalRES[3] += ExtraStatValues[i];
+                    break;
+                case "ERES":
+                    elementalRES[4] += ExtraStatValues[i];
+                    break;
+                case "DRES":
+                    elementalRES[5] += ExtraStatValues[i];
+                    break;
+                case "CRES":
+                    elementalRES[6] += ExtraStatValues[i];
+                    break;
+                case "GRES":
+                    elementalRES[7] += ExtraStatValues[i];
                     break;
                 case "NADMG":
                     typeDMG[0] += ExtraStatValues[i];
@@ -693,21 +680,6 @@ public class Character {
         EM += getRealValue("EM", Newartifact.getEM(), speed);
         ER += getRealValue("ER", Newartifact.getER(), speed);
 
-        // totalATK += Newartifact.getATK();
-        // totalATK += Newartifact.getPATK() * baseATK;
-
-        // totalDEF += Newartifact.getDEF();
-        // totalDEF += Newartifact.getPDEF() * baseDEF;
-        
-        // totalHP += Newartifact.getHP();
-        // totalHP += Newartifact.getPHP() * baseHP;
-
-        // CR += Newartifact.getCR();
-        // CD += Newartifact.getCD();
-
-        // EM += Newartifact.getEM();
-        // ER += Newartifact.getER();
-
         if (type.equals("Flower")){
             arts[0] = Newartifact;
         } else if (type.equals("Feather")){
@@ -716,7 +688,6 @@ public class Character {
             arts[2] = Newartifact;
         } else if (type.equals("Goblet")){
             arts[3] = Newartifact;
-
         } else if (type.equals("Circlet")){
             arts[4] = Newartifact;
         } 
@@ -1001,7 +972,7 @@ public class Character {
                         System.out.println("thing");
                         break;
                     case "Viridescent Venener":
-                        elementalDMG[3] += 0.15; // 
+                        elementalDMG[3] += 0.15; 
                         break;
                     case "Thundersoother":
                         elementalRES[4] += 0.40;
@@ -1024,9 +995,74 @@ public class Character {
                 }
             }
         }
+        scanner.close();
     }
-// Wanderer's Troupe, Bloodstained Chivalry, Noblesse Oblige, Thundering Fury, Thundersoother, Viridescent Venener, Maiden Beloved, Archaic petra, Retracing Bolide, Crimson Witch of Flames, Lavawalker, Blizzard Strayer, Heart of Depth, Tenacity of the Millelith, Pale Flame, Shimenawa's Reminiscence, Emblem of Severed Fate, Husk of Opulent, Ocean-Hued Clam, Vermillion Hereafter, Echos of an Offering, Deepwood Memories, Gilded Dreams, Desert Pavilion, Flower of Paradise Lost, Nymph's Dream, Vourukasha's Glow, Marechaussee Hunter, Golden Troupe, Song of Days Past, Nighttime Whispers in the Echoing Woods, Fragment of Harmonic Whimsy, Unfinished Reverie, Scroll of the Hero of Cinder City, Obsidian Codex, Long Night's Oath, Finale of the Deep Galleries, Night of the Sky's Unveiling, Silken Moon's Serenade
 
+    public void ClearArray(double[] Array)
+    {
+        for (int i = 0; i < Array.length; i++)
+        {
+            Array[i] = 0;
+        }
+    }
+
+    public String[] CombineArray(String[] Array1, String[] Array2)
+    {
+        String[] CombinedArray = new String[Array1.length + Array2.length];
+        int lastindex = 0;
+        for (int i = 0; i < Array1.length; i++)
+        {
+            CombinedArray[i] = Array1[i];
+            lastindex = i;
+        }
+        for (int j = 0; j < Array2.length; j++)
+        {
+            CombinedArray[lastindex + j] = Array2[j];
+        }
+        return CombinedArray;
+    }
+
+    public String[] CombineArray(String[] Array1, String Array2)
+    {
+        String[] CombinedArray = new String[Array1.length + 1];
+        for (int i = 0; i < Array1.length; i++)
+        {
+            CombinedArray[i] = Array1[i];
+            
+        }
+        CombinedArray[CombinedArray.length - 1] = Array2;
+
+        return CombinedArray;
+    }
+
+    public double[] CombineArray(double[] Array1, double[] Array2)
+    {
+        double[] CombinedArray = new double[Array1.length + Array2.length];
+        int lastindex = 0;
+        for (int i = 0; i < Array1.length; i++)
+        {
+            CombinedArray[i] = Array1[i];
+            lastindex = i;
+        }
+        for (int j = 0; j < Array2.length; j++)
+        {
+            CombinedArray[lastindex + j] = Array2[j];
+        }
+        return CombinedArray;
+    }
+
+    public double[] CombineArray(double[] Array1, double Array2)
+    {
+        double[] CombinedArray = new double[Array1.length + 1];
+        for (int i = 0; i < Array1.length; i++)
+        {
+            CombinedArray[i] = Array1[i];
+            
+        }
+        CombinedArray[CombinedArray.length - 1] = Array2;
+
+        return CombinedArray;
+    }
 
 
     public String toString(){
@@ -1096,6 +1132,10 @@ public class Character {
 
     public double getCD(){
         return CD;
+    }
+
+    public double getHBonus(){
+        return HBonus;
     }
 
     public double getPHDMG(){
