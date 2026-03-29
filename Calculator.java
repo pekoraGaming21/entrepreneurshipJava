@@ -85,7 +85,7 @@ public class Calculator{
         //bonusDmgMult = (double) DamageStuff[4];
         bonusDMGMult += character.getElementalDMG(elementHitType);
         bonusDMGMult += character.getTypeDMG(damageHitType);
-        bonusDMGMult += (character.getEM() * 1.6 / 100);
+        //bonusDMGMult += (character.getEM() * 1.6 / 100);
 
         targetDefMult = (double) (character.getLevel() + 100)/(1 * (enemyLevel + 100) + (character.getLevel() + 100));
 

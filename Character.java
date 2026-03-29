@@ -5,6 +5,10 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Character {
+    private String element;
+    private int level;
+
+    private double[] baseStats;
     private double baseHP;
     private double baseATK;
     private double baseDEF;
@@ -21,11 +25,13 @@ public class Character {
 
     private double HBonus = 0;
     
+    private Weapon weapon;
     private String weaponType;
     private String weaponName;
     private double weaponATK;
-    private String element;
-    private int level;
+    
+    // NA talent, Skill talent, Burst talent, Cons
+    private int[] upgrades;
 
     private String[] ExtraStatStats;
     private double[] ExtraStatValues;
@@ -62,18 +68,21 @@ public class Character {
 
     // In a future update, make it so you can set
     // your character and level and it'll autofill
-    public Character(String element, int level, double bhp, double bat, double bdf, Weapon weapon, Artifact[] a, String[] ExtraStatStats, double[] ExtraStatValues, String speed){
+    public Character(String element, int level, double[] baseStats, Weapon weapon, Artifact[] a, int[] up, String[] ExtraStatStats, double[] ExtraStatValues, String speed){
         this.element = element;
         this.level = level;
-
+        System.out.println("Weapon initlization: " + weapon);
+        this.weapon = weapon;
         weaponType = weapon.getType();
         weaponName = weapon.getName();
         weaponATK = weapon.getATK();
         
-        baseHP = bhp;
-        baseATK = bat + weaponATK;
-        baseDEF = bdf;
+        this.baseStats = baseStats;
+        baseHP = baseStats[0];
+        baseATK = baseStats[1] + weaponATK;
+        baseDEF = baseStats[2];
         arts = a;
+        upgrades = up;
 
         totalHP = baseHP;
         totalATK = baseATK;
@@ -82,8 +91,7 @@ public class Character {
         ExtraStatStats = CombineArray(CombineArray(ExtraStatStats, weapon.getSubstatName()), weapon.getSubSubstatName());
         ExtraStatValues = CombineArray(CombineArray(ExtraStatValues, weapon.getSubstatValue()), weapon.getSubSubstatValue());
 
-        //this.ExtraStatStats = ExtraStatStats + weapon.getSubSubstatName();
-        this.ExtraStatValues = ExtraStatValues;
+        
 
         String[] ArtifactSets = {a[0].getSet(), a[1].getSet(), a[2].getSet(), a[3].getSet(), a[4].getSet()};
         for (String set : ArtifactSets)
@@ -170,7 +178,7 @@ public class Character {
         }
         
         
-        for (int i = 0; i < ExtraStatStats.length; i++)
+        for (int i = 0; i < ExtraStatStats.length - 1; i++)
         {
             switch (ExtraStatStats[i]){
                 case "HP":
@@ -277,21 +285,29 @@ public class Character {
         }
     }
 
-    public void updateStats(String element, int level, double bhp, double bat, double bdf, String weaponName, double weaponATK, Artifact[] a, String[] ExtraStatStats, double[] ExtraStatValues, String speed){
+    public void updateStats(String element, int level, double[] baseStats, Weapon weapon, Artifact[] a, int[] up, String[] ExtraStatStats, double[] ExtraStatValues, String speed){
+        
         this.element = element;
         this.level = level;
-
-        this.weaponName = weaponName;
-        this.weaponATK = weaponATK;
         
-        baseHP = bhp;
-        baseATK = bat + weaponATK;
-        baseDEF = bdf;
+        this.weapon = weapon;
+        weaponName = weapon.getName();
+        weaponATK = weapon.getATK();
+        weaponType = weapon.getType();
+        
+        baseHP = baseStats[0];
+        baseATK = baseStats[1] + weaponATK;
+        baseDEF = baseStats[2];
         arts = a;
+        upgrades = up;
 
         totalHP = baseHP;
         totalATK = baseATK;
         totalDEF = baseDEF;
+        System.out.println("attempt to print extrastatstat");
+        Print2DArray(ExtraStatStats);
+        ExtraStatStats = CombineArray(CombineArray(ExtraStatStats, weapon.getSubstatName()), weapon.getSubSubstatName());
+        ExtraStatValues = CombineArray(CombineArray(ExtraStatValues, weapon.getSubstatValue()), weapon.getSubSubstatValue());
 
         EM = 0.0;
 
@@ -303,9 +319,6 @@ public class Character {
         ClearArray(elementalDMG);
         ClearArray(elementalRES);
         ClearArray(typeDMG);
-
-        this.ExtraStatStats = ExtraStatStats;
-        this.ExtraStatValues = ExtraStatValues;
         
         String[] ArtifactSets = {a[0].getSet(), a[1].getSet(), a[2].getSet(), a[3].getSet(), a[4].getSet()};
 
@@ -708,7 +721,8 @@ public class Character {
         } else {
             System.out.println("SET ARTIFACT TYPE INVALID");
         }
-        updateStats(element, level, baseHP, baseATK - weaponATK, baseDEF, weaponName, weaponATK, arts, ExtraStatStats, ExtraStatValues, speed);
+        System.out.println("Weapon: " + weapon);
+        updateStats(element, level, baseStats, weapon, arts, upgrades, ExtraStatStats, ExtraStatValues, speed);
 
     }
 
@@ -1069,7 +1083,15 @@ public class Character {
         return "HP - " + totalHP + "\n" + "ATK - " + totalATK + "\n" + "DEF - " + totalDEF + "\n" + "EM - " + EM + "\n" + "Crit Rate - " + CR + "\n" + "Crit DMG - " + CD + "\n" + "Energy Recharge - " + ER;  
     }
 
-    public void AdvancedPrint(){
+    public void Print2DArray(String[] Array)
+    {
+        for (String element : Array)
+        {
+            System.out.print(element + " ");
+        }
+    }
+
+    public void StatPrint(){
         System.out.println("HP - " + totalHP + ": "+ baseHP + " + " + (totalHP - baseHP));
         System.out.println("HP - " + totalATK + ": "+ baseATK + " + " + (totalATK - baseATK));
         System.out.println("HP - " + totalDEF + ": "+ baseDEF + " + " + (totalDEF - baseDEF));
@@ -1102,8 +1124,12 @@ public class Character {
         System.out.println("Skill DMG - " + typeDMG[3]);
         System.out.println("Burst DMG - " + typeDMG[4]);
         System.out.println("Nightsoul DMG - " + typeDMG[5]);
+    }
 
-
+    public void EquipmentPrint(){
+        System.out.println("Weapon Level - " + weaponName);
+        System.out.println("Weapon Base ATK - " + weaponATK);
+        System.out.println("Weapon Type - " + weaponType);
     }
 
     public double getTotalATK(){

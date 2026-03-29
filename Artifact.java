@@ -40,13 +40,15 @@ public class Artifact{
         setArtifactStats();
     }
     
-    public Artifact(String type, String mn, double mstat, Substat one, Substat two, Substat three){
+    public Artifact(String type, String mn, double mstat, Substat one, Substat two, Substat three, String set, String special){
         this.type = type; 
         main = mn;
         mainValue = mstat;
         substats[0] = one;
         substats[1] = two;
         substats[2] = three;
+        Set = set;
+        this.special = special;
         setArtifactStats();
     }
 

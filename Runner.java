@@ -29,7 +29,7 @@ public class Runner{
             new Artifact("Flower", "HP",4780, new Substat("CR", 10.5, 2), new Substat("CD", 24.9, 3), new Substat("EM", 19, 0), new Substat("PATK", 0.058, 0), "Wanderer's Troupe", "Normal"), 
 
             //new Artifact("Flower", "HP",4780, new Substat("CR", 10.1, 2), new Substat("CD", 21.8, 2), new Substat("EM", 40, 1), new Substat("PHP", 0.058, 0), "Normal"), 
-            new Artifact("Feather", "ATK",311,new Substat("CD", 14.0, 1),new Substat("CR", 9.7, 2),new Substat("ER", 5.2,0), new Substat("EM", 65, 2), "Wanderer's Troupe", "Normal"),
+            new Artifact("Feather", "ATK",311,new Substat("CR", 3.9, 0),new Substat("EM", 63, 2),new Substat("PATK", 0.058,0), new Substat("CD", 24.9, 3), "Wanderer's Troupe", "Normal"),
             new Artifact("Sands", "EM", 186.5, new Substat("ATK", 16,0), new Substat("HP", 209, 0), new Substat("CD", 21.8, 2), new Substat("PATK", 0.163, 2), "Wanderer's Troupe", "Normal"),
             new Artifact("Goblet", "CDMG", 0.466, new Substat("HP", 209,0), new Substat("ATK", 29, 1), new Substat("EM", 42, 1), new Substat("CD", 27.2, 3), "Wanderer's Troupe", "Normal"),
             new Artifact("Circlet", "CD", 62.2, new Substat("ATK", 14, 0), new Substat("PHP", 0.058,0), new Substat("EM", 82, 3), new Substat("CR", 9.7, 2), "Shimenawa's Reminiscence", "Normal")
@@ -52,8 +52,8 @@ public class Runner{
 
         
         String[] ExtraStatNames = {"Ascension", "Bennett Burst", "Weapon Substat", "CharacterTalent1", "Weapon Subsubstat", "Artifact"};
-        String[] ExtraStatStats = {"CD", "CR", "CR", "CDMG", "EM"};
-        double[] ExtraStatValues = {38.4, 44.1, 20.0, 0.12, 80};
+        String[] ExtraStatStats = {"CD", "CR", "CR", "EM"};
+        double[] ExtraStatValues = {38.4, 44.1, 20.0, 80};
 
         // Mualani
         //String[] ExtraStatNames = {"Ascension", "Artifact Set", "Weapon Substat", "Weapon Subsubstat"};
@@ -64,11 +64,17 @@ public class Runner{
         String[] MualaniWeaponSubSubstatNames = {"PHP"};
         double[] MualaniWeaponSubSubstatValues = {0.20};
 
+        double[] GanyuBaseStats = {9796.73, 334.85, 630.21};
+        double[] MualaniBaseStats = {15184.93, 181.78, 570.27};
+
         Weapon GanyuWeapon = new Weapon("Bow", "Hunter's Path", 90, 541.83, "CR", 44.1, GanyuWeaponSubSubstatNames, GanyuWeaponSubSubstatValues);
         Weapon MualaniWeapon = new Weapon("Catalyst", "Surf's Up", 90, 541.83, "CD", 88.2, MualaniWeaponSubSubstatNames, MualaniWeaponSubSubstatValues);
 
-        Character ganyu = new Character("Cryo", 90, 9796.73,334.85,630.21, GanyuWeapon, GanyuArtifactLoadout, ExtraStatStats, ExtraStatValues, speed);
-        Character mualani = new Character("Hydro", 90, 15184.93, 181.78, 570.27, MualaniWeapon, MualaniArtifactLoadout, ExtraStatStats, ExtraStatValues, speed);
+        int[] GanyuUpgrades = {10, 10, 10, 6};
+        int[] MualaniUpgrades = {10, 10, 10, 6};
+
+        Character ganyu = new Character("Cryo", 90, GanyuBaseStats, GanyuWeapon, GanyuArtifactLoadout, GanyuUpgrades, ExtraStatStats, ExtraStatValues, speed);
+        //Character mualani = new Character("Hydro", 90, MualaniBaseStats, MualaniWeapon, MualaniArtifactLoadout, MualaniUpgrades, ExtraStatStats, ExtraStatValues, speed);
 
         
 
@@ -102,23 +108,27 @@ public class Runner{
         //String[] Stats = {"HDMG", "CR", "CD"};
         String[] Stats = {"CDMG", "EM", "CD"};
         String[] WantedStats = {"PATK", "EM"};
-        // Artifact newArtifact = ElixirArtifact.create("Goblet", Stats);
+        // Artifact newArtifact = ElixirArtifact.create("Wanderer's Troupe", "Goblet", Stats);
         // System.out.print(newArtifact);
 
-        System.out.println();
+        // System.out.println();
 
 
-        // BetterArtifactsElixir test = new BetterArtifactsElixir(ganyu);
-        // probability = test.randomize("Wanderer's Troupe", "Goblet", Stats, speed);
-        // System.out.println("Probability that a randomly generated Goblet is better: " + probability);
-        // System.out.println("Probability that a randomly generated Goblet is worse: " + (1 - probability));
+        BetterArtifactsElixir test = new BetterArtifactsElixir(ganyu);
+        ganyu.EquipmentPrint();
 
-        ganyu.AdvancedPrint();
+        probability = test.randomize("Wanderer's Troupe", "Goblet", Stats, speed);
+        System.out.println("Probability that a randomly generated Goblet is better: " + probability);
+        System.out.println("Probability that a randomly generated Goblet is worse: " + (1 - probability));
+
+        //ganyu.AdvancedPrint();
 
         // BetterArtifactsReroll test = new BetterArtifactsReroll(ganyu);
         // probability = test.randomize(testartifact, WantedStats, 2  , speed);
         // System.out.println("Probability that a randomly generated Circlet is better: " + probability);
         // System.out.println("Probability that a randomly generated Circlet is worse: " + (1 - probability));
+
+        //Team run = new Team(null, null, null, null);
         
     }
 }
